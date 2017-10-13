@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "830309029851",
+    "firebase_url": "https://colosseum-eb02c.firebaseio.com",
+    "project_id": "colosseum-eb02c",
+    "storage_bucket": "colosseum-eb02c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:830309029851:android:45cc4ea62403f3a0",
+        "android_client_info": {
+          "package_name": "com.hellowo.colosseum"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "830309029851-qjokn420sfqhfermv8k14i3ir991hgr2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hellowo.colosseum",
+            "certificate_hash": "e43e4e79f4a6b1ea85e237438adfa9950abddd10"
+          }
+        },
+        {
+          "client_id": "830309029851-5uaumhrkghfkkigin1n5o83lttqecu2p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDG-klEri1h_oEN-2rvSCHFF7lWghC8lsY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "830309029851-5uaumhrkghfkkigin1n5o83lttqecu2p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

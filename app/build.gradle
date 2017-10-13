@@ -1,0 +1,57 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
+    defaultConfig {
+        applicationId "com.hellowo.colosseum"
+        minSdkVersion 16
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    implementation "com.google.firebase:firebase-messaging:$firebase_version"
+    compile "com.google.firebase:firebase-storage:$firebase_version"
+    compile "com.google.firebase:firebase-crash:$firebase_version"
+    compile "com.google.firebase:firebase-auth:$firebase_version"
+    //GoogleSupport
+    implementation "com.android.support:appcompat-v7:$google_support_version"
+    compile "com.android.support:recyclerview-v7:$google_support_version"
+    compile "com.android.support:cardview-v7:$google_support_version"
+    implementation "com.android.support:design:$google_support_version"
+    //LifeCycle
+    compile "android.arch.lifecycle:runtime:$life_cycle_version"
+    compile "android.arch.lifecycle:extensions:$life_cycle_version"
+    annotationProcessor "android.arch.lifecycle:compiler:$life_cycle_version"
+    //Photo
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'jp.wasabeef:glide-transformations:2.0.2'
+    compile 'gun0912.ted:tedbottompicker:1.0.12'
+    //Permission
+    compile 'gun0912.ted:tedpermission:1.0.2'
+    //File
+    compile 'com.pixplicity.easyprefs:library:1.8.1@aar'
+}
+
+
+apply plugin: 'com.google.gms.google-services'
