@@ -13,20 +13,21 @@ import com.hellowo.colosseum.R
 import com.hellowo.colosseum.viewmodel.SignUpViewModel
 import kotlinx.android.synthetic.main.activity_sign_up.*
 
-class SingUpActivity : AppCompatActivity() {
-    internal lateinit var viewModel: SignUpViewModel
+class SignUpActivity : AppCompatActivity() {
+    private lateinit var viewModel: SignUpViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(SignUpViewModel::class.java)
+        setContentView(R.layout.activity_sign_up)
         initLayout()
         initObserve()
     }
 
     private fun initLayout() {
-        backBtn.setOnClickListener{ v -> finish() }
-        goSignInViewBtn.setOnClickListener{ v -> goSignInView() }
-        signUpBtn.setOnClickListener{ v -> signUp() }
+        backBtn.setOnClickListener{ finish() }
+        goSignInViewBtn.setOnClickListener{ goSignInView() }
+        signUpBtn.setOnClickListener{ signUp() }
     }
 
     private fun initObserve() {
@@ -35,13 +36,12 @@ class SingUpActivity : AppCompatActivity() {
                 SignUpViewModel.SignUpStatus.InvalidNickName -> nameEdit.error = getString(R.string.invalid_nick_name)
                 SignUpViewModel.SignUpStatus.InvalidEmail -> emailEdit.error = getString(R.string.invalid_email)
                 SignUpViewModel.SignUpStatus.InvalidPassword -> passwordEdit.error = getString(R.string.invalid_password)
-                SignUpViewModel.SignUpStatus.PolicyUncheck -> Toast.makeText(App.context, R.string.plz_check_policy, Toast.LENGTH_SHORT).show()
+                SignUpViewModel.SignUpStatus.PolicyUncheck -> Toast.makeText(this, R.string.plz_check_policy, Toast.LENGTH_SHORT).show()
                 SignUpViewModel.SignUpStatus.CompleteSignUp -> {
-                    startActivity(Intent(this@SingUpActivity, MainActivity::class.java))
+                    startActivity(Intent(this@SignUpActivity, MainActivity::class.java))
                     finish()
                 }
-                else -> {
-                }
+                else -> {}
             }
         })
 
@@ -52,16 +52,11 @@ class SingUpActivity : AppCompatActivity() {
     }
 
     private fun signUp() {
-        viewModel.signUp(
-                nameEdit.getText().toString().trim(),
-                emailEdit.getText().toString().trim(),
-                passwordEdit.getText().toString(),
-                policyCheck.isChecked()
-        )
+        viewModel.signUp(this, nameEdit.text.toString().trim(), emailEdit.text.toString().trim(),  passwordEdit.text.toString(), policyCheck.isChecked)
     }
 
     fun goSignInView() {
-        //startActivity(new Intent(SingUpActivity.this, SignInActivity.class));
+        //startActivity(new Intent(SignUpActivity.this, SignInActivity.class));
         finish()
     }
 }
