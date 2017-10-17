@@ -52,6 +52,8 @@ dependencies {
     compile 'gun0912.ted:tedpermission:1.0.2'
     //File
     compile 'com.pixplicity.easyprefs:library:1.8.1@aar'
+    //View
+    compile 'link.fls:swipestack:0.3.0'
 }
 
 

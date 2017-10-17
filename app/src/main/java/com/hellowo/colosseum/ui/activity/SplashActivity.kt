@@ -23,6 +23,7 @@ class SplashActivity : AppCompatActivity() {
                 startActivity(Intent(this, SignUpActivity::class.java))
                 finish()
             }
+            Me.removeObservers(this)
         })
     }
 }
