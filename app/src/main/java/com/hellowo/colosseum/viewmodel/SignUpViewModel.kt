@@ -8,8 +8,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
-import com.hellowo.colosseum.App
 import com.hellowo.colosseum.R
 import com.hellowo.colosseum.model.User
 import com.hellowo.colosseum.utils.isEmailValid
