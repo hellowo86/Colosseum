@@ -22,7 +22,8 @@
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingTop="80dp">
 
                 <TextView
                     android:id="@+id/titleText"
@@ -54,6 +55,89 @@
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 app:layout_scrollFlags="scroll|enterAlways">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+
+                    <ImageView
+                        android:id="@+id/profileImg"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="18.5dp"
+                        android:layout_marginTop="@dimen/big_margin"
+                        android:layout_marginBottom="@dimen/big_margin"
+                        android:src="@drawable/default_people_img" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="18.5dp"
+                        android:layout_marginRight="@dimen/big_margin"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/profileNameText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="3dp"
+                            android:text="Name"
+                            android:textColor="@color/white"
+                            android:textStyle="bold"
+                            android:textSize="20dp" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="20dp">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/coin"/>
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/coin"/>
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/coin"/>
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/coin"/>
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/coin"/>
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/coin"/>
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/coin"/>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <ImageButton
+                    android:id="@+id/makeThreadBtn"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="18.5dp"
+                    android:layout_gravity="right|center_vertical"
+                    android:scaleType="centerInside"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:src="@mipmap/ic_launcher_round"/>
+
             </FrameLayout>
 
         </android.support.design.widget.AppBarLayout>
@@ -74,6 +158,51 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white">
+
+        <LinearLayout
+            android:id="@+id/profileBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/menuProfileImg"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="18.5dp"
+                android:layout_marginTop="@dimen/big_margin"
+                android:layout_marginBottom="@dimen/big_margin"
+                android:src="@drawable/default_people_img" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="@dimen/big_margin"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/menuProfileNameText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Name"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/menuProfileEmailText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="email"
+                    android:textColor="@color/secondaryText"
+                    android:textSize="@dimen/sub_text_size" />
+            </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 

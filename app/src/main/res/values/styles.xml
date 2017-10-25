@@ -26,4 +26,26 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
+    <style name="TitleText" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@color/primaryText</item>
+        <item name="android:textSize">@dimen/title_text_size</item>
+        <item name="android:lineSpacingExtra">5dp</item>
+    </style>
+
+    <style name="NormalText" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@color/secondaryText</item>
+        <item name="android:textSize">@dimen/normal_text_size</item>
+    </style>
+
+    <style name="NormalSubText" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@color/disableText</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/normal_sub_text_size</item>
+    </style>
+
+    <style name="SubText" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@color/disableText</item>
+        <item name="android:textSize">@dimen/sub_text_size</item>
+    </style>
+
 </resources>

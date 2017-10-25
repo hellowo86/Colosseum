@@ -1,5 +1,6 @@
 package com.hellowo.colosseum.ui.dialog
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.support.design.widget.BottomSheetBehavior
@@ -12,12 +13,8 @@ import android.widget.TextView
 
 import com.hellowo.colosseum.R
 
-class EnterCommentDialog : BottomSheetDialog() {
-    private lateinit var dialogInterface: DialogInterface
-
-    fun setDialogInterface(dialogInterface: DialogInterface) {
-        this.dialogInterface = dialogInterface
-    }
+@SuppressLint("ValidFragment")
+class EnterCommentDialog(private val dialogInterface: (String) -> Unit) : BottomSheetDialog() {
 
     override fun setupDialog(dialog: Dialog, style: Int) {
         super.setupDialog(dialog, style)
@@ -35,7 +32,8 @@ class EnterCommentDialog : BottomSheetDialog() {
             val sendBtn = contentView.findViewById<TextView>(R.id.sendBtn)
             sendBtn.setOnClickListener {
                 if (!TextUtils.isEmpty(messageInput.text)) {
-                    dialogInterface.enterText(messageInput.text.toString())
+                    dialogInterface.invoke(messageInput.text.toString())
+                    dismiss()
                 }
             }
 
@@ -45,9 +43,5 @@ class EnterCommentDialog : BottomSheetDialog() {
                         InputMethodManager.SHOW_IMPLICIT)
             }, 0)
         }
-    }
-
-    interface DialogInterface {
-        fun enterText(text: String)
     }
 }

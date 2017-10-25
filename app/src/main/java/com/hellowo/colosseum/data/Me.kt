@@ -1,14 +1,33 @@
 package com.hellowo.colosseum.data
 
 import android.arch.lifecycle.LiveData
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.FirebaseFirestore
+import com.hellowo.colosseum.model.User
 
 
-object Me : LiveData<FirebaseUser>() {
+object Me : LiveData<User>() {
     private val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private val mAuthListener: FirebaseAuth.AuthStateListener = FirebaseAuth.AuthStateListener { auth ->
-        value = auth.currentUser
+        auth.currentUser?.let {
+            FirebaseFirestore.getInstance().collection("users").document(it.uid).get().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val document = task.result
+                    if (document != null) {
+                        Log.d("Me", "DocumentSnapshot data: " + document.data)
+                        value = document.toObject(User::class.java)
+                    } else {
+                        Log.d("Me", "No such document")
+                    }
+                } else {
+                    Log.d("Me", "get failed with ", task.exception)
+                    value = null
+                }
+            }
+            return@AuthStateListener
+        }
+        value = null
     }
 
     override fun onActive() {
