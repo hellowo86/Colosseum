@@ -5,12 +5,12 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 27
+    buildToolsVersion '26.0.3'
     defaultConfig {
         applicationId "com.hellowo.colosseum"
         minSdkVersion 17
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -42,7 +42,7 @@ dependencies {
     implementation "com.android.support:design:$google_support_version"
     //LifeCycle
     implementation "android.arch.lifecycle:runtime:$life_cycle_version"
-    implementation "android.arch.lifecycle:extensions:$life_cycle_version"
+    implementation "android.arch.lifecycle:extensions:1.0.0"
     annotationProcessor "android.arch.lifecycle:compiler:$life_cycle_version"
     //Photo
     implementation 'com.github.bumptech.glide:glide:3.7.0'

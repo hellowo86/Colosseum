@@ -2,6 +2,7 @@ package com.hellowo.colosseum.ui.activity
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -53,6 +54,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        profileNameText.setOnClickListener { startActivity(Intent(this, CreateActivity::class.java)) }
         makeThreadBtn.setOnClickListener { showEnterCommentDialog() }
     }
 

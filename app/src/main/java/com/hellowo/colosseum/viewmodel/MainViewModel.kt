@@ -13,7 +13,7 @@ import java.util.*
 
 
 class MainViewModel : ViewModel() {
-    val db = FirebaseFirestore.getInstance()
+    private val db = FirebaseFirestore.getInstance()
     var loading = MutableLiveData<Boolean>()
     var issue = MutableLiveData<Issue>()
     var threadsData = MutableLiveData<ArrayList<Thread>>()
@@ -54,7 +54,7 @@ class MainViewModel : ViewModel() {
                 }
                 threadsData.value = threadList
             } else {
-                Log.d("loadThread", "Error getting documents: ", task.getException())
+                Log.d("loadThread", "Error getting documents: ", task.exception)
             }
         }
     }

@@ -41,13 +41,13 @@ class SignUpViewModel : ViewModel() {
                             }
                             loading.value = false
                         }else {
-                            initUserProfile(it.result.user, nickName)
+                            createUserProfile(it.result.user, nickName)
                         }
                     })
         }
     }
 
-    private fun initUserProfile(fUser: FirebaseUser, nickName: String) {
+    private fun createUserProfile(fUser: FirebaseUser, nickName: String) {
         db.collection("users").document(fUser.uid).set(User(fUser.uid, nickName, null, System.currentTimeMillis()))
     }
 }

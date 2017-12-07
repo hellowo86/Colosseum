@@ -38,7 +38,7 @@ class EnterCommentDialog(private val dialogInterface: (String) -> Unit) : Bottom
             }
 
             messageInput.postDelayed({
-                val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.showSoftInput(messageInput,
                         InputMethodManager.SHOW_IMPLICIT)
             }, 0)
