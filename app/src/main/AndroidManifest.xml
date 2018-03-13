@@ -18,8 +18,10 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".ui.activity.TestActivity"/>
         <activity android:name=".ui.activity.MainActivity"/>
         <activity android:name=".ui.activity.SignUpActivity"/>
+        <activity android:name=".ui.activity.CreateActivity"/>
 
         <service
             android:name=".fcm.MessagingService">
