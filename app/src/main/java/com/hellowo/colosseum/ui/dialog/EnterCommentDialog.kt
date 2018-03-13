@@ -24,7 +24,7 @@ class EnterCommentDialog(private val dialogInterface: (String) -> Unit) : Bottom
         val layoutParams = (contentView.parent as View).layoutParams as CoordinatorLayout.LayoutParams
         sheetBehavior = layoutParams.behavior as BottomSheetBehavior<*>?
         if (sheetBehavior != null) {
-            sheetBehavior.setBottomSheetCallback(mBottomSheetBehaviorCallback)
+            sheetBehavior?.setBottomSheetCallback(mBottomSheetBehaviorCallback)
 
             val messageInput = contentView.findViewById<EditText>(R.id.messageInput)
             messageInput.setHint(R.string.enter_comment)

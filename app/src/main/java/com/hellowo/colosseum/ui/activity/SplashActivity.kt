@@ -15,7 +15,7 @@ class SplashActivity : AppCompatActivity() {
 
         Me.observe(this, Observer { user ->
             if (user != null) {
-                val mainIntent = Intent(this, MainActivity::class.java)
+                val mainIntent = Intent(this, TestActivity::class.java)
                 intent.extras?.let { mainIntent.putExtras(it) }
                 startActivity(mainIntent)
                 finish()
