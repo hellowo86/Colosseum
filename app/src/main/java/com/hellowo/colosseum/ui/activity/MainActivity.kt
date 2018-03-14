@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        profileNameText.setOnClickListener { startActivity(Intent(this, CreateActivity::class.java)) }
+        profileNameText.setOnClickListener { startActivity(Intent(this, BasicActivity::class.java)) }
         makeThreadBtn.setOnClickListener { showEnterCommentDialog() }
     }
 

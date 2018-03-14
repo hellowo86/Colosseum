@@ -1,11 +1,8 @@
 package com.hellowo.colosseum.ui.activity
 
-import android.app.ActivityOptions
 import android.arch.lifecycle.Observer
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
 import com.hellowo.colosseum.R
 import com.hellowo.colosseum.data.Me
@@ -26,11 +23,11 @@ class SplashActivity : AppCompatActivity() {
             val startIntent: Intent
 
             if (user != null) {
-                startIntent = Intent(this, TestActivity::class.java)
+                startIntent = Intent(this, SetProfileActivity::class.java)
                 intent.extras?.let { startIntent.putExtras(it) }
                 finish()
             } else {
-                startIntent = Intent(this, SignUpActivity::class.java)
+                startIntent = Intent(this, SignInActivity::class.java)
             }
 
             /*

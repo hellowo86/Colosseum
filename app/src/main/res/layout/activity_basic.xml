@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootLy"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:id="@+id/topLy"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/top_menu_bar_height"
+        android:orientation="horizontal">
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/contentLy"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_anchor="@id/topLy"
+        app:layout_anchorGravity="bottom">
+
+        <ImageView
+            android:id="@+id/iv"
+            android:layout_width="match_parent"
+            android:layout_height="125dp"
+            android:src="@drawable/default_people_img"
+            android:layout_margin="10dp"
+            android:scaleType="centerCrop" />
+        <ImageView
+            android:id="@+id/iv_second"
+            android:layout_width="match_parent"
+            android:layout_height="125dp"
+            android:src="@drawable/coin"
+            android:layout_margin="10dp"
+            android:scaleType="centerCrop" />
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>
