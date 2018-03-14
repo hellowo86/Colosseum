@@ -25,4 +25,6 @@
     <string name="confirm">완료</string>
     <string name="enter_comment">댓글 입력하기</string>
     <string name="sign_up_by_google">구글 계정으로 시작하기</string>
+    <string name="welcome">환영합니다!</string>
+    <string name="welcome_sub">몇 가지 질문에 대답해주시면\n당신과 어울리는 친구를 추천해드려요</string>
 </resources>
