@@ -3,8 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Colosseum.iml" filepath="$PROJECT_DIR$/Colosseum.iml" />
-      <module fileurl="file://C:\Users\hellowo\AndroidStudioProjects\Colosseum\.idea\Colosseum.iml" filepath="C:\Users\hellowo\AndroidStudioProjects\Colosseum\.idea\Colosseum.iml" />
       <module fileurl="file://C:\Users\Day2Life Android Dev\StudioProjects\Colosseum\Colosseum.iml" filepath="C:\Users\Day2Life Android Dev\StudioProjects\Colosseum\Colosseum.iml" />
+      <module fileurl="file://C:\Users\hellowo\AndroidStudioProjects\Colosseum\.idea\Colosseum.iml" filepath="C:\Users\hellowo\AndroidStudioProjects\Colosseum\.idea\Colosseum.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
