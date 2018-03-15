@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.hellowo.colosseum.model.User
+import java.util.*
 
 object Me : LiveData<User>() {
     private val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -30,5 +31,14 @@ object Me : LiveData<User>() {
 
     override fun onInactive() {
         mAuth.removeAuthStateListener(mAuthListener)
+    }
+
+    fun update(onSuccess: Runnable) {
+        try{
+            FirebaseFirestore.getInstance().collection("users").document(value?.id!!).set(value!!).addOnSuccessListener{
+                value = value
+                onSuccess.run()
+            }
+        }catch (e: Exception) {}
     }
 }

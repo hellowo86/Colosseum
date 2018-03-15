@@ -1,41 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<android.support.v4.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/rootLy"
+    android:id="@+id/drawerLy"
+    android:background="@color/background"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/topLy"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/top_menu_bar_height"
-        android:orientation="horizontal">
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/contentLy"
+    <FrameLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_anchor="@id/topLy"
-        app:layout_anchorGravity="bottom">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/iv"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="125dp"
-            android:src="@drawable/default_people_img"
-            android:layout_margin="10dp"
-            android:scaleType="centerCrop" />
-        <ImageView
-            android:id="@+id/iv_second"
-            android:layout_width="match_parent"
-            android:layout_height="125dp"
-            android:src="@drawable/coin"
-            android:layout_margin="10dp"
-            android:scaleType="centerCrop" />
-    </LinearLayout>
+            android:layout_height="@dimen/top_menu_bar_height"
+            android:background="@color/background"
+            android:elevation="2dp">
 
-</android.support.design.widget.CoordinatorLayout>
+            <ImageButton
+                android:id="@+id/backBtn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="50dp"
+                android:layout_gravity="center_vertical"
+                android:background="?android:attr/selectableItemBackground"
+                android:padding="14dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_arrow_back_black_48dp"
+                android:tint="@color/iconTint" />
+
+            <TextView
+                android:id="@+id/titleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TitleText"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="72dp"
+                android:layout_marginEnd="50dp"/>
+
+            <ImageButton
+                android:id="@+id/searchBtn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="50dp"
+                android:layout_gravity="center_vertical|end"
+                android:background="?android:attr/selectableItemBackground"
+                android:padding="14dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_search_black_48dp"
+                android:tint="@color/iconTint" />
+
+            <ImageButton
+                android:id="@+id/menuBtn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical|end"
+                android:background="?android:attr/selectableItemBackground"
+                android:padding="14dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_menu_black_48dp"
+                android:tint="@color/iconTint" />
+
+        </FrameLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
+
+    </FrameLayout>
+
+</android.support.v4.widget.DrawerLayout>

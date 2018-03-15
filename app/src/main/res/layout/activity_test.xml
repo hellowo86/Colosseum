@@ -48,7 +48,7 @@
             android:id="@+id/iv"
             android:layout_width="match_parent"
             android:layout_height="125dp"
-            android:src="@drawable/default_people_img"
+            android:src="@drawable/img_default_profile"
             android:layout_margin="10dp"
             android:scaleType="centerCrop"
             />

@@ -25,7 +25,7 @@
                 android:layout_gravity="center"/>
         </FrameLayout>
 
-        <ImageView
+        <android.support.v4.widget.CircleImageView
             android:id="@+id/profileImg"
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -82,7 +82,6 @@
 
     <TextView
         style="@style/button"
-        android:id="@+id/saveBtn"
         android:layout_gravity="bottom"
         android:layout_width="match_parent"
         android:layout_height="@dimen/full_button_height"

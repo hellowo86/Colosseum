@@ -23,7 +23,7 @@ class SplashActivity : AppCompatActivity() {
             val startIntent: Intent
 
             if (user != null) {
-                startIntent = Intent(this, SetProfileActivity::class.java)
+                startIntent = Intent(this, MainActivity::class.java)
                 intent.extras?.let { startIntent.putExtras(it) }
                 finish()
             } else {

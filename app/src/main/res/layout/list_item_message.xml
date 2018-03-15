@@ -53,7 +53,7 @@
             android:id="@+id/profileImage"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/default_people_img"/>
+            android:src="@drawable/img_default_profile"/>
 
         <LinearLayout
             android:orientation="vertical"

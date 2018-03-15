@@ -1,12 +1,7 @@
 package com.hellowo.colosseum.ui.adapter
 
 import android.content.Context
-import android.graphics.Typeface
 import android.support.v7.widget.RecyclerView
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
-import android.text.style.StyleSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,9 +28,9 @@ class ThreadListAdapter(private val context: Context, private val mContentsList:
         v.contentsText.text = thread.contents
 
         Glide.with(context)
-                .load(R.drawable.default_people_img)
+                .load(R.drawable.img_default_profile)
                 .bitmapTransform(CropCircleTransformation(context))
-                .placeholder(R.drawable.default_people_img)
+                .placeholder(R.drawable.img_default_profile)
                 .into(v.profileImage)
 
         v.profileImage.setOnClickListener { thread.userId?.let { id -> adapterInterface.onUserClicked(id) } }
