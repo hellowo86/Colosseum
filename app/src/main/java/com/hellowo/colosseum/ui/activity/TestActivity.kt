@@ -25,19 +25,7 @@ class TestActivity : AppCompatActivity() {
         // Set a click listener for button widget
         btn_auto.setOnClickListener{
             TransitionManager.beginDelayedTransition(coordinator_layout, makeAutoTransition())
-            toggleVisibility(iv, iv_second)
-        }
-        btn_fade.setOnClickListener{
-            TransitionManager.beginDelayedTransition(coordinator_layout, makeFadeTransition())
-            toggleVisibility(iv, iv_second)
-        }
-        btn_slide.setOnClickListener{
-            TransitionManager.beginDelayedTransition(coordinator_layout, makeSlideTransition())
-            toggleVisibility(iv, iv_second)
-        }
-        btn_explode.setOnClickListener{
-            TransitionManager.beginDelayedTransition(coordinator_layout, makeExplodeTransition())
-            toggleVisibility(iv, iv_second)
+            toggleVisibility(iv)
         }
     }
 

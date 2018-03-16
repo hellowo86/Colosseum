@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:id="@+id/backgroundImg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ViewFlipper
+        android:id="@+id/viewFlipper"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/blackAlpha">
+
+        <LinearLayout
+            android:id="@+id/selectGameView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <TextView
+                style="@style/TitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primaryWhiteText"
+                android:layout_marginTop="120dp"
+                android:gravity="center"/>
+
+            <Button
+                android:id="@+id/selectLocationBtn"
+                android:layout_margin="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_gravity="center" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/inputTitleView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <TextView
+                style="@style/TitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primaryWhiteText"
+                android:layout_marginTop="120dp"
+                android:gravity="center"/>
+
+            <EditText
+                android:id="@+id/titleInput"
+                android:layout_margin="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:imeOptions="actionDone"
+                android:textColor="@color/primaryWhiteText"
+                android:textSize="@dimen/title_input_size"
+                android:backgroundTint="@color/white"
+                android:inputType="text"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/inputContentsView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <TextView
+                style="@style/TitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primaryWhiteText"
+                android:layout_marginTop="120dp"
+                android:gravity="center"/>
+
+            <Button
+                android:id="@+id/addTagBtn"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_gravity="center" />
+
+            <EditText
+                android:id="@+id/contentsInput"
+                android:layout_margin="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/primaryWhiteText"
+                android:textSize="@dimen/title_input_size"
+                android:backgroundTint="@color/white"
+                android:inputType="textMultiLine"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/inputOptionsView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <TextView
+                style="@style/TitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primaryWhiteText"
+                android:layout_marginTop="120dp"
+                android:gravity="center"/>
+
+            <FrameLayout
+                android:layout_marginTop="30dp"
+                android:layout_marginStart="@dimen/big_margin"
+                android:layout_marginEnd="@dimen/big_margin"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="150dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/TitleText"
+                        android:textColor="@color/primaryWhiteText" />
+
+                    <TextView
+                        android:layout_marginTop="@dimen/small_margin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/NormalText"
+                        android:textColor="@color/secondaryWhiteText"/>
+
+                </LinearLayout>
+
+                <Switch
+                    android:id="@+id/privacySwitch"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableTint="@color/colorPrimary"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_marginTop="@dimen/big_margin"
+                android:layout_marginStart="@dimen/big_margin"
+                android:layout_marginEnd="@dimen/big_margin"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="150dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/TitleText"
+                        android:textColor="@color/primaryWhiteText"/>
+
+                    <TextView
+                        android:layout_marginTop="@dimen/small_margin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/NormalText"
+                        android:textColor="@color/secondaryWhiteText" />
+
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/maxMemberInput"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/primaryWhiteText"
+                    android:textSize="@dimen/title_input_size"
+                    android:backgroundTint="@color/white"
+                    android:maxLength="2"
+                    android:inputType="numberDecimal"/>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/finishView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/confirmBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"/>
+
+        </FrameLayout>
+    </ViewFlipper>
+
+    <ImageButton
+        android:id="@+id/backBtn"
+        android:layout_marginTop="25dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:padding="14dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_arrow_back_black_48dp"
+        android:tint="@color/primaryWhiteText" />
+
+    <Button
+        android:id="@+id/nextBtn"
+        android:layout_marginTop="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_gravity="end" />
+
+</FrameLayout>

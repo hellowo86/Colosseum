@@ -33,4 +33,5 @@
     <string name="age">연령</string>
     <string name="area">지역</string>
     <string name="save">저장하기</string>
+    <string name="my_issue_rooms">나의 이슈</string>
 </resources>

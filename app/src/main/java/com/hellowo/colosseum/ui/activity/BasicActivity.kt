@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import com.hellowo.colosseum.R
 import com.hellowo.colosseum.viewmodel.BasicViewModel
 
-class BasicActivity : AppCompatActivity() {
+class BasicActivity : BaseActivity() {
     private lateinit var viewModel: BasicViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {

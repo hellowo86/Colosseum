@@ -10,7 +10,8 @@
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
+        android:layout_height="match_parent">
+    </FrameLayout>
 
     <LinearLayout
         android:layout_gravity="bottom"
@@ -42,7 +43,7 @@
             android:tint="@color/grey"/>
 
         <ImageButton
-            android:id="@+id/findTab"
+            android:id="@+id/homeTab"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

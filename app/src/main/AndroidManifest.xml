@@ -23,6 +23,7 @@
         <activity android:name=".ui.activity.MainActivity"/>
         <activity android:name=".ui.activity.SignInActivity"/>
         <activity android:name=".ui.activity.BasicActivity"/>
+        <activity android:name=".ui.activity.CreateIssueActivity"/>
 
         <service
             android:name=".fcm.MessagingService">

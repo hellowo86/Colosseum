@@ -52,13 +52,5 @@
             android:layout_margin="10dp"
             android:scaleType="centerCrop"
             />
-        <ImageView
-            android:id="@+id/iv_second"
-            android:layout_width="match_parent"
-            android:layout_height="125dp"
-            android:src="@drawable/coin"
-            android:layout_margin="10dp"
-            android:scaleType="centerCrop"
-            />
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>
