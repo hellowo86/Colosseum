@@ -22,12 +22,23 @@ class SignUpViewModel : ViewModel() {
                     if (task.isSuccessful && auth.currentUser != null) {
                         val user = auth.currentUser
                         user?.let {
-                            db.collection("users").document(it.uid).set(User(id = it.uid, createdTime = Date()))
+                            FirebaseFirestore.getInstance().collection("users").document(user.uid).get().addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    val document = task.result
+                                    if (document != null && document.exists()) {
+                                        val value = document.toObject(User::class.java)
+                                    }
+                                }
+                                loading.value = false
+                            }.addOnFailureListener {
+                                db.collection("users").document(user.uid).set(User(id = user.uid, createdTime = Date()))
+                                loading.value = false
+                            }
                         }
                     } else {
                         // If sign in fails, display a message to the user.
+                        loading.value = false
                     }
-                    loading.value = false
                 })
     }
 }

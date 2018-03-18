@@ -1,7 +1,9 @@
 package com.hellowo.colosseum.ui.activity
 
+import android.animation.LayoutTransition
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.animation.AnimationUtils
@@ -22,6 +24,13 @@ class CreateIssueActivity : BaseActivity() {
     }
 
     private fun initLayout() {
+        isuueTypeLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+        posiAndNegBtn.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                it.elevation = it.elevation + 10
+            }
+        }
+
         nextBtn.setOnClickListener { goNext() }
         backBtn.setOnClickListener{ onBackPressed() }
     }
@@ -37,8 +46,12 @@ class CreateIssueActivity : BaseActivity() {
     }
 
     override fun onBackPressed() {
-        viewFlipper.inAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_in_left)
-        viewFlipper.outAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_out_right)
-        viewFlipper.displayedChild = viewFlipper.displayedChild - 1
+        if(viewFlipper.currentView == isuueTypeLy) {
+            finish()
+        }else {
+            viewFlipper.inAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_in_left)
+            viewFlipper.outAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_out_right)
+            viewFlipper.displayedChild = viewFlipper.displayedChild - 1
+        }
     }
 }

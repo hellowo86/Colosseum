@@ -28,7 +28,7 @@
             android:background="?android:attr/selectableItemBackground"
             android:scaleType="centerInside"
             android:padding="@dimen/small_margin"
-            android:src="@drawable/ic_person_black_24dp"
+            android:src="@drawable/l_helmet"
             android:tint="@color/grey"/>
 
         <ImageButton
@@ -39,7 +39,7 @@
             android:background="?android:attr/selectableItemBackground"
             android:scaleType="centerInside"
             android:padding="@dimen/small_margin"
-            android:src="@drawable/ic_format_quote_black_48dp"
+            android:src="@drawable/l_papyrus"
             android:tint="@color/grey"/>
 
         <ImageButton
@@ -50,7 +50,7 @@
             android:background="?android:attr/selectableItemBackground"
             android:scaleType="centerInside"
             android:padding="@dimen/small_margin"
-            android:src="@drawable/ic_search_black_48dp"
+            android:src="@drawable/l_colosseum"
             android:tint="@color/grey"/>
 
         <ImageButton
@@ -61,7 +61,7 @@
             android:background="?android:attr/selectableItemBackground"
             android:scaleType="centerInside"
             android:padding="@dimen/small_margin"
-            android:src="@drawable/ic_notifications_black_24dp"
+            android:src="@drawable/l_foot_print"
             android:tint="@color/grey"/>
 
         <ImageButton
