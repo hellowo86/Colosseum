@@ -38,3 +38,5 @@ fun showAlertDialog(activity: Activity, title: String, message: String,
 
     alert.show()
 }
+
+fun makePublicPhotoUrl(userId: String?): String = "https://firebasestorage.googleapis.com/v0/b/colosseum-eb02c.appspot.com/o/profileImg%2F${userId}.jpg?alt=media"

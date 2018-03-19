@@ -91,7 +91,7 @@ class SetProfileActivity : BaseActivity() {
                 }.addOnSuccessListener { taskSnapshot ->
                     bitmap?.recycle()
                     Me.value?.let {
-                        it.nickName = nickNameEdit.text.toString()
+                        it.nickName = nickNameEdit.text.toString().trim()
                         it.photoUrl = taskSnapshot.downloadUrl.toString()
                         Me.update(Runnable { finish() })
                     }

@@ -1,17 +1,13 @@
 package com.hellowo.teamfinder.ui.fragment
 
-import android.support.v7.app.AppCompatActivity
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.hellowo.colosseum.R
-import com.hellowo.colosseum.ui.activity.CreateIssueActivity
+import com.hellowo.colosseum.ui.activity.CreateChatActivity
 import kotlinx.android.synthetic.main.fragment_chat_list.*
 
 class IssueListFragment : Fragment() {
@@ -29,7 +25,7 @@ class IssueListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fab.setOnClickListener { startActivity(Intent(activity, CreateIssueActivity::class.java)) }
+        fab.setOnClickListener { startActivity(Intent(activity, CreateChatActivity::class.java)) }
 /*
         adapterMy = MyChatListAdapter(activity!!, MyChatLiveData.value!!) {
             val intent = Intent(activity, ChatingActivity::class.java)

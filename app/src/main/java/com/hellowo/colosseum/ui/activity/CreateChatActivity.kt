@@ -2,23 +2,24 @@ package com.hellowo.colosseum.ui.activity
 
 import android.animation.LayoutTransition
 import android.arch.lifecycle.ViewModelProviders
-import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.view.animation.AnimationUtils
-import android.view.inputmethod.InputMethodManager
+import com.google.firebase.firestore.FirebaseFirestore
 import com.hellowo.colosseum.R
+import com.hellowo.colosseum.data.Me
+import com.hellowo.colosseum.model.Chat
 import com.hellowo.colosseum.viewmodel.BasicViewModel
-import kotlinx.android.synthetic.main.activity_create_issue.*
+import kotlinx.android.synthetic.main.activity_create_chat.*
+import java.util.*
 
-class CreateIssueActivity : BaseActivity() {
+class CreateChatActivity : BaseActivity() {
     private lateinit var viewModel: BasicViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(BasicViewModel::class.java)
-        setContentView(R.layout.activity_create_issue)
+        setContentView(R.layout.activity_create_chat)
         initLayout()
         initObserve()
     }
@@ -39,9 +40,13 @@ class CreateIssueActivity : BaseActivity() {
     }
 
     private fun goNext(): Boolean {
-        viewFlipper.inAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_in_right)
-        viewFlipper.outAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_out_left)
-        viewFlipper.displayedChild = viewFlipper.displayedChild + 1
+        if(viewFlipper.currentView == isuueTypeLy) {
+            createIssue()
+        }else {
+            viewFlipper.inAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_in_right)
+            viewFlipper.outAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_out_left)
+            viewFlipper.displayedChild = viewFlipper.displayedChild + 1
+        }
         return true
     }
 
@@ -52,6 +57,13 @@ class CreateIssueActivity : BaseActivity() {
             viewFlipper.inAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_in_left)
             viewFlipper.outAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_out_right)
             viewFlipper.displayedChild = viewFlipper.displayedChild - 1
+        }
+    }
+
+    private fun createIssue() {
+        val chat = Chat(UUID.randomUUID().toString(), Me.value?.id, "타이틀 테스트 입니다")
+        FirebaseFirestore.getInstance().collection("chats").document(chat.id!!).set(chat.makeDataMap()).addOnCompleteListener {
+            finish()
         }
     }
 }

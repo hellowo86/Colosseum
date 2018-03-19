@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.hellowo.colosseum.R
 import com.hellowo.colosseum.data.Me
 import com.hellowo.colosseum.model.User
+import com.hellowo.colosseum.ui.fragment.HomeFragment
 import com.hellowo.colosseum.ui.fragment.ProfileFragment
 import com.hellowo.colosseum.viewmodel.MainViewModel
 import com.hellowo.teamfinder.ui.fragment.IssueListFragment
@@ -56,7 +57,7 @@ class MainActivity : BaseActivity() {
                 when (item) {
                     friendsTab -> ProfileFragment()
                     chatTab -> IssueListFragment()
-                    homeTab -> ProfileFragment()
+                    homeTab -> HomeFragment()
                     historyTab -> ProfileFragment()
                     profileTab -> ProfileFragment()
                     else -> return

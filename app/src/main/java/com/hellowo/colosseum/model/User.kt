@@ -1,5 +1,6 @@
 package com.hellowo.colosseum.model
 
+import com.google.firebase.iid.FirebaseInstanceId
 import java.util.*
 
 data class User (
@@ -11,4 +12,6 @@ data class User (
         var isOnline: Boolean = false,
         var lastConnectedTime: Date? = null,
         var photoUrl: String? = null,
-        var createdTime: Date? = null)
+        var createdTime: Date? = null) {
+    fun makeChatMember() = ChatMember(id, nickName, null, System.currentTimeMillis(), true, FirebaseInstanceId.getInstance().token)
+}

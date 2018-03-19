@@ -23,7 +23,8 @@
         <activity android:name=".ui.activity.MainActivity"/>
         <activity android:name=".ui.activity.SignInActivity"/>
         <activity android:name=".ui.activity.BasicActivity"/>
-        <activity android:name=".ui.activity.CreateIssueActivity"/>
+        <activity android:name=".ui.activity.CreateChatActivity"/>
+        <activity android:name=".ui.activity.JoinChatActivity"/>
 
         <service
             android:name=".fcm.MessagingService">

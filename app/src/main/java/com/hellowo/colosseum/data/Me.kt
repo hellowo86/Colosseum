@@ -41,4 +41,9 @@ object Me : LiveData<User>() {
             }
         }catch (e: Exception) {}
     }
+
+    fun create(id: String) {
+        val user = User(id = id, createdTime = Date())
+        FirebaseFirestore.getInstance().collection("users").document(id).set(user).addOnCompleteListener { value = user }
+    }
 }
