@@ -41,7 +41,7 @@ class CreateChatActivity : BaseActivity() {
 
     private fun goNext(): Boolean {
         if(viewFlipper.currentView == isuueTypeLy) {
-            createIssue()
+            createChat()
         }else {
             viewFlipper.inAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_in_right)
             viewFlipper.outAnimation = AnimationUtils.loadAnimation(this, R.anim.slide_out_left)
@@ -60,9 +60,11 @@ class CreateChatActivity : BaseActivity() {
         }
     }
 
-    private fun createIssue() {
+    private fun createChat() {
+        showProgressDialog()
         val chat = Chat(UUID.randomUUID().toString(), Me.value?.id, "타이틀 테스트 입니다")
         FirebaseFirestore.getInstance().collection("chats").document(chat.id!!).set(chat.makeDataMap()).addOnCompleteListener {
+            hideProgressDialog()
             finish()
         }
     }
