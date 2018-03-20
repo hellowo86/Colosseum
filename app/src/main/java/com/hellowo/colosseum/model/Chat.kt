@@ -6,7 +6,7 @@ data class Chat(
         var id: String? = null,
         var host: String? = null,
         var title: String? = null): Serializable {
-    fun makeDataMap(): Map<String, Any?> {
+    fun makeChatDataMap(): Map<String, Any?> {
         val map = HashMap<String, Any?>()
         map.put("id", id)
         map.put("title", title?.trim())
@@ -16,6 +16,11 @@ data class Chat(
                 map.put("s_$it", true)
             }
         }
+        return map
+    }
+    fun makeMyChatDataMap(): Map<String, Any?> {
+        val map = HashMap<String, Any?>()
+        map.put("id", id)
         return map
     }
 }

@@ -43,20 +43,20 @@ class JoinChatActivity : BaseActivity() {
     }
 
     private fun joinChat() {
+        showProgressDialog()
         val me = Me.value
         val db = FirebaseFirestore.getInstance()
         val chatMember = me?.makeChatMember()
         val msg = Message(UUID.randomUUID().toString(), "", me?.nickName, me?.id, chatMember?.lastConnectedTime as Long, 1)
-
         val batch = db.batch()
 
-        val chatRef = db.collection("chats").document(chat.id!!).collection("members").document(chatMember.userId!!)
-        batch.set(chatRef, chatMember)
-
+        val memberRef = db.collection("chats").document(chat.id!!).collection("members").document(chatMember.userId!!)
+        batch.set(memberRef, chatMember)
         val msgRef = db.collection("chats").document(chat.id!!).collection("messages").document(msg.id!!)
         batch.set(msgRef, msg)
 
         batch.commit().addOnCompleteListener{
+            hideProgressDialog()
             finish()
         }
     }

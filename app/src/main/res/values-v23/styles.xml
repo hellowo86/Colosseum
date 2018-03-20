@@ -9,8 +9,11 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowAnimationStyle">@style/ActivityAnimation</item>
+
         <item name="android:textViewStyle">@style/customTextViewStyle</item>
         <item name="android:buttonStyle">@style/customButtonStyle</item>
+        <item name="android:editTextStyle">@style/customEditStyle</item>
+
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:statusBarColor">@color/white</item>
     </style>

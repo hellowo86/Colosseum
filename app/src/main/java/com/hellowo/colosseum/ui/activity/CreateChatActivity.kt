@@ -62,8 +62,20 @@ class CreateChatActivity : BaseActivity() {
 
     private fun createChat() {
         showProgressDialog()
+        val me = Me.value
+        val db = FirebaseFirestore.getInstance()
+        val chatMember = me?.makeChatMember()
         val chat = Chat(UUID.randomUUID().toString(), Me.value?.id, "타이틀 테스트 입니다")
-        FirebaseFirestore.getInstance().collection("chats").document(chat.id!!).set(chat.makeDataMap()).addOnCompleteListener {
+        val batch = db.batch()
+
+        val myChatRef = db.collection("users").document(me?.id!!).collection("chats").document(chat.id!!)
+        batch.set(myChatRef, chat.makeMyChatDataMap())
+        val chatRef = db.collection("chats").document(chat.id!!)
+        batch.set(chatRef, chat.makeChatDataMap())
+        val memberRef = db.collection("chats").document(chat.id!!).collection("members").document(chatMember?.userId!!)
+        batch.set(memberRef, chatMember)
+
+        batch.commit().addOnCompleteListener{
             hideProgressDialog()
             finish()
         }
