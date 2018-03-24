@@ -33,17 +33,5 @@ object Me : LiveData<User>() {
         mAuth.removeAuthStateListener(mAuthListener)
     }
 
-    fun update(onSuccess: Runnable) {
-        try{
-            FirebaseFirestore.getInstance().collection("users").document(value?.id!!).set(value!!).addOnSuccessListener{
-                value = value
-                onSuccess.run()
-            }
-        }catch (e: Exception) {}
-    }
-
-    fun create(id: String) {
-        val user = User(id = id, createdTime = Date())
-        FirebaseFirestore.getInstance().collection("users").document(id).set(user).addOnCompleteListener { value = user }
-    }
+    fun push(user: User) { value = user }
 }

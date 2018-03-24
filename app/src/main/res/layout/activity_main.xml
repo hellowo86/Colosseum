@@ -1,79 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/rootLy"
-    android:background="@color/white"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:layout_height="match_parent">
 
     <FrameLayout
         android:id="@+id/container"
+        android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/top_menu_bar_height">
     </FrameLayout>
 
     <LinearLayout
-        android:layout_gravity="bottom"
-        android:background="@color/backgroundAlpha"
+        android:id="@+id/bottomTabs"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/top_menu_bar_height">
+        android:layout_height="@dimen/top_menu_bar_height"
+        android:paddingTop="1dp"
+        android:paddingBottom="1dp"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:background="@color/background"
+        android:layout_gravity="bottom"
+        android:elevation="10dp">
 
-        <ImageButton
-            android:id="@+id/friendsTab"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="?android:attr/selectableItemBackground"
-            android:scaleType="centerInside"
-            android:padding="@dimen/small_margin"
-            android:src="@drawable/l_helmet"
-            android:tint="@color/grey"/>
-
-        <ImageButton
-            android:id="@+id/chatTab"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="?android:attr/selectableItemBackground"
-            android:scaleType="centerInside"
-            android:padding="@dimen/small_margin"
-            android:src="@drawable/l_papyrus"
-            android:tint="@color/grey"/>
-
-        <ImageButton
+        <FrameLayout
             android:id="@+id/homeTab"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="?android:attr/selectableItemBackground"
-            android:scaleType="centerInside"
-            android:padding="@dimen/small_margin"
-            android:src="@drawable/l_colosseum"
-            android:tint="@color/grey"/>
+            android:background="?android:attr/selectableItemBackground">
 
-        <ImageButton
-            android:id="@+id/historyTab"
+            <ImageView
+                android:id="@+id/homeTabImg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside"
+                android:padding="@dimen/normal_margin"
+                android:src="@drawable/search_love"
+                android:tint="@color/disableText"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/matchingTab"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="?android:attr/selectableItemBackground"
-            android:scaleType="centerInside"
-            android:padding="@dimen/small_margin"
-            android:src="@drawable/l_foot_print"
-            android:tint="@color/grey"/>
+            android:background="?android:attr/selectableItemBackground">
 
-        <ImageButton
+            <ImageView
+                android:id="@+id/matchingTabImg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside"
+                android:padding="@dimen/normal_margin"
+                android:src="@drawable/color_jigsaw"
+                android:tint="@color/disableText"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/chatTab"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackground">
+
+            <ImageView
+                android:id="@+id/chatTabImg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside"
+                android:padding="@dimen/normal_margin"
+                android:src="@drawable/chat"
+                android:tint="@color/disableText"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/communityTab"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackground">
+
+            <ImageView
+                android:id="@+id/communityTabImg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside"
+                android:padding="@dimen/normal_margin"
+                android:src="@drawable/color_potion"
+                android:tint="@color/disableText"/>
+
+        </FrameLayout>
+
+        <FrameLayout
             android:id="@+id/profileTab"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="?android:attr/selectableItemBackground"
-            android:scaleType="centerInside"
-            android:padding="@dimen/small_margin"
-            android:src="@drawable/img_default_profile"/>
+            android:background="?android:attr/selectableItemBackground">
+
+            <ImageView
+                android:id="@+id/profileImg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside"
+                android:padding="13dp"
+                android:src="@drawable/default_profile"
+                android:tint="@color/disableText"/>
+
+        </FrameLayout>
 
     </LinearLayout>
 
-</android.support.design.widget.CoordinatorLayout>
+</FrameLayout>

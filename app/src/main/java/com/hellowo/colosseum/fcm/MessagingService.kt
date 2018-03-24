@@ -50,7 +50,7 @@ class MessagingService : com.google.firebase.messaging.FirebaseMessagingService(
     private fun sendNotification(subject: String, message: String, icon: Bitmap?, pIntent: PendingIntent) {
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notificationBuilder = NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher_round)
+                .setSmallIcon(R.drawable.small_logo)
                 .setColor(getColor(R.color.colorPrimary))
                 .setContentTitle(subject)
                 .setContentText(message)

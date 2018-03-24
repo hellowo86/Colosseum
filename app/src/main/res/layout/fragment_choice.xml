@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootLy"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <FrameLayout
+        android:id="@+id/choiceLy"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:visibility="invisible">
+
+        <link.fls.swipestack.SwipeStack
+            android:id="@+id/swipeStack"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:padding="32dp"
+            android:visibility="invisible"
+            app:stack_rotation="0"/>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/choiceNoBtn"
+            android:layout_height="80dp"
+            android:layout_width="80dp"
+            android:layout_margin="@dimen/extra_margin"
+            android:layout_gravity="bottom"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="40dp"
+            app:cardElevation="5dp"
+            android:visibility="invisible">
+
+            <ImageView
+                android:background="@color/disableText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/choiceYesBtn"
+            android:layout_height="80dp"
+            android:layout_width="80dp"
+            android:layout_margin="@dimen/extra_margin"
+            android:layout_gravity="bottom|right"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="40dp"
+            app:cardElevation="5dp"
+            android:visibility="invisible">
+
+            <ImageView
+                android:background="@color/colorPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </android.support.v7.widget.CardView>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/loadingLy"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:visibility="invisible">
+
+        <com.skyfishjy.library.RippleBackground
+            android:id="@+id/rippleView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible"
+            app:rb_color="@color/colorPrimary"
+            app:rb_radius="32dp"
+            app:rb_rippleAmount="4"
+            app:rb_duration="3000"
+            app:rb_scale="6">
+
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_centerInParent="true"
+                android:id="@+id/centerImage"
+                android:src="@drawable/color_search"/>
+
+        </com.skyfishjy.library.RippleBackground>
+
+        <TextView
+            android:id="@+id/loadingChild1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25dp"
+            android:textColor="@color/secondaryText"
+            android:layout_marginTop="70dp"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/searching"
+            android:fontFamily="@font/spoqa_sans_b"
+            android:visibility="invisible"/>
+
+        <TextView
+            android:id="@+id/loadingChild2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13dp"
+            android:textColor="@color/colorText"
+            android:layout_gravity="center_horizontal|bottom"
+            android:gravity="center"
+            android:layout_marginBottom="70dp"
+            android:fontFamily="@font/spoqa_sans_r"
+            android:text="@string/find_new_lover_sub"
+            android:visibility="invisible"/>
+
+
+    </FrameLayout>
+
+    <ScrollView
+        android:id="@+id/optionLy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/optionChild1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="30dp"
+                android:textColor="@color/primaryText"
+                android:layout_marginTop="40dp"
+                android:layout_marginLeft="@dimen/extra_margin"
+                android:text="@string/find_new_lover_title"
+                android:fontFamily="@font/spoqa_sans_b"
+                android:visibility="invisible"/>
+
+            <TextView
+                android:id="@+id/optionChild2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:textColor="@color/secondaryText"
+                android:layout_marginTop="@dimen/big_margin"
+                android:layout_marginLeft="@dimen/extra_margin"
+                android:layout_marginRight="72dp"
+                android:fontFamily="@font/spoqa_sans_r"
+                android:text="@string/find_new_lover_sub"
+                android:visibility="invisible"/>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/responseBtn"
+                android:layout_height="100dp"
+                android:layout_width="match_parent"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:layout_marginLeft="@dimen/extra_margin"
+                android:layout_marginRight="@dimen/extra_margin"
+                android:layout_marginTop="@dimen/extra_margin"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="3dp"
+                android:visibility="invisible">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/green_gradient"/>
+
+                <ImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:src="@drawable/man_default"
+                    android:layout_margin="@dimen/normal_margin"/>
+
+                <LinearLayout
+                    android:layout_marginLeft="100dp"
+                    android:layout_marginRight="@dimen/big_margin"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/responseText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/response_btn_text"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/spoqa_sans_b"
+                        android:textSize="13dp"/>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/searchBtn"
+                android:layout_height="100dp"
+                android:layout_width="match_parent"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:layout_marginLeft="@dimen/extra_margin"
+                android:layout_marginRight="@dimen/extra_margin"
+                android:layout_marginTop="@dimen/extra_margin"
+                android:layout_marginBottom="@dimen/extra_margin"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="3dp"
+                android:visibility="invisible">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/primary_gradient"/>
+
+                <ImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:padding="10dp"
+                    android:src="@drawable/color_search"
+                    android:layout_margin="@dimen/normal_margin"/>
+
+                <LinearLayout
+                    android:layout_marginLeft="100dp"
+                    android:layout_marginRight="@dimen/big_margin"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/searchText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/search_btn_text"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/spoqa_sans_b"
+                        android:textSize="16dp"/>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/colorPrimary"
+        android:visibility="gone"/>
+</FrameLayout>

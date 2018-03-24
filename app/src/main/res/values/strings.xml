@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Colosseum</string>
+    <string name="app_name">PaperPlane</string>
     <string name="ok">확인</string>
     <string name="cancel">취소</string>
     <string name="sign_in">로그인</string>
@@ -29,8 +29,6 @@
     <string name="welcome_sub">몇 가지 질문에 대답해주시면\n당신과 어울리는 친구를 추천해드려요</string>
     <string name="profile_setting">프로필 설정</string>
     <string name="nick_name">닉네임</string>
-    <string name="gender">성별</string>
-    <string name="age">연령</string>
     <string name="area">지역</string>
     <string name="save">저장하기</string>
     <string name="my_issue_rooms">나의 이슈</string>
@@ -39,4 +37,28 @@
     <string name="issue_type">이슈 타입</string>
     <string name="posi_and_neg">찬성과 반대</string>
     <string name="join_chat">참가하기</string>
+    <string name="searching">검색중…</string>
+    <string name="people_interest_me">%1$s 님에게 호감을 표시한 사람이 있습니다.</string>
+    <string name="where_is_my_lover">연인 찾기</string>
+    <string name="start_introduce">소개받기</string>
+    <string name="do_sign_up">새로운 계정 만들기</string>
+    <string name="male">남자</string>
+    <string name="location">지역</string>
+    <string name="birth">출생년도</string>
+    <string name="gender">성별</string>
+    <string name="moreInfo">소개말</string>
+    <string name="female">여자</string>
+    <string name="age">나이</string>
+    <string name="start">시작하기</string>
+    <string name="do_login">로그인하기</string>
+    <string name="plz_check_gender">성별을 선택해주세요</string>
+    <string name="selected">지정됨</string>
+    <string name="plz_check_location">지역을 지정해주세요</string>
+    <string name="plz_check_age">나이를 지정해주세요</string>
+    <string name="plz_check_moreInfo">소개말을 작성해주세요</string>
+    <string name="plz_check_profile_img">프로필 사진을 설정해주세요</string>
+    <string name="find_new_lover_title">관심 이성 찾기</string>
+    <string name="find_new_lover_sub">새로운 이성을 소개받고\n관심을 표현해 보세요.\n서로가 서로에게 관심을 표현하면\n<font fgcolor='#f77f77'>[호감 확인하기]</font> 단계로\n넘어갈 수 있습니다.</string>
+    <string name="response_btn_text">%1$s님 외 %2$s명이\n당신을 관심있어 합니다.\n관심에 호응해 보세요!</string>
+    <string name="search_btn_text">새로운 인연을 찾습니다.\n행운을 빌어요!</string>
 </resources>

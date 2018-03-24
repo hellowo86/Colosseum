@@ -7,14 +7,15 @@ import android.media.ExifInterface
 
 import java.io.IOException
 
+@Throws(Exception::class)
 fun makeProfileBitmapFromFile(filePath: String): Bitmap? {
     val options = BitmapFactory.Options()
     options.inPreferredConfig = Bitmap.Config.RGB_565
     options.inJustDecodeBounds = true
     BitmapFactory.decodeFile(filePath, options)
 
-    val widthScale = (options.outWidth / 128).toFloat()
-    val heightScale = (options.outHeight / 128).toFloat()
+    val widthScale = (options.outWidth / 512).toFloat()
+    val heightScale = (options.outHeight / 512).toFloat()
     val scale = if (widthScale > heightScale) widthScale else heightScale
 
     /*if(scale >= 16) {

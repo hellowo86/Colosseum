@@ -14,10 +14,10 @@
     </style>
 
     <style name="customTextViewStyle" parent="@android:style/Widget.DeviceDefault.TextView">
-        <item name="android:fontFamily">@font/bm_hanna_11</item>
+        <item name="android:fontFamily">@font/spoqa_sans_r</item>
     </style>
 
     <style name="customButtonStyle" parent="@android:style/Widget.DeviceDefault.Button">
-        <item name="android:fontFamily">@font/bm_hanna_11</item>
+        <item name="android:fontFamily">@font/spoqa_sans_b</item>
     </style>
 </resources>

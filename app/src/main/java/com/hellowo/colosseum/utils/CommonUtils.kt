@@ -1,9 +1,12 @@
 package com.hellowo.colosseum.utils
 
 import android.app.Activity
+import android.content.Context
 import android.content.DialogInterface
 import android.support.v7.app.AlertDialog
 import android.util.Log
+import android.widget.Toast
+import com.hellowo.colosseum.App
 import com.hellowo.colosseum.R
 
 fun log(text: String){
@@ -40,3 +43,7 @@ fun showAlertDialog(activity: Activity, title: String, message: String,
 }
 
 fun makePublicPhotoUrl(userId: String?): String = "https://firebasestorage.googleapis.com/v0/b/colosseum-eb02c.appspot.com/o/profileImg%2F${userId}.jpg?alt=media"
+
+fun toast(context: Context, stringId: Int) {
+    Toast.makeText(context, stringId, Toast.LENGTH_SHORT).show()
+}

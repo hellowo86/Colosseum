@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.hellowo.colosseum.R
 import com.hellowo.colosseum.data.Me
 import com.hellowo.colosseum.model.User
+import com.hellowo.colosseum.utils.makePublicPhotoUrl
 import jp.wasabeef.glide.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.fragment_profile.*
 
@@ -30,7 +31,7 @@ class ProfileFragment : Fragment() {
 
     private fun updateUserUI(user: User?) {
         user?.let {
-            Glide.with(this).load(it.photoUrl).placeholder(R.drawable.img_default_profile)
+            Glide.with(this).load(makePublicPhotoUrl(it.id)).placeholder(R.drawable.img_default_profile)
                     .bitmapTransform(CropCircleTransformation(context)).into(profileImage)
             nameText.text = it.nickName
             descriptionText.text = it.id

@@ -100,8 +100,7 @@
                     android:layout_marginRight="18.5dp"
                     android:layout_gravity="right|center_vertical"
                     android:scaleType="centerInside"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:src="@mipmap/ic_launcher_round"/>
+                    android:background="?android:attr/selectableItemBackground"/>
 
             </FrameLayout>
 
