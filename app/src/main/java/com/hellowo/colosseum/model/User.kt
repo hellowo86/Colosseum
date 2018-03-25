@@ -15,4 +15,13 @@ data class User (
         var dtConnected: Long = 0,
         var dtCreated: Long = 0,
         var pushToken: String? = null): Serializable {
+    companion object {
+        fun makeCoupleKey(me: User, you: User) : String {
+            return if(me.gender == 0) {
+                "${me.id}_${you.id}"
+            }else {
+                "${you.id}_${me.id}"
+            }
+        }
+    }
 }

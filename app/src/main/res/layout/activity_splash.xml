@@ -179,7 +179,6 @@
             android:paddingRight="@dimen/normal_margin"
             android:textColor="@color/colorPrimary"
             android:textColorHint="@color/colorPrimaryLight"
-            android:lines="2"
             android:textSize="15dp"
             android:gravity="top"
             android:fontFamily="@font/spoqa_sans_r"

@@ -4,13 +4,13 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import com.hellowo.colosseum.data.Me
 import com.hellowo.colosseum.model.User
 import com.hellowo.colosseum.utils.log
 
 
 class ChoiceViewModel : ViewModel() {
-    //val ref: DatabaseReference = FirebaseDatabase.getInstance().reference
     var newList = MutableLiveData<ArrayList<User>>()
     var interestMeList = MutableLiveData<ArrayList<User>>()
     var loading = MutableLiveData<Boolean>()
@@ -29,7 +29,6 @@ class ChoiceViewModel : ViewModel() {
             if (task.isSuccessful) {
                 for (document in task.result) {
                     interestMeList.value?.add(document.toObject(User::class.java))
-                    log("!!!"+document.toObject(User::class.java).toString())
                 }
             }
             if(viewMode.value == null) {
@@ -41,12 +40,15 @@ class ChoiceViewModel : ViewModel() {
     }
 
     fun startNewSearch(lastVisible: DocumentSnapshot?) {
-        viewMode.value = 1
         var query = FirebaseFirestore.getInstance().collection("users")
                 .whereEqualTo("gender", if(Me.value?.gender == 0) 1 else 0)
-                .limit(1)
+                .limit(100)
 
-        lastVisible?.let { query = query.startAfter(lastVisible) }
+        if(lastVisible == null) {
+            viewMode.value = 1
+        }else {
+            query = query.startAfter(lastVisible)
+        }
 
         query.get().addOnCompleteListener { task ->
                     if (task.isSuccessful) {
@@ -54,13 +56,30 @@ class ChoiceViewModel : ViewModel() {
                             newList.value?.add(document.toObject(User::class.java))
                             log(document.toObject(User::class.java).toString())
                         }
-                        if(task.result.size() > 0 && newList.value?.size!! < 2) {
+                        if(task.result.size() > 0 && newList.value?.size!! < 10) {
                             startNewSearch(task.result.last())
                         }else {
                             newList.value = newList.value
+                            viewMode.value = 2
                         }
                     }
                 }
+    }
+
+    fun interest(user: User, interest: Int) {
+        val data = HashMap<String, Any?>()
+        data.put("from_${Me.value?.id}", interest)
+        data.put("to_${user.id}", interest)
+        FirebaseFirestore.getInstance().collection("interests").document(User.makeCoupleKey(Me.value!!, user)).set(data, SetOptions.merge())
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+
+                    }
+                }
+    }
+
+    fun stackEmpty() {
+        viewMode.value = 1
     }
 
 

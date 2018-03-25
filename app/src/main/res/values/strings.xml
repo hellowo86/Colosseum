@@ -61,4 +61,5 @@
     <string name="find_new_lover_sub">새로운 이성을 소개받고\n관심을 표현해 보세요.\n서로가 서로에게 관심을 표현하면\n<font fgcolor='#f77f77'>[호감 확인하기]</font> 단계로\n넘어갈 수 있습니다.</string>
     <string name="response_btn_text">%1$s님 외 %2$s명이\n당신을 관심있어 합니다.\n관심에 호응해 보세요!</string>
     <string name="search_btn_text">새로운 인연을 찾습니다.\n행운을 빌어요!</string>
+    <string name="distance_of_me">거리</string>
 </resources>

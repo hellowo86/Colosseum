@@ -16,48 +16,13 @@
         <link.fls.swipestack.SwipeStack
             android:id="@+id/swipeStack"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:padding="32dp"
+            android:layout_height="match_parent"
+            android:paddingTop="32dp"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"
+            android:paddingBottom="40dp"
             android:visibility="invisible"
-            app:stack_rotation="0"/>
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/choiceNoBtn"
-            android:layout_height="80dp"
-            android:layout_width="80dp"
-            android:layout_margin="@dimen/extra_margin"
-            android:layout_gravity="bottom"
-            android:foreground="?android:attr/selectableItemBackground"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="40dp"
-            app:cardElevation="5dp"
-            android:visibility="invisible">
-
-            <ImageView
-                android:background="@color/disableText"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/choiceYesBtn"
-            android:layout_height="80dp"
-            android:layout_width="80dp"
-            android:layout_margin="@dimen/extra_margin"
-            android:layout_gravity="bottom|right"
-            android:foreground="?android:attr/selectableItemBackground"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="40dp"
-            app:cardElevation="5dp"
-            android:visibility="invisible">
-
-            <ImageView
-                android:background="@color/colorPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-        </android.support.v7.widget.CardView>
+            app:stack_rotation="3"/>
 
     </FrameLayout>
 

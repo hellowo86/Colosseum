@@ -11,6 +11,7 @@ import com.hellowo.colosseum.R
 import com.hellowo.colosseum.data.Me
 import com.hellowo.colosseum.model.User
 import com.hellowo.colosseum.ui.fragment.ChoiceFragment
+import com.hellowo.colosseum.ui.fragment.InterestFragment
 import com.hellowo.colosseum.ui.fragment.ProfileFragment
 import com.hellowo.colosseum.utils.makePublicPhotoUrl
 import com.hellowo.colosseum.viewmodel.MainViewModel
@@ -56,7 +57,7 @@ class MainActivity : BaseActivity() {
         fragmentTransaction.replace(R.id.container,
                 when (item) {
                     homeTabImg -> ChoiceFragment()
-                    matchingTabImg -> ChoiceFragment()
+                    matchingTabImg -> InterestFragment()
                     chatTabImg -> ChoiceFragment()
                     communityTabImg -> ChoiceFragment()
                     profileImg -> ProfileFragment()

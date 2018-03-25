@@ -21,6 +21,7 @@
     <color name="primaryWhiteText">#FFFFFFFF</color>
     <color name="secondaryWhiteText">#b3FFFFFF</color>
     <color name="disableWhiteText">#80FFFFFF</color>
+    <color name="disableTextAlpha">#80b4b7bc</color>
 
     <!--
     <color name="primaryText">#de000000</color>
@@ -39,5 +40,6 @@
     <color name="red">#F74444</color>
     <color name="green">#8AE083</color>
     <color name="yellow">#dbb876</color>
+    <color name="blue">#6AAFE6</color>
     <color name="transparent">#00000000</color>
 </resources>
