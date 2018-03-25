@@ -114,7 +114,7 @@ class ChoiceFragment : Fragment() {
 
                     heartImg.scaleX = offset * 2
                     heartImg.scaleY = offset * 2
-                    heartImg.alpha = 0.8f
+                    heartImg.alpha = 1f
                     heartImg.translationX = -(1 - offset * 2) * ( width / 2)
                     heartImg.translationY = (1 - offset * 1.5f) * ( height / 2)
                 }else {
@@ -128,7 +128,7 @@ class ChoiceFragment : Fragment() {
                     circleCover.translationY = (1 - offset) * ( height / 2)
                     heartImg.scaleX = offset * 2
                     heartImg.scaleY = offset * 2
-                    heartImg.alpha = 0.8f
+                    heartImg.alpha = 1f
                     heartImg.translationX = (1 - offset * 2) * ( width / 2)
                     heartImg.translationY = (1 - offset * 1.5f) * ( height / 2)
                 }

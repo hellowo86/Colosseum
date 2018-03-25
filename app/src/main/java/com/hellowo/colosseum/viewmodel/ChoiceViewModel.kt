@@ -8,6 +8,11 @@ import com.google.firebase.firestore.SetOptions
 import com.hellowo.colosseum.data.Me
 import com.hellowo.colosseum.model.User
 import com.hellowo.colosseum.utils.log
+import com.google.firebase.firestore.DocumentReference
+import android.provider.SyncStateContract.Helpers.update
+import com.google.firebase.firestore.WriteBatch
+
+
 
 
 class ChoiceViewModel : ViewModel() {
@@ -25,18 +30,19 @@ class ChoiceViewModel : ViewModel() {
     fun loadInterestMeList() {
         loading.value = true
         interestMeList.value?.clear()
-        FirebaseFirestore.getInstance().collection("users").get().addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                for (document in task.result) {
-                    interestMeList.value?.add(document.toObject(User::class.java))
+        FirebaseFirestore.getInstance().collection("interests").whereEqualTo("to_${Me.value?.id}", 1).get()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        for (document in task.result) {
+                            log("!!!!!!!!!!" + document.toString())
+                        }
+                    }
+                    if(viewMode.value == null) {
+                        viewMode.value = 0
+                    }
+                    interestMeList.value = interestMeList.value
+                    loading.value = false
                 }
-            }
-            if(viewMode.value == null) {
-                viewMode.value = 0
-            }
-            interestMeList.value = interestMeList.value
-            loading.value = false
-        }
     }
 
     fun startNewSearch(lastVisible: DocumentSnapshot?) {
@@ -45,6 +51,7 @@ class ChoiceViewModel : ViewModel() {
                 .limit(100)
 
         if(lastVisible == null) {
+            newList.value?.clear()
             viewMode.value = 1
         }else {
             query = query.startAfter(lastVisible)
@@ -71,15 +78,11 @@ class ChoiceViewModel : ViewModel() {
         data.put("from_${Me.value?.id}", interest)
         data.put("to_${user.id}", interest)
         FirebaseFirestore.getInstance().collection("interests").document(User.makeCoupleKey(Me.value!!, user)).set(data, SetOptions.merge())
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-
-                    }
-                }
+                .addOnCompleteListener { task -> if (task.isSuccessful) {} }
     }
 
     fun stackEmpty() {
-        viewMode.value = 1
+        viewMode.value = 0
     }
 
 
