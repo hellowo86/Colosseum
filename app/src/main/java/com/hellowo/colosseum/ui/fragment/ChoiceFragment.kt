@@ -28,6 +28,7 @@ import com.hellowo.colosseum.utils.distFrom
 import com.hellowo.colosseum.utils.log
 import com.hellowo.colosseum.utils.makePublicPhotoUrl
 import com.hellowo.colosseum.viewmodel.ChoiceViewModel
+import jp.wasabeef.glide.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.fragment_choice.*
 import link.fls.swipestack.SwipeStack
 import java.util.*
@@ -139,61 +140,77 @@ class ChoiceFragment : Fragment() {
     }
 
     private fun setObserver() {
-        viewModel.interestMeList.observe(this, Observer { it?.let { if(it.size > 0){
+        viewModel.interestMeList.observe(this, Observer { list ->
+            if(list != null && list.isNotEmpty()) {
+                responseBtn.isEnabled = true
+                responseBtn.alpha = 1f
+                val user = list[0]
+                Glide.with(this).load(makePublicPhotoUrl(user.id)).bitmapTransform(CropCircleTransformation(context)).into(responseProfileImg)
+                responseText.text = String.format(getString(R.string.response_btn_text), user.nickName, list.size)
+                responseBtn.setOnClickListener {
+                    adapter.refresh(list)
 
-        }}})
-        viewModel.newList.observe(this, Observer { it?.let { if(it.size > 0){ adapter.refresh(it) }}})
-        viewModel.loading.observe(this, Observer { progressBar.visibility = if(it as Boolean) View.VISIBLE else View.GONE })
-        viewModel.viewMode.observe(this, Observer {
-            makeTransition()
-            when(it){
-                0 -> {
-                    optionLy.visibility = View.VISIBLE
-                    optionChild1.visibility = View.VISIBLE
-                    optionChild2.visibility = View.VISIBLE
-                    responseBtn.visibility = View.VISIBLE
-                    searchBtn.visibility = View.VISIBLE
-                    loadingLy.visibility = View.INVISIBLE
-                    rippleView.visibility = View.INVISIBLE
-                    loadingChild1.visibility = View.INVISIBLE
-                    loadingChild2.visibility = View.INVISIBLE
-                    choiceLy.visibility = View.INVISIBLE
-                    swipeStack.visibility = View.INVISIBLE
                 }
-                1 -> {
-                    optionLy.visibility = View.INVISIBLE
-                    optionChild1.visibility = View.INVISIBLE
-                    optionChild2.visibility = View.INVISIBLE
-                    responseBtn.visibility = View.INVISIBLE
-                    searchBtn.visibility = View.INVISIBLE
-                    loadingLy.visibility = View.VISIBLE
-                    rippleView.visibility = View.VISIBLE
-                    loadingChild1.visibility = View.VISIBLE
-                    loadingChild2.visibility = View.VISIBLE
-                    choiceLy.visibility = View.INVISIBLE
-                    swipeStack.visibility = View.INVISIBLE
-                    rippleView.startRippleAnimation()
-                    val anim = TranslateAnimation(0f, 0f, 0f, -15f)
-                    anim.duration = 500
-                    anim.repeatCount = Animation.INFINITE
-                    anim.repeatMode = Animation.REVERSE
-                    centerImage.startAnimation(anim)
-                }
-                2 -> {
-                    optionLy.visibility = View.INVISIBLE
-                    optionChild1.visibility = View.INVISIBLE
-                    optionChild2.visibility = View.INVISIBLE
-                    responseBtn.visibility = View.INVISIBLE
-                    searchBtn.visibility = View.INVISIBLE
-                    loadingLy.visibility = View.INVISIBLE
-                    rippleView.visibility = View.INVISIBLE
-                    loadingChild1.visibility = View.INVISIBLE
-                    loadingChild2.visibility = View.INVISIBLE
-                    choiceLy.visibility = View.VISIBLE
-                    swipeStack.visibility = View.VISIBLE
-                }
+            }else {
+                responseBtn.isEnabled = false
+                responseBtn.alpha = 0.5f
+                responseText.text = getString(R.string.response_empty)
             }
         })
+        viewModel.newList.observe(this, Observer { it?.let { if(it.size > 0){ adapter.refresh(it) }}})
+        viewModel.loading.observe(this, Observer { progressBar.visibility = if(it as Boolean) View.VISIBLE else View.GONE })
+        viewModel.viewMode.observe(this, Observer { updateUI(it) })
+    }
+
+    private fun updateUI(viewMode: Int?) {
+        makeTransition()
+        when(viewMode){
+            0 -> {
+                optionLy.visibility = View.VISIBLE
+                optionChild1.visibility = View.VISIBLE
+                optionChild2.visibility = View.VISIBLE
+                responseBtn.visibility = View.VISIBLE
+                searchBtn.visibility = View.VISIBLE
+                loadingLy.visibility = View.INVISIBLE
+                rippleView.visibility = View.INVISIBLE
+                loadingChild1.visibility = View.INVISIBLE
+                loadingChild2.visibility = View.INVISIBLE
+                choiceLy.visibility = View.INVISIBLE
+                swipeStack.visibility = View.INVISIBLE
+            }
+            1 -> {
+                optionLy.visibility = View.INVISIBLE
+                optionChild1.visibility = View.INVISIBLE
+                optionChild2.visibility = View.INVISIBLE
+                responseBtn.visibility = View.INVISIBLE
+                searchBtn.visibility = View.INVISIBLE
+                loadingLy.visibility = View.VISIBLE
+                rippleView.visibility = View.VISIBLE
+                loadingChild1.visibility = View.VISIBLE
+                loadingChild2.visibility = View.VISIBLE
+                choiceLy.visibility = View.INVISIBLE
+                swipeStack.visibility = View.INVISIBLE
+                rippleView.startRippleAnimation()
+                val anim = TranslateAnimation(0f, 0f, 0f, -15f)
+                anim.duration = 500
+                anim.repeatCount = Animation.INFINITE
+                anim.repeatMode = Animation.REVERSE
+                centerImage.startAnimation(anim)
+            }
+            2 -> {
+                optionLy.visibility = View.INVISIBLE
+                optionChild1.visibility = View.INVISIBLE
+                optionChild2.visibility = View.INVISIBLE
+                responseBtn.visibility = View.INVISIBLE
+                searchBtn.visibility = View.INVISIBLE
+                loadingLy.visibility = View.INVISIBLE
+                rippleView.visibility = View.INVISIBLE
+                loadingChild1.visibility = View.INVISIBLE
+                loadingChild2.visibility = View.INVISIBLE
+                choiceLy.visibility = View.VISIBLE
+                swipeStack.visibility = View.VISIBLE
+            }
+        }
     }
 
     private fun makeTransition(){ // VISIBLITIY 설정 전에 호출해야함

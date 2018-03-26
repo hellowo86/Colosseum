@@ -10,16 +10,7 @@ object Me : LiveData<User>() {
     private val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private val mAuthListener: FirebaseAuth.AuthStateListener = FirebaseAuth.AuthStateListener { auth ->
         auth.currentUser?.let {
-            FirebaseFirestore.getInstance().collection("users").document(it.uid).get().addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val document = task.result
-                    if (document != null && document.exists()) {
-                        value = document.toObject(User::class.java)
-                        return@addOnCompleteListener
-                    }
-                }
-                value = null
-            }
+            loadUser(it.uid)
             return@AuthStateListener
         }
         value = null
@@ -31,6 +22,18 @@ object Me : LiveData<User>() {
 
     override fun onInactive() {
         mAuth.removeAuthStateListener(mAuthListener)
+    }
+
+    fun loadUser(id: String) {
+        FirebaseFirestore.getInstance().collection("users").document(id).get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val document = task.result
+                if (document != null && document.exists()) {
+                    value = document.toObject(User::class.java)
+                    return@addOnCompleteListener
+                }
+            }
+        }
     }
 
     fun push(user: User) { value = user }

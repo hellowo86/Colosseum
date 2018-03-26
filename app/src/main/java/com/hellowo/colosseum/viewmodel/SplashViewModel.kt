@@ -23,8 +23,6 @@ import com.hellowo.colosseum.R
 
 class SplashViewModel : ViewModel() {
     var loading = MutableLiveData<Boolean>()
-    var successLogin = MutableLiveData<Boolean>()
-
 
     fun signIn(context: Context, email: String, password: String) {
         loading.value = true
@@ -43,7 +41,6 @@ class SplashViewModel : ViewModel() {
                         }
                     } else {
                         FirebaseInstanceIDService.sendRegistrationToServer()
-                        successLogin.value = true
                     }
                 })
     }
@@ -85,9 +82,8 @@ class SplashViewModel : ViewModel() {
                 bitmap?.recycle()
                 FirebaseFirestore.getInstance().collection("users").document(user.id!!).set(user).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        Me.push(user)
                         loading.value = false
-                        successLogin.value = true
+                        Me.push(user)
                     }
                 }
             }

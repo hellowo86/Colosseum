@@ -31,16 +31,11 @@
     <string name="nick_name">닉네임</string>
     <string name="area">지역</string>
     <string name="save">저장하기</string>
-    <string name="my_issue_rooms">나의 이슈</string>
     <string name="prev">이전</string>
     <string name="next">다음</string>
-    <string name="issue_type">이슈 타입</string>
-    <string name="posi_and_neg">찬성과 반대</string>
     <string name="join_chat">참가하기</string>
     <string name="searching">검색중…</string>
     <string name="people_interest_me">%1$s 님에게 호감을 표시한 사람이 있습니다.</string>
-    <string name="where_is_my_lover">연인 찾기</string>
-    <string name="start_introduce">소개받기</string>
     <string name="do_sign_up">새로운 계정 만들기</string>
     <string name="male">남자</string>
     <string name="location">지역</string>
@@ -57,10 +52,11 @@
     <string name="plz_check_age">나이를 지정해주세요</string>
     <string name="plz_check_moreInfo">소개말을 작성해주세요</string>
     <string name="plz_check_profile_img">프로필 사진을 설정해주세요</string>
-    <string name="find_new_lover_title">관심 이성 찾기</string>
+    <string name="find_new_lover_title">관심 표현</string>
     <string name="find_new_lover_sub">새로운 이성을 소개받고\n관심을 표현해 보세요.\n서로가 서로에게 관심을 표현하면\n<font fgcolor='#f77f77'>[호감 확인하기]</font> 단계로\n넘어갈 수 있습니다.</string>
     <string name="response_btn_text">%1$s님 외 %2$s명이\n당신을 관심있어 합니다.\n관심에 호응해 보세요!</string>
     <string name="search_btn_text">새로운 인연을 찾습니다.\n행운을 빌어요!</string>
     <string name="distance_of_me">거리</string>
-    <string name="ssum">썸</string>
+    <string name="favorability_test">호감도 테스트</string>
+    <string name="response_empty">아직 나에게 관심을 표현한 사람이 없습니다.</string>
 </resources>

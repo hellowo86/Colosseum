@@ -13,7 +13,6 @@ import com.hellowo.colosseum.model.User
 import com.hellowo.colosseum.utils.isEmailValid
 
 class BasicViewModel : ViewModel() {
-
     private val db = FirebaseFirestore.getInstance()
     var loading = MutableLiveData<Boolean>()
 

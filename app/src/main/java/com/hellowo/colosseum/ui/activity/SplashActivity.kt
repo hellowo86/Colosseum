@@ -32,7 +32,7 @@ import java.util.*
 
 class SplashActivity : AppCompatActivity() {
     lateinit var viewModel: SplashViewModel
-    private var mode = 0
+    private var mode = 1
     private var lat: Double = 0.0
     private var lng: Double = 0.0
     private var gender = -1
@@ -63,14 +63,13 @@ class SplashActivity : AppCompatActivity() {
 
     private fun initObserve() {
         Me.observe(this, Observer { user ->
-            Me.removeObservers(this)
             if (user != null) {
+                Me.removeObservers(this)
                 val mainIntent = Intent(this, MainActivity::class.java)
                 intent.extras?.let { mainIntent.putExtras(it) }
                 startActivity(mainIntent)
                 finish()
             } else {
-                mode = 1
                 updateUI()
             }
         })
@@ -80,11 +79,6 @@ class SplashActivity : AppCompatActivity() {
             loginBtn.visibility = if (status) View.GONE else View.VISIBLE
             optionBtn.visibility = if (status) View.GONE else View.VISIBLE
         })
-
-        viewModel.successLogin.observe(this, Observer { if(it as Boolean) {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-        }})
     }
 
     private fun updateUI() {
