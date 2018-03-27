@@ -12,7 +12,7 @@ import com.hellowo.colosseum.data.InterestedCouple
 import com.hellowo.colosseum.data.Me
 import com.hellowo.colosseum.model.User
 import com.hellowo.colosseum.ui.fragment.InterestFragment
-import com.hellowo.colosseum.ui.fragment.FavorablityTestFragment
+import com.hellowo.colosseum.ui.fragment.FavorablityTestListFragment
 import com.hellowo.colosseum.ui.fragment.ProfileFragment
 import com.hellowo.colosseum.utils.makePublicPhotoUrl
 import com.hellowo.colosseum.viewmodel.MainViewModel
@@ -58,7 +58,7 @@ class MainActivity : BaseActivity() {
         fragmentTransaction.replace(R.id.container,
                 when (item) {
                     homeTabImg -> InterestFragment()
-                    matchingTabImg -> FavorablityTestFragment()
+                    matchingTabImg -> FavorablityTestListFragment()
                     chatTabImg -> InterestFragment()
                     communityTabImg -> InterestFragment()
                     profileImg -> ProfileFragment()

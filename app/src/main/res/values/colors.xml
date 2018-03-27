@@ -35,12 +35,13 @@
     <color name="blackAlpha">#b3000000</color>
     <color name="white">#FFFFFF</color>
     <color name="whiteAlpha">#b3FFFFFF</color>
-    <color name="almostWhite">#CFCFCF</color>
+    <color name="almostWhite">#dfdfdf</color>
     <color name="grey">#434957</color>
     <color name="greyAlpha">#b3434957</color>
     <color name="red">#F74444</color>
-    <color name="green">#8AE083</color>
-    <color name="yellow">#dbb876</color>
-    <color name="blue">#6AAFE6</color>
+    <color name="green">#67D5B5</color>
+    <color name="yellow">#FDD692</color>
+    <color name="blue">#84B1ED</color>
+    <color name="purple">#C89EC4</color>
     <color name="transparent">#00000000</color>
 </resources>

@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.hellowo.colosseum.R
+import com.hellowo.colosseum.model.Couple
 import com.hellowo.colosseum.model.User
 import com.hellowo.colosseum.utils.isEmailValid
 

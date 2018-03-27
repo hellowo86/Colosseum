@@ -2,7 +2,7 @@
 
 buildscript {
     ext.kotlin_version = '1.1.51'
-    ext.firebase_version = '11.8.0'
+    ext.firebase_version = '12.0.0'
     ext.google_support_version = '27.1.0'
     ext.life_cycle_version = '1.1.0'
     repositories {

@@ -65,36 +65,48 @@
                 android:layout_gravity="center_horizontal"
                 android:gravity="center_vertical">
 
-                <ImageView
-                    android:layout_width="13dp"
-                    android:layout_height="13dp"
-                    android:src="@drawable/birth"
-                    android:tint="@color/blue"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14dp"
+                    android:text="@string/age"
+                    android:textColor="@color/green"
+                    android:fontFamily="@font/spoqa_sans_b"/>
 
                 <TextView
                     android:id="@+id/ageText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="13dp"
+                    android:textSize="14dp"
                     android:layout_marginLeft="5dp"
-                    android:textColor="@color/blue"
-                    android:fontFamily="@font/spoqa_sans_r"/>
+                    android:textColor="@color/green"
+                    android:fontFamily="@font/spoqa_sans_b"/>
 
-                <ImageView
-                    android:layout_width="13dp"
-                    android:layout_height="13dp"
-                    android:src="@drawable/location"
-                    android:tint="@color/blue"
-                    android:layout_marginLeft="10dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14dp"
+                    android:text="@string/distance_of_me"
+                    android:textColor="@color/green"
+                    android:fontFamily="@font/spoqa_sans_b"/>
 
                 <TextView
                     android:id="@+id/locText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="13dp"
+                    android:textSize="14dp"
                     android:layout_marginLeft="5dp"
-                    android:textColor="@color/blue"
-                    android:fontFamily="@font/spoqa_sans_r"/>
+                    android:textColor="@color/green"
+                    android:fontFamily="@font/spoqa_sans_b"/>
 
             </LinearLayout>
 

@@ -12,8 +12,8 @@ import com.hellowo.colosseum.utils.makePublicPhotoUrl
 import jp.wasabeef.glide.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.item_couple_test.view.*
 
-class CoupleTestAdapter(private val context: Context, private val mItems: ArrayList<Couple>,
-                            private val adapterInterface: (Couple) -> Unit) : RecyclerView.Adapter<CoupleTestAdapter.ViewHolder>() {
+class FavorabilityTestAdapter(private val context: Context, private val mItems: ArrayList<Couple>,
+                              private val adapterInterface: (Couple) -> Unit) : RecyclerView.Adapter<FavorabilityTestAdapter.ViewHolder>() {
 
     inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container)
 
@@ -23,6 +23,8 @@ class CoupleTestAdapter(private val context: Context, private val mItems: ArrayL
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mItems[position]
         val v = holder.itemView
+
+        v.nameText.text = String.format(context.getString(R.string.couple_test_item_title), item.you.nickName)
 
         Glide.with(context).load(makePublicPhotoUrl(item.you.id))
                 .bitmapTransform(CropCircleTransformation(context))
