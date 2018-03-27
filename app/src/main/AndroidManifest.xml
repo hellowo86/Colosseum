@@ -18,6 +18,7 @@
 
         <activity android:name=".ui.activity.MainActivity"/>
         <activity android:name=".ui.activity.BasicActivity"/>
+        <activity android:name=".ui.activity.FavorablityTestActivity"/>
 
         <service
             android:name=".fcm.MessagingService">

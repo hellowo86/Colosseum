@@ -1,5 +1,6 @@
 package com.hellowo.colosseum.model
 
+import com.hellowo.colosseum.R
 import com.hellowo.colosseum.split
 import java.io.Serializable
 
@@ -16,5 +17,8 @@ data class User (
         var dtConnected: Long = 0,
         var dtCreated: Long = 0,
         var pushToken: String? = null): Serializable {
+
+    fun getDefaultImgId() = if(gender == 0) R.drawable.man_default else R.drawable.woman_default
+
     companion object {}
 }

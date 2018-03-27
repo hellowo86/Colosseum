@@ -34,12 +34,41 @@
                     android:fontFamily="@font/spoqa_sans_b"
                     android:visibility="visible"/>
 
+                <LinearLayout
+                    android:id="@+id/tutorialLy"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15dp"
+                        android:textColor="@color/secondaryText"
+                        android:layout_marginLeft="@dimen/extra_margin"
+                        android:layout_marginRight="72dp"
+                        android:fontFamily="@font/spoqa_sans_r"
+                        android:text="@string/favorability_tutorial_text"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="13dp"
+                        android:textColor="@color/disableText"
+                        android:layout_marginLeft="@dimen/extra_margin"
+                        android:layout_marginRight="72dp"
+                        android:layout_marginBottom="@dimen/big_margin"
+                        android:fontFamily="@font/spoqa_sans_r"
+                        android:text="@string/tab_to_close"/>
+
+                </LinearLayout>
+
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerView"
                     android:nestedScrollingEnabled="false"
+                    android:layout_marginBottom="50dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-
                 </android.support.v7.widget.RecyclerView>
 
             </LinearLayout>
@@ -47,12 +76,4 @@
         </android.support.v4.widget.NestedScrollView>
 
     </android.support.v4.widget.SwipeRefreshLayout>
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_gravity="center"
-        android:indeterminateTint="@color/colorPrimary"
-        android:visibility="gone"/>
 </FrameLayout>

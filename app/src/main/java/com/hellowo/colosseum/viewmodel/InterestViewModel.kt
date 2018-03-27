@@ -10,12 +10,13 @@ import com.hellowo.colosseum.model.User
 import com.hellowo.colosseum.utils.log
 
 
-class ChoiceViewModel : ViewModel() {
+class InterestViewModel : ViewModel() {
     val db = FirebaseFirestore.getInstance()
     var newList = MutableLiveData<ArrayList<User>>()
     var interestMeList = MutableLiveData<ArrayList<User>>()
     var loading = MutableLiveData<Boolean>()
     var viewMode = MutableLiveData<Int>()
+    var interestCompleted = MutableLiveData<User>()
 
     init {
         newList.value = ArrayList()
@@ -99,6 +100,8 @@ class ChoiceViewModel : ViewModel() {
             if (doc.exists()) {
                 if(interest == 1 && doc.get("${Me.value?.id}").toString() == "1") {
                     data.put("level", 2)
+                    interestCompleted.value = user
+                    interestCompleted.value = null
                 }else if(interest == 0) {
                     data.put("level", 0)
                 }

@@ -8,9 +8,10 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.hellowo.colosseum.R
+import com.hellowo.colosseum.data.InterestedCouple
 import com.hellowo.colosseum.data.Me
 import com.hellowo.colosseum.model.User
-import com.hellowo.colosseum.ui.fragment.ChoiceFragment
+import com.hellowo.colosseum.ui.fragment.InterestFragment
 import com.hellowo.colosseum.ui.fragment.FavorablityTestFragment
 import com.hellowo.colosseum.ui.fragment.ProfileFragment
 import com.hellowo.colosseum.utils.makePublicPhotoUrl
@@ -56,10 +57,10 @@ class MainActivity : BaseActivity() {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.container,
                 when (item) {
-                    homeTabImg -> ChoiceFragment()
+                    homeTabImg -> InterestFragment()
                     matchingTabImg -> FavorablityTestFragment()
-                    chatTabImg -> ChoiceFragment()
-                    communityTabImg -> ChoiceFragment()
+                    chatTabImg -> InterestFragment()
+                    communityTabImg -> InterestFragment()
                     profileImg -> ProfileFragment()
                     else -> return
                 })
@@ -68,6 +69,7 @@ class MainActivity : BaseActivity() {
 
     private fun initObserve() {
         Me.observe(this, Observer { updateUserUI(it) })
+        InterestedCouple.observe(this, Observer {  })
     }
 
     private fun checkIntentExtra() {

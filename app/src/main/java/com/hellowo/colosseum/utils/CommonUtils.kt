@@ -1,10 +1,15 @@
 package com.hellowo.colosseum.utils
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
+import android.os.Build
 import android.support.v7.app.AlertDialog
 import android.util.Log
+import android.util.TypedValue
+import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.Toast
 import com.hellowo.colosseum.App
 import com.hellowo.colosseum.R
@@ -48,7 +53,6 @@ fun toast(context: Context, stringId: Int) {
     Toast.makeText(context, stringId, Toast.LENGTH_SHORT).show()
 }
 
-
 fun distFrom(lat1: Double, lng1: Double, lat2: Double, lng2: Double): Double {
     val earthRadius = 3958.75
     val dLat = Math.toRadians(lat2-lat1)
@@ -58,6 +62,26 @@ fun distFrom(lat1: Double, lng1: Double, lat2: Double, lng2: Double): Double {
                     Math.sin(dLng/2) * Math.sin(dLng/2)
     val c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
     return earthRadius * c
+}
+
+fun dpToPx(context: Context, dp: Float): Int {
+    val px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.resources.displayMetrics)
+    return px.toInt()
+}
+
+fun runCallbackAfterViewDrawed(view: View, callback: Runnable) {
+    view.viewTreeObserver.addOnGlobalLayoutListener(
+            object : ViewTreeObserver.OnGlobalLayoutListener {
+                @SuppressLint("ObsoleteSdkInt")
+                override fun onGlobalLayout() {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        view.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    } else {
+                        view.viewTreeObserver.removeGlobalOnLayoutListener(this)
+                    }
+                    callback.run()
+                }
+            })
 }
 
 

@@ -55,8 +55,7 @@ dependencies {
     //File
     implementation 'com.pixplicity.easyprefs:library:1.8.1@aar'
     //View
-    implementation 'link.fls:swipestack:0.3.0'
-    // 리플 백그라운드 https://github.com/skyfishjy/android-ripple-background
+    compile "com.yuyakaido.android:card-stack-view:1.0.0-beta9"
     compile 'com.skyfishjy.ripplebackground:library:1.0.1'
 }
 
