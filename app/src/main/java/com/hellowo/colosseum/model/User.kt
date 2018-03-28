@@ -19,4 +19,8 @@ data class User (
         var pushToken: String? = null): Serializable {
 
     fun getDefaultImgId() = if(gender == 0) R.drawable.man_default else R.drawable.woman_default
+
+    fun makeChatMember(): ChatMember {
+        return ChatMember(id, nickName, System.currentTimeMillis(), true, pushToken)
+    }
 }

@@ -21,7 +21,7 @@ import java.text.DateFormat
 import java.util.*
 
 class MessageListAdapter(val context: Context,
-                         val chat: Chat,
+                         val chatId: String,
                          val memberMap: ArrayMap<String, ChatMember>,
                          val messageList: List<Message>,
                          val typingList: List<String>,
@@ -98,7 +98,7 @@ class MessageListAdapter(val context: Context,
             3 -> {
                 v.messageText.visibility = View.GONE
                 v.photoImg.visibility = View.VISIBLE
-                val json = JSONObject(message.text)
+                val json = JSONObject(message.dataUri)
                 val photoUrl = json.getString("url")
                 val w = json.getInt("w")
                 val h = json.getInt("h")

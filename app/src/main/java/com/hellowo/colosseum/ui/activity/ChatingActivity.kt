@@ -30,6 +30,7 @@ import com.hellowo.colosseum.ui.adapter.ChatMemberListAdapter
 import com.hellowo.colosseum.ui.adapter.MessageListAdapter
 import com.hellowo.colosseum.utils.fadeIn
 import com.hellowo.colosseum.utils.fadeOut
+import com.hellowo.colosseum.utils.log
 import com.hellowo.colosseum.utils.makePublicPhotoUrl
 import com.hellowo.colosseum.viewmodel.ChatingViewModel
 import gun0912.tedbottompicker.TedBottomPicker
@@ -49,7 +50,7 @@ class ChatingActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chating)
         viewModel = ViewModelProviders.of(this).get(ChatingViewModel::class.java)
-        viewModel.initChat(intent.getStringExtra("chatId"), intent.getLongExtra("dtEntered", 0))
+        viewModel.initChat(intent.getStringExtra("chatId"), intent.getLongExtra("lastConnectedTime", 0))
         initLayout()
         initListViews()
         initObserve()
@@ -80,10 +81,13 @@ class ChatingActivity : BaseActivity() {
         outBtn.setOnClickListener{ showOutChatAlert() }
         sendImageBtn.setOnClickListener { checkExternalStoragePermission() }
         bottomScrolledLayout.setOnClickListener{ recyclerView.scrollToPosition(0) }
+
+        swipeRefreshView.setColorSchemeColors(resources.getColor(R.color.colorPrimary))
+        swipeRefreshView.setOnRefreshListener { viewModel.loadMoreMessages() }
     }
 
     fun initListViews() {
-        adapter = MessageListAdapter(this, viewModel.chat.value!!, viewModel.members.value!!,
+        adapter = MessageListAdapter(this, viewModel.chatId, viewModel.members.value!!,
                 viewModel.messages.value!!, viewModel.typings.value!!, object : MessageListAdapter.AdapterInterface {
             override fun onProfileClicked(userId: String) { startUserActivity(userId) }
             override fun onMessageClicked(message: Message) {}
@@ -94,9 +98,6 @@ class ChatingActivity : BaseActivity() {
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if(layoutManager.findLastVisibleItemPosition() >= layoutManager.itemCount - 50) {
-                    viewModel.loadMoreMessages()
-                }
                 if(layoutManager.findFirstVisibleItemPosition() >= 2) {
                     bottomScrolledLayout.visibility = View.VISIBLE
                 }else {
@@ -121,7 +122,7 @@ class ChatingActivity : BaseActivity() {
     }
 
     fun initObserve() {
-        viewModel.isReady.observe(this, Observer { progressBar.visibility = if(it as Boolean) View.GONE else View.VISIBLE })
+        viewModel.messagesLoading.observe(this, Observer { swipeRefreshView.isRefreshing = it as Boolean })
         viewModel.chat.observe(this, Observer { it?.let { updateChatUI(it) } })
         viewModel.typings.observe(this, Observer { updateTypingUI(it) })
         viewModel.messages.observe(this, Observer { adapter.notifyDataSetChanged() })
@@ -149,7 +150,7 @@ class ChatingActivity : BaseActivity() {
 
     private fun enterMessage() {
         if(!messageInput.text.toString().isNullOrBlank()) {
-            viewModel.postMessage(messageInput.text.toString(), 0, null)
+            viewModel.postMessage(messageInput.text.toString(), 0, null, null)
             messageInput.setText("")
         }
     }

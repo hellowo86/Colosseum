@@ -5,4 +5,5 @@ data class Message (
         var userName: String? = null,
         var userId: String? = null,
         var dtCreated: Long = 0,
-        var type: Int = 0)
+        var type: Int = 0,
+        var dataUri: String? = null)

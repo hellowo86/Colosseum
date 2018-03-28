@@ -5,23 +5,33 @@ import android.arch.lifecycle.ViewModel
 import android.content.Context
 import android.net.Uri
 import android.support.v4.util.ArrayMap
-import com.google.firebase.firestore.DocumentChange
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ListenerRegistration
-import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.firestore.*
+import com.hellowo.colosseum.App
+import com.hellowo.colosseum.R
+import com.hellowo.colosseum.data.Me
 import com.hellowo.colosseum.model.Chat
 import com.hellowo.colosseum.model.ChatMember
 import com.hellowo.colosseum.model.Message
-import com.hellowo.colosseum.utils.log
+import com.hellowo.colosseum.pushServerKey
 import com.hellowo.colosseum.utils.uploadPhoto
+import okhttp3.FormBody
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import org.json.JSONObject
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
+import com.google.android.gms.tasks.Task
+import android.support.annotation.NonNull
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.firestore.DocumentReference
+import android.provider.SyncStateContract.Helpers.update
+import com.google.firebase.firestore.WriteBatch
+import com.hellowo.colosseum.utils.log
+
 
 class ChatingViewModel : ViewModel() {
     val chat = MutableLiveData<Chat>()
-    val isReady = MutableLiveData<Boolean>()
     val messages = MutableLiveData<ArrayList<Message>>()
     val newMessage = MutableLiveData<Message>()
     val typings = MutableLiveData<ArrayList<String>>()
@@ -29,124 +39,92 @@ class ChatingViewModel : ViewModel() {
     val isUploading = MutableLiveData<Boolean>()
     val outOfChat = MutableLiveData<Boolean>()
 
-    val db = FirebaseFirestore.getInstance()
-    var lastTime: Long = System.currentTimeMillis()
-    var chatLoading = false
-    var messagesLoading = false
-    var membersLoading = false
+    val ref = FirebaseFirestore.getInstance().collection("chats")
+    var lastVisibleSnapshot: DocumentSnapshot? = null
+    var chatLoading = MutableLiveData<Boolean>()
+    var messagesLoading = MutableLiveData<Boolean>()
+    var membersLoading = MutableLiveData<Boolean>()
     var isTyping = false
     var isOut = false
-    val limit = 100
+    val limit = 100L
     var chatId: String = ""
-    var dtEntered: Long = 0
-/*
-    val messageListListener: ValueEventListener = object : ValueEventListener {
-        override fun onCancelled(error: DatabaseError?) {
-            messagesLoading = false
-            checkReady()
-        }
-        override fun onDataChange(snapshot: DataSnapshot) {
-            val currentPos = messageList.size
-            for (postSnapshot in snapshot.children) {
-                postSnapshot.getValue(Message::class.java)?.let {
-                    messageList.add(currentPos, it)
-                }
-            }
+    var lastConnectedTime: Long = 0
 
-            if(snapshot.children.count() > 0) {
-                lastTime = messageList[messageList.size - 1].dtCreated - 1
-            }else {
-                lastTime = 0
-            }
-            messages.value = messageList
-            messagesLoading = false
-            checkReady()
-        }
-    }
-
-    val messageAddListener: ChildEventListener = object : ChildEventListener {
-        override fun onCancelled(error: DatabaseError) {}
-        override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {}
-        override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {}
-        override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-            snapshot.getValue(Message::class.java)?.let {
-                messageList.add(0, it)
-                newMessage.value = it
-            }
-        }
-        override fun onChildRemoved(snapshot: DataSnapshot) {}
-    }
-
-    val typingListListener: ValueEventListener = object : ValueEventListener {
-        override fun onCancelled(error: DatabaseError?) {}
-        override fun onDataChange(snapshot: DataSnapshot) {
-            typingList.clear()
-            for (postSnapshot in snapshot.children) {
-                postSnapshot.getValue(Boolean::class.java)?.let {
-                    if(it) { typingList.add(postSnapshot.key) }
-                }
-            }
-            typings.value = typingList
-        }
-    }
-*/
     private var messageListenerRegistration: ListenerRegistration? = null
     private var typingListenerRegistration: ListenerRegistration? = null
     private var membersListenerRegistration: ListenerRegistration? = null
 
-    fun initChat(chatId: String, dtEntered: Long) {
-        isReady.value = false
-        messagesLoading = true
+    fun initChat(chatId: String, lastConnectedTime: Long) {
         this.chatId = chatId
-        this.dtEntered = dtEntered
+        this.lastConnectedTime = lastConnectedTime
 
         messages.value = ArrayList()
         typings.value = ArrayList()
         members.value = ArrayMap()
 
         loadChat()
-        loadMessages(chatId, lastTime.toDouble())
+        loadMessages(chatId, null)
         setMessageListListener()
         setTypingListListener()
         setMembersListListener()
     }
 
     private fun loadChat() {
-        chatLoading = true
-        db.collection("chats").document(chatId).get().addOnCompleteListener { task ->
+        log("loadChat")
+        chatLoading.value = true
+        ref.document(chatId).get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 chat.value = task.result.toObject(Chat::class.java)
             }
-            chatLoading = false
-            checkReady()
+            chatLoading.value = false
         }
     }
 
-    private fun loadMessages(chatId: String, lastTime: Double) {
-        messagesLoading = true/*
-        ref.child(KEY_MESSAGE)
-                .child(chatId)
-                .orderByChild(KEY_DT_CREATED)
-                .startAt(dtEntered.toDouble())
-                .endAt(lastTime)
-                .limitToLast(limit)
-                .addListenerForSingleValueEvent(messageListListener)*/
+    private fun loadMessages(chatId: String, lastTime: Double?) {
+        log("loadMessages")
+        messagesLoading.value = true
+        var query = ref.document(chatId).collection("messages").orderBy("dtCreated", Query.Direction.DESCENDING)
+        lastVisibleSnapshot?.let { query = query.startAfter(it) }
+        lastTime?.let { query = query.endAt(it) }
+        query.limit(limit).get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                task.result.documents.forEach {
+                    messages.value?.add(it.toObject(Message::class.java))
+                }
+                if(task.result.documents.isNotEmpty()) {
+                    lastVisibleSnapshot = task.result.documents.last()
+                }
+            }
+            messages.value = messages.value
+            messagesLoading.value = false
+        }
     }
 
     private fun setMessageListListener() {
-/*
-        ref.child(KEY_MESSAGE).child(chatId).orderByChild(KEY_DT_CREATED).startAt(lastTime.toDouble())
-                .addChildEventListener(messageAddListener)*/
+        messageListenerRegistration = ref.document(chatId).collection("messages")
+                .whereGreaterThan("dtCreated", System.currentTimeMillis())
+                .orderBy("dtCreated").addSnapshotListener { snapshots, e ->
+                    if (e == null) {
+                        snapshots.documentChanges.forEach {
+                            val message = it.document.toObject(Message::class.java)
+                            when{
+                                it.type == DocumentChange.Type.ADDED -> {
+                                    messages.value?.add(0, message)
+                                    newMessage.value = message
+                                }
+                            }
+                        }
+                    }
+                }
     }
 
     private fun setTypingListListener() {
-/*
-        ref.child(KEY_TYPING).child(chatId).addValueEventListener(typingListListener)*/
+
     }
 
     private fun setMembersListListener() {
-        membersLoading = true
-        membersListenerRegistration = db.collection("chats").document(chatId).collection("members").addSnapshotListener { snapshots, e ->
+        membersLoading.value = true
+        membersListenerRegistration = ref.document(chatId).collection("members").addSnapshotListener { snapshots, e ->
             if (e == null) {
                 snapshots.documentChanges.forEach {
                     val chatMember = it.document.toObject(ChatMember::class.java)
@@ -164,8 +142,7 @@ class ChatingViewModel : ViewModel() {
                 }
                 members.value = members.value
             }
-            membersLoading = false
-            checkReady()
+            membersLoading.value = false
         }
     }
 
@@ -177,61 +154,32 @@ class ChatingViewModel : ViewModel() {
     }
 
     fun loadMoreMessages() {
-        if(!messagesLoading && lastTime > 0) {
-            loadMessages(chatId, lastTime.toDouble())
-        }
+        loadMessages(chatId, null)
     }
 
-    fun postMessage(text: String, type: Int, onSuccess: Runnable?) {/*
+    fun postMessage(text: String, type: Int, dataUri: String?, onSuccess: Runnable?) {
         chat.value?.let {
-            val newMessage = Message(text, me?.nickName, me?.id, System.currentTimeMillis(), type)
-
-            val childUpdates = HashMap<String, Any>()
-            val key = ref.child(KEY_MESSAGE).child(chatId).push().key
-
-            childUpdates.put("/$KEY_MESSAGE/$chatId/$key", newMessage)
-            childUpdates.put("/$KEY_CHAT/$chatId/$KEY_LAST_MESSAGE", if(type == 0) text else App.context.getString(R.string.photo))
-            childUpdates.put("/$KEY_CHAT/$chatId/$KEY_LAST_MESSAGE_TIME", newMessage.dtCreated)
-
-            ref.updateChildren(childUpdates) { e, _ ->
-                if(e == null) {
-                    increaseMessageCount()
-                    sendPushMessage(newMessage)
+            val message = Message(text, Me.value?.nickName, Me.value?.id, System.currentTimeMillis(), type, dataUri)
+            ref.document(chatId).collection("messages").document(UUID.randomUUID().toString()).set(message).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    sendPushMessage(message)
                     onSuccess?.run()
                 }
             }
-        }*/
-    }
-
-    private fun increaseMessageCount() {
-        /*
-        ref.child(KEY_CHAT).child(chatId).child(KEY_MESSAGE_COUNT).runTransaction(object : Transaction.Handler {
-            override fun doTransaction(mutableData: MutableData): Transaction.Result {
-                if(mutableData.value == null) {
-                    mutableData.value = 1
-                }else {
-                    mutableData.value = mutableData.value.toString().toInt() + 1
-                }
-                return Transaction.success(mutableData)
-            }
-            override fun onComplete(e: DatabaseError?, c: Boolean, d: DataSnapshot) {
-                if(e == null) {}
-            }
-        })*/
+        }
     }
 
     private fun sendPushMessage(message: Message) {
-        /*
         Thread {
-            memberMap.forEach {
+            members.value?.forEach {
                 try {
-                    if(!it.value.live && !(it.value.userId.equals(me?.id))) {
+                    if(!it.value.live && !(it.value.userId.equals(Me.value?.id))) {
                         it.value.pushToken?.let{ pushToken->
                             val data = JSONObject()
-                            data.put("pushType", PUSH_TYPE_CHAT_MESSAGE)
+                            data.put("pushType", 0)
                             data.put("userId", message.userId)
                             data.put("userName", message.userName)
-                            data.put("message", if(message.type == 0) message.text else App.context.getString(R.string.photo))
+                            data.put("message", message.text)
                             data.put("chatId", chatId)
 
                             val bodyBuilder = FormBody.Builder()
@@ -239,7 +187,7 @@ class ChatingViewModel : ViewModel() {
                             bodyBuilder.add("data", data.toString())
                             val request = Request.Builder()
                                     .url("https://fcm.googleapis.com/fcm/send")
-                                    .addHeader("Authorization", KEY_PUSH_AUTH)
+                                    .addHeader("Authorization", pushServerKey)
                                     .post(bodyBuilder.build())
                                     .build()
                             OkHttpClient().newCall(request).execute()
@@ -250,70 +198,54 @@ class ChatingViewModel : ViewModel() {
                 }
             }
         }.start()
-        */
+
     }
 
-    fun typingText(text: CharSequence) {/*
+    fun typingText(text: CharSequence) {
         if((text.isNotEmpty() && !isTyping) || (text.isEmpty() && isTyping)) {
             isTyping = !isTyping
-            ref.child(KEY_TYPING).child(chatId).child(me?.id).setValue(isTyping)
-        }*/
+            //ref.child(KEY_TYPING).child(chatId).child(me?.id).setValue(isTyping)
+        }
     }
 
     fun getlastPostionDate(itemPos: Int) = messages.value?.get(itemPos)?.dtCreated
 
-    fun loginChat() {/*
-        me?.let {
-            val childUpdates = HashMap<String, Any>()
-            childUpdates.put("/$KEY_CHAT_MEMBERS/$chatId/${it.id}/$KEY_LIVE", true)
-            childUpdates.put("/$KEY_CHAT_MEMBERS/$chatId/${it.id}/$KEY_LAST_CONNECTED_TIME", System.currentTimeMillis())
-            FirebaseMessaging.getInstance().subscribeToTopic("news")
-            ref.updateChildren(childUpdates) { e, _ ->
-                if(e == null) {}
-            }
-        }*/
+    fun loginChat() {
+        val data = HashMap<String, Any?>()
+        data.put("live", true)
+        data.put("lastConnectedTime", System.currentTimeMillis())
+        ref.document(chatId).collection("members").document(Me.value?.id!!).update(data)
     }
 
-    fun logoutChat() {/*
+    fun logoutChat() {
         if(!isOut) {
             isTyping = false
-            me?.let {
-                val childUpdates = HashMap<String, Any>()
-                childUpdates.put("/$KEY_CHAT_MEMBERS/$chatId/${it.id}/$KEY_LIVE", false)
-                childUpdates.put("/$KEY_CHAT_MEMBERS/$chatId/${it.id}/$KEY_LAST_CONNECTED_TIME", System.currentTimeMillis())
-                childUpdates.put("/$KEY_TYPING/$chatId/${it.id}", isTyping)
-                childUpdates.put("/$KEY_USERS/${it.id}/$KEY_CHAT/$chatId/$KEY_LAST_CHECK_INDEX", currentChat.messageCount)
-                ref.updateChildren(childUpdates) { e, _ ->
-                    if(e == null) {
-                        FirebaseMessaging.getInstance().unsubscribeFromTopic(chatId)
-                    }
-                }
-            }
-        }*/
+            val data = HashMap<String, Any?>()
+            data.put("live", false)
+            data.put("lastConnectedTime", System.currentTimeMillis())
+            data.put("pushToken", Me.value?.pushToken)
+            ref.document(chatId).collection("members").document(Me.value?.id!!).update(data)
+        }
     }
 
-    fun checkReady() {
-        isReady.value = !chatLoading && !messagesLoading && !membersLoading
-    }
+    fun outOfChat() {
+        val db = FirebaseFirestore.getInstance()
+        val batch = db.batch()
 
-    fun outOfChat() {/*
-        me?.let {
-            val newMessage = Message("", it.nickName, it.id, System.currentTimeMillis(), 2)
-            val key = ref.child(KEY_MESSAGE).child(chatId).push().key
-            val childUpdates = HashMap<String, Any?>()
-            childUpdates.put("/$KEY_MESSAGE/$chatId/$key", newMessage)
-            childUpdates.put("/$KEY_CHAT_MEMBERS/$chatId/${it.id}", null)
-            childUpdates.put("/$KEY_TYPING/$chatId/${it.id}", null)
-            childUpdates.put("/$KEY_USERS/${it.id}/$KEY_CHAT/$chatId", null)
+        val messageRef = ref.document(chatId).collection("messages").document(UUID.randomUUID().toString())
+        val message = Message("", Me.value?.nickName, Me.value?.id, System.currentTimeMillis(), 2)
+        batch.set(messageRef, message)
 
-            ref.updateChildren(childUpdates) { error, _ ->
-                if(error == null) {
-                    FirebaseMessaging.getInstance().unsubscribeFromTopic(chatId)
-                    isOut = true
-                    outOfChat.value = isOut
-                }
-            }
-        }*/
+        val memberRef = ref.document(chatId).collection("members").document(Me.value?.id!!)
+        batch.delete(memberRef)
+
+        val userChatRef = db.collection("users").document(Me.value?.id!!).collection("chats").document(chatId)
+        batch.delete(userChatRef)
+
+        batch.commit().addOnCompleteListener({
+            isOut = true
+            outOfChat.value = isOut
+        })
     }
 
     fun sendPhotoMessage(context: Context, uri: Uri?) {
@@ -326,9 +258,7 @@ class ChatingViewModel : ViewModel() {
                         json.put("h", bitmap?.height)
                         taskSnapshot.downloadUrl?.let{
                             json.put("url", it.toString())
-                            postMessage(json.toString(), 3, Runnable{
-                                isUploading.value = false
-                            })
+                            postMessage(context.getString(R.string.photo), 3, json.toString(), Runnable{ isUploading.value = false })
                         }
                     },
                     { e ->

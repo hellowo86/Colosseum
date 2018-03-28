@@ -22,6 +22,9 @@ class MessagingService : com.google.firebase.messaging.FirebaseMessagingService(
             try {
                 val data = JSONObject(remoteMessage.data["data"])
                 val pushType = data.getInt("pushType")
+                when(pushType) {
+                    0 -> makeChatMessageNoti(data)
+                }
             } catch (e: JSONException) {
                 e.printStackTrace()
             }

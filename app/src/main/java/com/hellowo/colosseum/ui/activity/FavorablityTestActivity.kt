@@ -35,6 +35,7 @@ class FavorablityTestActivity : BaseActivity() {
             intent.putExtra("couple", viewModel.couple.value)
             startActivityForResult(intent, 1)
         }
+        startChatBtn.setOnClickListener { viewModel.createChat() }
     }
 
     private fun initObserve() {
