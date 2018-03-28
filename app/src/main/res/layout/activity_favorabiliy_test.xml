@@ -586,6 +586,44 @@
 
                 </android.support.v7.widget.CardView>
 
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="63dp"
+                    android:scaleX="1.5"
+                    android:scaleY="1.5"
+                    android:src="@drawable/dot_3"
+                    android:tint="@color/colorPrimary"/>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/startChatBtn"
+                    android:layout_height="50dp"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/normal_margin"
+                    android:layout_marginBottom="50dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="25dp"
+                    app:cardElevation="5dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/primary_gradient"/>
+
+                    <TextView
+                        android:id="@+id/textViewCard"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/start_chat"
+                        android:textColor="@color/white"
+                        android:gravity="center"
+                        android:fontFamily="@font/spoqa_sans_b"
+                        android:textSize="16sp"/>
+
+                </android.support.v7.widget.CardView>
+
             </LinearLayout>
 
         </android.support.v4.widget.NestedScrollView>

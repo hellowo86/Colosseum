@@ -17,6 +17,7 @@ import com.hellowo.colosseum.R
 import com.hellowo.colosseum.ui.activity.FavorablityTestActivity
 import com.hellowo.colosseum.ui.adapter.FavorabilityTestAdapter
 import com.hellowo.colosseum.utils.dpToPx
+import com.hellowo.colosseum.utils.makeSlideFromBottomTransition
 import com.hellowo.colosseum.viewmodel.FavobalityTestListViewModel
 import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.fragment_favorabiliy_test.*
@@ -63,11 +64,7 @@ class FavorablityTestListFragment : Fragment() {
     private fun setObserver() {
         listViewModel.coupleList.observe(this, Observer{ list ->
             if(list != null && list.isNotEmpty()) {
-                val transition = Slide()
-                transition.slideEdge = Gravity.BOTTOM
-                transition.duration = 500
-                transition.interpolator = FastOutSlowInInterpolator()
-                TransitionManager.beginDelayedTransition(recyclerView, transition)
+                TransitionManager.beginDelayedTransition(recyclerView, makeSlideFromBottomTransition())
                 (recyclerView.adapter as FavorabilityTestAdapter).refresh(list)
             }else {
 

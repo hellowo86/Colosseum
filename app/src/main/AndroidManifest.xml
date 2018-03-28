@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.hellowo.colosseum">
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
         android:allowBackup="true"
@@ -19,6 +20,9 @@
         <activity android:name=".ui.activity.MainActivity"/>
         <activity android:name=".ui.activity.BasicActivity"/>
         <activity android:name=".ui.activity.FavorablityTestActivity"/>
+        <activity android:name=".ui.activity.VoiceActivity"/>
+        <activity android:name=".ui.activity.ChatingActivity"/>
+        <activity android:name=".ui.activity.PhotoActivity"/>
 
         <service
             android:name=".fcm.MessagingService">

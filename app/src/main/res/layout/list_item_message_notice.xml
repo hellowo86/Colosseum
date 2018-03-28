@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:id="@+id/dateDivider"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center_vertical">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="@dimen/line_size"
+            android:layout_weight="1"
+            android:layout_marginEnd="@dimen/normal_margin"
+            android:background="@color/disableText"/>
+
+        <TextView
+            android:id="@+id/dateDividerText"
+            style="@style/SubText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="date"
+            android:textColor="@color/disableText" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="@dimen/line_size"
+            android:layout_weight="1"
+            android:layout_marginStart="@dimen/normal_margin"
+            android:background="@color/disableText"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/messageText"
+        style="@style/SubText"
+        android:layout_marginTop="@dimen/normal_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="notice"
+        android:textColor="@color/disableText" />
+
+</LinearLayout>

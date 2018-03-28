@@ -12,6 +12,7 @@ class FavobalityTestViewModel : ViewModel() {
     val db = FirebaseFirestore.getInstance()
     var couple = MutableLiveData<Couple>()
     var loading = MutableLiveData<Boolean>()
+    var myAudioFilePath = MutableLiveData<String>()
 
     init {
         loading.value = false

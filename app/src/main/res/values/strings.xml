@@ -53,14 +53,14 @@
     <string name="plz_check_moreInfo">소개말을 작성해주세요</string>
     <string name="plz_check_profile_img">프로필 사진을 설정해주세요</string>
     <string name="find_new_lover_title">이성 찾기</string>
-    <string name="find_new_lover_sub">새 이성을 찾아보고\n마음에 드는 이성에게 관심을 표현 해보세요.\n서로에게 모두 관심이 있다면\n<font fgcolor='#f77f77'>호감도 테스트</font> 단계로 넘어갈 수 있습니다!\n</string>
+    <string name="find_new_lover_sub">마음에 드는 이성을 찾고,\n<font fgcolor='#f77f77'>관심을 표현</font> 해보세요.\n서로에게 모두 관심이 있다면\n<font fgcolor='#f77f77'>호감도 테스트</font> 단계로\n넘어갈 수 있습니다!</string>
     <string name="response_btn_text">%1$s님 외 %2$s명이\n당신을 관심있어 합니다.\n관심에 호응해 보세요!</string>
     <string name="search_btn_text">새로운 인연을 찾습니다.\n행운을 빌어요!</string>
     <string name="distance_of_me">나와의 거리</string>
     <string name="favorability_test">호감도 테스트</string>
     <string name="response_empty">아직 나에게 관심을 표현한 사람이 없습니다.</string>
     <string name="tab_to_close">[탭하고 다시보지않기]</string>
-    <string name="favorability_tutorial_text"><font fgcolor='#f77f77'>하트퍼즐</font>을 완성 해보세요.\n퍼즐을 모두 맞추는 커플은\n<font fgcolor='#f77f77'>커플 채팅방</font>에 입장하실 수 있습니다!</string>
+    <string name="favorability_tutorial_text">이 사람이 나와 잘 맞는 사람일까?\n<font fgcolor='#f77f77'>호감도 테스트</font>를 통하여\n확인 해보세요.\n테스트를 모두 통과하면\n<font fgcolor='#f77f77'>커플 채팅방</font>에 입장하실 수 있습니다!</string>
     <string name="interest_completed">서로에게 관심 확인</string>
     <string name="interest_completed_sub">이제 <font fgcolor='#f77f77'>호감도 테스트</font>를 할 수 있습니다</string>
     <string name="couple_test_item_title">%1$s님 과의 호감도</string>
@@ -73,4 +73,11 @@
     <string name="qna_sub">상대방에게 궁금한 점이나 연애에서 중요하게 생각하는 부분에 대해서 질문합니다. 답변이 마음에 들면 통과할 수 있습니다.</string>
     <string name="blind_test">4단계 : 블라인드 O/X 테스트</string>
     <string name="blind_test_sub">마지막 단계입니다. 10가지의 O/X 문답을 각각 작성합니다. 작성한 답변 10개중 5개 이상이 일치한다면 통과할 수 있습니다. 4단계를 통과하게 되면 커플 매칭이 이루어지고 커플 채팅방에 입장할 수 있습니다.</string>
+    <string name="start_chat">채팅 시작하기</string>
+    <string name="enter_message">매세지 입력</string>
+    <string name="members">멤버</string>
+    <string name="out_of_chat">채팅방 나가기</string>
+    <string name="out_of_chat_sub">기록된 모든 대화내용이 삭제됩니다.\n정말 나가시겠습니까?</string>
+    <string name="who_joined_chat">%1$s님이 채팅방에 입장하셨습니다.</string>
+    <string name="who_out_of_chat">%1$s님이 채팅방을 나가셨습니다.</string>
 </resources>

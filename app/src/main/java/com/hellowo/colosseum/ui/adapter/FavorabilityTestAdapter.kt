@@ -24,11 +24,11 @@ class FavorabilityTestAdapter(private val context: Context, private val mItems: 
         val item = mItems[position]
         val v = holder.itemView
 
-        v.nameText.text = String.format(context.getString(R.string.couple_test_item_title), item.you.nickName)
+        v.nameText.text = String.format(context.getString(R.string.couple_test_item_title), item.you?.nickName)
 
-        Glide.with(context).load(makePublicPhotoUrl(item.you.id))
+        Glide.with(context).load(makePublicPhotoUrl(item.you?.id))
                 .bitmapTransform(CropCircleTransformation(context))
-                .placeholder(item.you.getDefaultImgId()).into(v.profileImg)
+                .placeholder(item.you?.getDefaultImgId()!!).into(v.profileImg)
         v.setOnClickListener { adapterInterface.invoke(item) }
     }
 

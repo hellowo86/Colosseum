@@ -32,12 +32,16 @@ class FavobalityTestListViewModel : ViewModel() {
                             var count = 0
                             task.result.forEach { doc ->
                                 val yourId = Couple.getYourIdFromCoupleKey(myGender, doc.id)
+                                val couple = doc.toObject(Couple::class.java)
+                                couple.id = doc.id
+                                couple.me = Me.value!!
+
                                 db.collection("users").document(yourId).get().addOnCompleteListener { userTask ->
                                     count++
                                     if (userTask.isSuccessful) {
-                                        val you = userTask.result.toObject(com.hellowo.colosseum.model.User::class.java)
-                                        coupleList.value?.add(Couple(userTask.result.id, Me.value!!, you, doc.get("level").toString().toInt()))
-                                        log(you.toString())
+                                        couple.you = userTask.result.toObject(com.hellowo.colosseum.model.User::class.java)
+                                        coupleList.value?.add(couple)
+                                        log(couple.toString())
                                     }
                                     if(count == totalCount) {
                                         coupleList.value = coupleList.value

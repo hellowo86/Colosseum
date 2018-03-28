@@ -56,4 +56,11 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="NormalEditText" parent="@android:style/Widget.EditText">
+        <item name="android:background">@color/transparent</item>
+        <item name="android:textColor">@color/secondaryText</item>
+        <item name="android:textColorHint">@color/disableText</item>
+        <item name="android:textSize">@dimen/normal_input_size</item>
+    </style>
+
 </resources>

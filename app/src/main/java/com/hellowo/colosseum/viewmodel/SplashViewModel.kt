@@ -3,23 +3,15 @@ package com.hellowo.colosseum.viewmodel
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.content.Context
-import android.graphics.Bitmap
 import android.net.Uri
-import android.widget.Toast
 import com.google.firebase.auth.*
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
-import com.hellowo.colosseum.App
+import com.hellowo.colosseum.R
 import com.hellowo.colosseum.data.Me
 import com.hellowo.colosseum.fcm.FirebaseInstanceIDService
 import com.hellowo.colosseum.model.User
-import com.hellowo.colosseum.profileImgUrlPrefix
-import com.hellowo.colosseum.utils.getPath
-import com.hellowo.colosseum.utils.makeProfileBitmapFromFile
 import com.hellowo.colosseum.utils.toast
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
-import com.hellowo.colosseum.R
+import com.hellowo.colosseum.utils.uploadPhoto
 
 class SplashViewModel : ViewModel() {
     var loading = MutableLiveData<Boolean>()
@@ -28,7 +20,6 @@ class SplashViewModel : ViewModel() {
         loading.value = true
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener({ task ->
-                    loading.value = false
                     if (!task.isSuccessful) {
                         try {
                             throw task.exception!!
@@ -39,6 +30,7 @@ class SplashViewModel : ViewModel() {
                         } catch (e: Exception) {
                             toast(context, R.string.signup_failed)
                         }
+                        loading.value = false
                     } else {
                         FirebaseInstanceIDService.sendRegistrationToServer()
                     }
@@ -66,30 +58,18 @@ class SplashViewModel : ViewModel() {
 
     private fun initUserProfile(context: Context, auth: FirebaseUser, user: User, uri: Uri) {
         user.id = auth.uid
-        try {
-            val filePath = getPath(context, uri)
-            val bitmap = makeProfileBitmapFromFile(filePath!!)
-            val storageRef = FirebaseStorage.getInstance().getReferenceFromUrl("$profileImgUrlPrefix${user.id}.jpg")
-            val baos = ByteArrayOutputStream()
-            bitmap?.compress(Bitmap.CompressFormat.JPEG, 90, baos)
-            val data = baos.toByteArray()
-            val bis = ByteArrayInputStream(data)
-            val uploadTask = storageRef.putStream(bis)
-
-            uploadTask.addOnFailureListener { exception ->
-                bitmap?.recycle()
-            }.addOnSuccessListener { taskSnapshot ->
-                bitmap?.recycle()
-                FirebaseFirestore.getInstance().collection("users").document(user.id!!).set(user).addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        loading.value = false
-                        Me.push(user)
+        uploadPhoto(context, uri, "profileImg/${user.id}",
+                { snapshot, bitmap ->
+                    FirebaseFirestore.getInstance().collection("users").document(user.id!!).set(user).addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            loading.value = false
+                            Me.push(user)
+                        }
                     }
+                },
+                { e ->
+                    loading.value = false
                 }
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            loading.value = false
-        }
+        )
     }
 }

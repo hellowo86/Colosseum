@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Build
 import android.support.v7.app.AlertDialog
 import android.util.Log
@@ -11,8 +13,12 @@ import android.util.TypedValue
 import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.Toast
-import com.hellowo.colosseum.App
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.UploadTask
 import com.hellowo.colosseum.R
+import com.hellowo.colosseum.storageUrl
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 
 fun log(text: String){
     Log.d("aaa", text)
@@ -47,7 +53,7 @@ fun showAlertDialog(activity: Activity, title: String, message: String,
     alert.show()
 }
 
-fun makePublicPhotoUrl(userId: String?): String = "https://firebasestorage.googleapis.com/v0/b/colosseum-eb02c.appspot.com/o/profileImg%2F${userId}.jpg?alt=media"
+fun makePublicPhotoUrl(userId: String?): String = "https://firebasestorage.googleapis.com/v0/b/colosseum-eb02c.appspot.com/o/profileImg%2F$userId.jpg?alt=media"
 
 fun toast(context: Context, stringId: Int) {
     Toast.makeText(context, stringId, Toast.LENGTH_SHORT).show()
@@ -82,6 +88,30 @@ fun runCallbackAfterViewDrawed(view: View, callback: Runnable) {
                     callback.run()
                 }
             })
+}
+
+fun uploadPhoto(context: Context, uri: Uri, fileName: String, onSuccess: (UploadTask.TaskSnapshot, Bitmap?) -> Unit, onFailed: (Exception) -> Unit) {
+    try {
+        val filePath = getPath(context, uri)
+        val bitmap = makeProfileBitmapFromFile(filePath!!)
+        val storageRef = FirebaseStorage.getInstance().getReferenceFromUrl("$storageUrl$fileName.jpg")
+        val baos = ByteArrayOutputStream()
+        bitmap?.compress(Bitmap.CompressFormat.JPEG, 90, baos)
+        val data = baos.toByteArray()
+        val bis = ByteArrayInputStream(data)
+        val uploadTask = storageRef.putStream(bis)
+
+        uploadTask.addOnFailureListener { e ->
+            onFailed.invoke(e)
+            bitmap?.recycle()
+        }.addOnSuccessListener { taskSnapshot ->
+            onSuccess.invoke(taskSnapshot, bitmap)
+            bitmap?.recycle()
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+        onFailed.invoke(e)
+    }
 }
 
 

@@ -5,9 +5,14 @@ import java.io.Serializable
 
 data class Couple(
         var id: String ?= null,
-        var me: User,
-        var you: User,
-        var level: Int = 0): Serializable {
+        var me: User? = null,
+        var you: User? = null,
+        var level: Int = 0,
+        var step: Int = 0,
+        var photoUrl0: String ?= null,
+        var photoUrl1: String ?= null,
+        var photoLike0: Int = -1,
+        var photoLike1: Int = -1): Serializable {
     companion object {
         fun makeCoupleKey(me: User, you: User) : String {
             return if(me.gender == 0) {
