@@ -34,6 +34,7 @@ class MessageListAdapter(val context: Context,
     private val currentCal: Calendar = Calendar.getInstance()
     private val nextCal: Calendar = Calendar.getInstance()
     private val myId = Me.value?.id
+    private var lastReadPosition = -1
 
     inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container)
 
@@ -76,7 +77,10 @@ class MessageListAdapter(val context: Context,
                 }
             }
 
-            if(currentCal.get(Calendar.YEAR) == nextCal.get(Calendar.YEAR)
+            if(position == lastReadPosition) {
+                v.dateDivider.visibility = View.VISIBLE
+                v.dateDividerText.text = context.getString(R.string.last_read_here)
+            }else if(currentCal.get(Calendar.YEAR) == nextCal.get(Calendar.YEAR)
                     && currentCal.get(Calendar.DAY_OF_YEAR) == nextCal.get(Calendar.DAY_OF_YEAR)) {
                 v.dateDivider.visibility = View.GONE
             }else {
@@ -172,5 +176,10 @@ class MessageListAdapter(val context: Context,
 
     fun  refreshTypingList() {
         notifyItemChanged(0)
+    }
+
+    fun setlastReadPos(position: Int) {
+        lastReadPosition = position
+        notifyItemChanged(position)
     }
 }

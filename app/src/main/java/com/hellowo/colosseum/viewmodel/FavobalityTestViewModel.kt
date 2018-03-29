@@ -23,8 +23,24 @@ class FavobalityTestViewModel : ViewModel() {
         loading.value = false
     }
 
-    fun initCouple(couple: Couple) {
-        this.couple.value = couple
+    fun initCouple(c: Couple) {
+        couple.value = c
+    }
+
+    fun loadCouple() {
+        loading.value = true
+        couple.value?.let {
+            db.collection("couples").document(it.id!!).get()
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            val item = task.result.toObject(Couple::class.java)
+                            item.me = it.me
+                            item.you = it.you
+                            couple.value = item
+                        }
+                        loading.value = false
+                    }
+        }
     }
 
     fun createChat() {

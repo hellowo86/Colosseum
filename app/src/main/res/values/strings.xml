@@ -85,4 +85,5 @@
     <string name="min_before">%1$d분 전</string>
     <string name="hour_before">%1$d시간 전</string>
     <string name="couple_chat_list">커플 채팅방</string>
+    <string name="last_read_here">여기까지 읽으셨습니다.</string>
 </resources>

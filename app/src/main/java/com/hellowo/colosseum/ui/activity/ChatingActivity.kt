@@ -50,7 +50,7 @@ class ChatingActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chating)
         viewModel = ViewModelProviders.of(this).get(ChatingViewModel::class.java)
-        viewModel.initChat(intent.getStringExtra("chatId"), intent.getLongExtra("lastConnectedTime", 0))
+        viewModel.initChat(intent.getStringExtra("chatId"))
         initLayout()
         initListViews()
         initObserve()
@@ -125,7 +125,9 @@ class ChatingActivity : BaseActivity() {
         viewModel.messagesLoading.observe(this, Observer { swipeRefreshView.isRefreshing = it as Boolean })
         viewModel.chat.observe(this, Observer { it?.let { updateChatUI(it) } })
         viewModel.typings.observe(this, Observer { updateTypingUI(it) })
-        viewModel.messages.observe(this, Observer { adapter.notifyDataSetChanged() })
+        viewModel.messages.observe(this, Observer {
+            adapter.notifyDataSetChanged()
+        })
         viewModel.newMessage.observe(this, Observer {
             adapter.notifyItemInserted(0)
             if(layoutManager.findFirstVisibleItemPosition() <= 1) {
@@ -141,11 +143,15 @@ class ChatingActivity : BaseActivity() {
             }
         })
         viewModel.members.observe(this, Observer {
-            adapter.notifyDataSetChanged()
             memberAdapter.notifyDataSetChanged()
+            adapter.notifyDataSetChanged()
         })
         viewModel.outOfChat.observe(this, Observer { if(it as Boolean) finish() })
         viewModel.isUploading.observe(this, Observer { if(it as Boolean) showProgressDialog() else hideProgressDialog() })
+        viewModel.lastReadPosition.observe(this, Observer { if(it as Int >= 0) {
+            recyclerView.scrollToPosition(it)
+            adapter.setlastReadPos(it)
+        }})
     }
 
     private fun enterMessage() {

@@ -3,8 +3,9 @@ package com.hellowo.colosseum.data
 import android.arch.lifecycle.LiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.iid.FirebaseInstanceId
+import com.hellowo.colosseum.fcm.FirebaseInstanceIDService
 import com.hellowo.colosseum.model.User
-import java.util.*
 
 object Me : LiveData<User>() {
     private val mAuth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -30,6 +31,9 @@ object Me : LiveData<User>() {
                 val document = task.result
                 if (document != null && document.exists()) {
                     value = document.toObject(User::class.java)
+                    if(value?.pushToken != FirebaseInstanceId.getInstance().token) {
+                        FirebaseInstanceIDService.sendRegistrationToServer()
+                    }
                     return@addOnCompleteListener
                 }
             }

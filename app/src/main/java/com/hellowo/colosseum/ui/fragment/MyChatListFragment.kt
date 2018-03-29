@@ -35,7 +35,6 @@ class MyChatListFragment : Fragment() {
         adapter = MyChatListAdapter(activity!!, MyChatList.value!!) {
             val intent = Intent(activity, ChatingActivity::class.java)
             intent.putExtra("chatId", it.id)
-            intent.putExtra("lastConnectedTime", it.lastConnectedTime)
             startActivity(intent)
         }
         recyclerView.layoutManager = LinearLayoutManager(context)

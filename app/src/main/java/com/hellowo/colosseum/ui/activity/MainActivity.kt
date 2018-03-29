@@ -15,6 +15,7 @@ import com.hellowo.colosseum.ui.fragment.InterestFragment
 import com.hellowo.colosseum.ui.fragment.FavorablityTestListFragment
 import com.hellowo.colosseum.ui.fragment.MyChatListFragment
 import com.hellowo.colosseum.ui.fragment.ProfileFragment
+import com.hellowo.colosseum.utils.log
 import com.hellowo.colosseum.utils.makePublicPhotoUrl
 import com.hellowo.colosseum.viewmodel.MainViewModel
 import jp.wasabeef.glide.transformations.CropCircleTransformation
@@ -30,7 +31,6 @@ class MainActivity : BaseActivity() {
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         initLayout()
         initObserve()
-        checkIntentExtra()
     }
 
     private fun initLayout() {
@@ -70,11 +70,17 @@ class MainActivity : BaseActivity() {
 
     private fun initObserve() {
         Me.observe(this, Observer { updateUserUI(it) })
-        InterestedCouple.observe(this, Observer {  })
     }
 
     private fun checkIntentExtra() {
         intent.extras?.let {
+            it.getString("chatId")?.let {
+                intent.removeExtra("chatId")
+                val chatIntent = Intent(this@MainActivity, ChatingActivity::class.java)
+                chatIntent.putExtra("chatId", it)
+                startActivity(chatIntent)
+                return
+            }
         }
     }
 
@@ -83,5 +89,10 @@ class MainActivity : BaseActivity() {
             Glide.with(this).load(makePublicPhotoUrl(user.id)).placeholder(R.drawable.default_profile)
                     .bitmapTransform(CropCircleTransformation(this)).into(profileImg)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        checkIntentExtra()
     }
 }

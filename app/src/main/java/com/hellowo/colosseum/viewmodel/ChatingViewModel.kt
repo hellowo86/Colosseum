@@ -27,7 +27,9 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.firestore.DocumentReference
 import android.provider.SyncStateContract.Helpers.update
 import com.google.firebase.firestore.WriteBatch
+import com.google.firebase.iid.FirebaseInstanceId
 import com.hellowo.colosseum.utils.log
+import java.text.DateFormat
 
 
 class ChatingViewModel : ViewModel() {
@@ -44,29 +46,25 @@ class ChatingViewModel : ViewModel() {
     var chatLoading = MutableLiveData<Boolean>()
     var messagesLoading = MutableLiveData<Boolean>()
     var membersLoading = MutableLiveData<Boolean>()
+    var lastReadPosition = MutableLiveData<Int>()
     var isTyping = false
     var isOut = false
     val limit = 100L
     var chatId: String = ""
-    var lastConnectedTime: Long = 0
+    var myLastConnectedTime: Long = Long.MAX_VALUE
 
     private var messageListenerRegistration: ListenerRegistration? = null
     private var typingListenerRegistration: ListenerRegistration? = null
     private var membersListenerRegistration: ListenerRegistration? = null
 
-    fun initChat(chatId: String, lastConnectedTime: Long) {
-        this.chatId = chatId
-        this.lastConnectedTime = lastConnectedTime
-
+    fun initChat(id: String) {
+        lastReadPosition.value = -1
+        messagesLoading.value = true
+        chatId = id
         messages.value = ArrayList()
         typings.value = ArrayList()
         members.value = ArrayMap()
-
         loadChat()
-        loadMessages(chatId, null)
-        setMessageListListener()
-        setTypingListListener()
-        setMembersListListener()
     }
 
     private fun loadChat() {
@@ -80,27 +78,56 @@ class ChatingViewModel : ViewModel() {
         }
     }
 
-    private fun loadMessages(chatId: String, lastTime: Double?) {
+    private fun loadMessages(lastTime: Double?) {
         log("loadMessages")
         messagesLoading.value = true
         var query = ref.document(chatId).collection("messages").orderBy("dtCreated", Query.Direction.DESCENDING)
         lastVisibleSnapshot?.let { query = query.startAfter(it) }
-        lastTime?.let { query = query.endAt(it) }
-        query.limit(limit).get().addOnCompleteListener { task ->
+        query = if(lastTime == null) {
+            query.limit(limit)
+        }else {
+            query.endAt(lastTime)
+        }
+        query.get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 task.result.documents.forEach {
                     messages.value?.add(it.toObject(Message::class.java))
                 }
+
                 if(task.result.documents.isNotEmpty()) {
-                    lastVisibleSnapshot = task.result.documents.last()
+                    val lastSnapshot = task.result.documents.last()
+                    if(lastVisibleSnapshot == null && myLastConnectedTime < lastSnapshot.getLong("dtCreated")) {
+                        lastVisibleSnapshot = lastSnapshot
+                        loadMessages(myLastConnectedTime.toDouble())
+                        return@addOnCompleteListener
+                    }
+                    lastVisibleSnapshot = lastSnapshot
+                }
+
+                messages.value = messages.value
+
+                if(lastReadPosition.value == -1 && messages.value?.size!! > 0) {
+                    if(lastTime != null) {
+                        lastReadPosition.value = messages.value?.size!! - 1
+                    }else {
+                        log("myLastConnectedTime" + DateFormat.getDateTimeInstance().format(Date(myLastConnectedTime)))
+                        messages.value?.firstOrNull { it.dtCreated < myLastConnectedTime }?.let {
+                            log(it.toString())
+                            val pos = messages.value?.indexOf(it)
+                            log(""+pos)
+                            if(pos!! > 5) {
+                                lastReadPosition.value = pos
+                            }
+                        }
+                    }
                 }
             }
-            messages.value = messages.value
             messagesLoading.value = false
         }
     }
 
     private fun setMessageListListener() {
+        messageListenerRegistration?.remove()
         messageListenerRegistration = ref.document(chatId).collection("messages")
                 .whereGreaterThan("dtCreated", System.currentTimeMillis())
                 .orderBy("dtCreated").addSnapshotListener { snapshots, e ->
@@ -124,6 +151,7 @@ class ChatingViewModel : ViewModel() {
 
     private fun setMembersListListener() {
         membersLoading.value = true
+        membersListenerRegistration?.remove()
         membersListenerRegistration = ref.document(chatId).collection("members").addSnapshotListener { snapshots, e ->
             if (e == null) {
                 snapshots.documentChanges.forEach {
@@ -131,6 +159,9 @@ class ChatingViewModel : ViewModel() {
                     when{
                         it.type == DocumentChange.Type.ADDED -> {
                             members.value?.put(chatMember.userId, chatMember)
+                            if(chatMember.userId == Me.value?.id) {
+                                myLastConnectedTime = chatMember.lastConnectedTime
+                            }
                         }
                         it.type == DocumentChange.Type.REMOVED -> {
                             members.value?.remove(chatMember.userId)
@@ -141,6 +172,9 @@ class ChatingViewModel : ViewModel() {
                     }
                 }
                 members.value = members.value
+                if(lastVisibleSnapshot == null) {
+                    loadMessages(null)
+                }
             }
             membersLoading.value = false
         }
@@ -154,12 +188,13 @@ class ChatingViewModel : ViewModel() {
     }
 
     fun loadMoreMessages() {
-        loadMessages(chatId, null)
+        loadMessages(null)
     }
 
     fun postMessage(text: String, type: Int, dataUri: String?, onSuccess: Runnable?) {
         chat.value?.let {
             val message = Message(text, Me.value?.nickName, Me.value?.id, System.currentTimeMillis(), type, dataUri)
+            log(message.toString())
             ref.document(chatId).collection("messages").document(UUID.randomUUID().toString()).set(message).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     sendPushMessage(message)
@@ -171,10 +206,10 @@ class ChatingViewModel : ViewModel() {
 
     private fun sendPushMessage(message: Message) {
         Thread {
-            members.value?.forEach {
+            members.value?.forEach { member ->
                 try {
-                    if(!it.value.live && !(it.value.userId.equals(Me.value?.id))) {
-                        it.value.pushToken?.let{ pushToken->
+                    if(!member.value.live && !(member.value.userId.equals(Me.value?.id))) {
+                        member.value.pushToken?.let{ pushToken->
                             val data = JSONObject()
                             data.put("pushType", 0)
                             data.put("userId", message.userId)
@@ -190,7 +225,9 @@ class ChatingViewModel : ViewModel() {
                                     .addHeader("Authorization", pushServerKey)
                                     .post(bodyBuilder.build())
                                     .build()
-                            OkHttpClient().newCall(request).execute()
+                            val response = OkHttpClient().newCall(request).execute()
+                            log("push to " + member.value.pushToken + " : " + response.toString())
+                            log("my token " + FirebaseInstanceId.getInstance().token)
                         }
                     }
                 } catch (e: Exception) {
@@ -213,8 +250,11 @@ class ChatingViewModel : ViewModel() {
     fun loginChat() {
         val data = HashMap<String, Any?>()
         data.put("live", true)
-        data.put("lastConnectedTime", System.currentTimeMillis())
-        ref.document(chatId).collection("members").document(Me.value?.id!!).update(data)
+        ref.document(chatId).collection("members").document(Me.value?.id!!).update(data).addOnCompleteListener {
+            setMessageListListener()
+            setTypingListListener()
+            setMembersListListener()
+        }
     }
 
     fun logoutChat() {

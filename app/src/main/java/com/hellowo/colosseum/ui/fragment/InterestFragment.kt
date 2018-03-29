@@ -18,6 +18,7 @@ import com.hellowo.colosseum.R
 import com.hellowo.colosseum.ui.adapter.SwipeStackAdapter
 import com.hellowo.colosseum.ui.dialog.InterestCompletedDialog
 import com.hellowo.colosseum.utils.makePublicPhotoUrl
+import com.hellowo.colosseum.utils.makeSlideFromBottomTransition
 import com.hellowo.colosseum.viewmodel.InterestViewModel
 import com.pixplicity.easyprefs.library.Prefs
 import com.yuyakaido.android.cardstackview.CardStackView
@@ -110,7 +111,7 @@ class InterestFragment : Fragment() {
     }
 
     private fun updateUI(viewMode: Int?) {
-        makeTransition()
+        TransitionManager.beginDelayedTransition(rootLy, makeSlideFromBottomTransition())
         when(viewMode){
             0 -> {
                 optionLy.visibility = View.VISIBLE
@@ -164,13 +165,5 @@ class InterestFragment : Fragment() {
                 swipeStack.visibility = View.VISIBLE
             }
         }
-    }
-
-    private fun makeTransition(){ // VISIBLITIY 설정 전에 호출해야함
-        val transition = Slide()
-        transition.slideEdge = Gravity.BOTTOM
-        transition.duration = 500
-        transition.interpolator = FastOutSlowInInterpolator()
-        TransitionManager.beginDelayedTransition(rootLy, transition)
     }
 }

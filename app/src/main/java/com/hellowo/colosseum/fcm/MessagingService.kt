@@ -10,6 +10,8 @@ import android.support.v4.app.NotificationCompat
 import com.bumptech.glide.Glide
 import com.google.firebase.messaging.RemoteMessage
 import com.hellowo.colosseum.R
+import com.hellowo.colosseum.utils.log
+import com.hellowo.colosseum.utils.makePublicPhotoUrl
 import jp.wasabeef.glide.transformations.CropCircleTransformation
 import org.json.JSONException
 import org.json.JSONObject
@@ -18,6 +20,7 @@ import org.json.JSONObject
 class MessagingService : com.google.firebase.messaging.FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage?) {
+        log(remoteMessage.toString())
         if (remoteMessage?.data!!.isNotEmpty()) {
             try {
                 val data = JSONObject(remoteMessage.data["data"])
@@ -38,13 +41,14 @@ class MessagingService : com.google.firebase.messaging.FirebaseMessagingService(
         val chatId = data.getString("chatId")
         var resource: Bitmap? = null
         try{
-            resource = Glide.with(this).load("")
+            resource = Glide.with(this).load(makePublicPhotoUrl(userId))
                     .asBitmap().transform(CropCircleTransformation(this)).into(100, 100).get()
         }catch (e: Exception){}
 
         val manager = packageManager
         val intent = manager.getLaunchIntentForPackage(packageName)
         intent.addCategory(Intent.CATEGORY_LAUNCHER)
+        intent.putExtra("chatId", chatId)
         val pendingIntent = PendingIntent.getActivity(this,0, intent, PendingIntent.FLAG_ONE_SHOT)
 
         sendNotification(userName, message, resource, pendingIntent)
@@ -62,9 +66,7 @@ class MessagingService : com.google.firebase.messaging.FirebaseMessagingService(
                 .setContentIntent(pIntent)
 
         icon?.let { notificationBuilder.setLargeIcon(it) }
-
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
         notificationManager.notify(0, notificationBuilder.build())
     }
 }

@@ -4,17 +4,14 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
-import android.support.transition.Slide
 import android.support.transition.TransitionManager
 import android.support.v4.app.Fragment
-import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.support.v7.widget.LinearLayoutManager
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.hellowo.colosseum.R
-import com.hellowo.colosseum.ui.activity.FavorablityTestActivity
+import com.hellowo.colosseum.ui.activity.FavorabilityTestActivity
 import com.hellowo.colosseum.ui.adapter.FavorabilityTestAdapter
 import com.hellowo.colosseum.utils.dpToPx
 import com.hellowo.colosseum.utils.makeSlideFromBottomTransition
@@ -47,7 +44,7 @@ class FavorablityTestListFragment : Fragment() {
         swipeRefreshView.setProgressViewOffset(true, dpToPx(context!!, 100f), dpToPx(context!!, 200f))
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = FavorabilityTestAdapter(activity!!, ArrayList()) { couple ->
-            val intent = Intent(activity, FavorablityTestActivity::class.java)
+            val intent = Intent(activity, FavorabilityTestActivity::class.java)
             intent.putExtra("couple", couple)
             startActivityForResult(intent, 1)
         }

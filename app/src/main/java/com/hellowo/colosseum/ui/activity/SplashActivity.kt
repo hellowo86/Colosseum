@@ -11,6 +11,8 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.google.android.gms.location.places.ui.PlacePicker
@@ -100,6 +102,15 @@ class SplashActivity : AppCompatActivity() {
                 updateUI()
             }
             optionBtn.text = getString(R.string.do_sign_up)
+            passwordEdit.imeOptions = EditorInfo.IME_ACTION_DONE
+            passwordEdit.setOnEditorActionListener{ v, actionId, event ->
+                if(actionId == EditorInfo.IME_ACTION_DONE){
+                    login()
+                    return@setOnEditorActionListener false
+                }
+                return@setOnEditorActionListener true
+            }
+            moreInfoEdit.setOnEditorActionListener(null)
         }else if(mode == 2) {
             logoImg.visibility = View.GONE
             profileImage.visibility = View.VISIBLE
@@ -131,6 +142,15 @@ class SplashActivity : AppCompatActivity() {
                 val builder = PlacePicker.IntentBuilder()
                 startActivityForResult(builder.build(this), 1)
             }
+            moreInfoEdit.imeOptions = EditorInfo.IME_ACTION_DONE
+            moreInfoEdit.setOnEditorActionListener{ v, actionId, event ->
+                if(actionId == EditorInfo.IME_ACTION_DONE){
+                    login()
+                    return@setOnEditorActionListener false
+                }
+                return@setOnEditorActionListener true
+            }
+            passwordEdit.setOnEditorActionListener(null)
         }
     }
 
