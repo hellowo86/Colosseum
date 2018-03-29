@@ -35,7 +35,7 @@
     <color name="blackAlpha">#b3000000</color>
     <color name="white">#FFFFFF</color>
     <color name="whiteAlpha">#b3FFFFFF</color>
-    <color name="almostWhite">#dfdfdf</color>
+    <color name="almostWhite">#f7f7f7</color>
     <color name="grey">#434957</color>
     <color name="greyAlpha">#b3434957</color>
     <color name="red">#F74444</color>

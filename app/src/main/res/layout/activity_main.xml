@@ -22,7 +22,7 @@
         android:paddingRight="25dp"
         android:background="@color/background"
         android:layout_gravity="bottom"
-        android:elevation="10dp">
+        android:elevation="1dp">
 
         <FrameLayout
             android:id="@+id/homeTab"

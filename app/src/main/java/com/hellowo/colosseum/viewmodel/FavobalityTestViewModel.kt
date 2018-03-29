@@ -2,14 +2,15 @@ package com.hellowo.colosseum.viewmodel
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.content.Context
+import android.net.Uri
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.iid.FirebaseInstanceId
 import com.hellowo.colosseum.data.Me
 import com.hellowo.colosseum.model.Chat
 import com.hellowo.colosseum.model.Couple
 import com.hellowo.colosseum.model.Message
-import com.hellowo.colosseum.model.User
 import com.hellowo.colosseum.utils.log
+import com.hellowo.colosseum.utils.uploadPhoto
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -17,6 +18,7 @@ class FavobalityTestViewModel : ViewModel() {
     val db = FirebaseFirestore.getInstance()
     var couple = MutableLiveData<Couple>()
     var loading = MutableLiveData<Boolean>()
+    val isUploading = MutableLiveData<Boolean>()
     var myAudioFilePath = MutableLiveData<String>()
 
     init {
@@ -34,6 +36,7 @@ class FavobalityTestViewModel : ViewModel() {
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             val item = task.result.toObject(Couple::class.java)
+                            item.id = task.result.id
                             item.me = it.me
                             item.you = it.you
                             couple.value = item
@@ -69,6 +72,37 @@ class FavobalityTestViewModel : ViewModel() {
 
                 })
             }
+        }
+    }
+
+    fun uploadPhoto(context: Context, uri: Uri?) {
+        isUploading.value = true
+        uri?.let {
+            val myGender = couple.value?.me?.gender
+            val filePath = "couplePhoto/${Couple.makePhotoUrlPath(couple.value?.me!!, couple.value?.you!!)}/$myGender"
+            log(filePath)
+            uploadPhoto(context, uri, filePath,
+                    { snapshot, bitmap ->
+                        snapshot.downloadUrl?.let{
+                            val photoUrl = it.toString()
+                            FirebaseFirestore.getInstance().collection("couples").document(couple.value?.id!!)
+                                    .update("photoUrl$myGender", photoUrl).addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    if(myGender == 0) {
+                                        couple.value?.photoUrl0 = photoUrl
+                                    }else {
+                                        couple.value?.photoUrl1 = photoUrl
+                                    }
+                                    couple.value = couple.value
+                                }
+                                isUploading.value = false
+                            }
+                        }
+                    },
+                    { e ->
+                        isUploading.value = false
+                    }
+            )
         }
     }
 

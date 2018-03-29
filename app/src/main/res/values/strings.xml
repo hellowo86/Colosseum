@@ -66,13 +66,13 @@
     <string name="couple_test_item_title">%1$s님 과의 호감도</string>
     <string name="ing">진행중..</string>
     <string name="show_another_photo">1단계 : 사진 교환</string>
-    <string name="show_another_photo_sub">프로필 사진과 다른 사진 한 장을 교환합니다. 교환한 사진이 서로 마음에 든다면 통과할 수 있습니다.</string>
+    <string name="show_another_photo_sub">사진 한 장을 교환합니다.\n교환한 사진이 서로 마음에 든다면\n통과 할 수 있습니다.</string>
     <string name="check_voice">2단계 : 목소리 확인</string>
-    <string name="check_voice_sub">5초 미만의 짧은 음성을 통하여 목소리를 확인합니다. 서로의 목소리가 마음에 든다면 통과할 수 있습니다.</string>
+    <string name="check_voice_sub">5초 미만의 짧은 음성을 통하여 목소리를 확인합니다. 서로의 목소리가 마음에 든다면 통과 할 수 있습니다.</string>
     <string name="qna">3단계 : 질문과 답변</string>
-    <string name="qna_sub">상대방에게 궁금한 점이나 연애에서 중요하게 생각하는 부분에 대해서 질문합니다. 답변이 마음에 들면 통과할 수 있습니다.</string>
-    <string name="blind_test">4단계 : 블라인드 O/X 테스트</string>
-    <string name="blind_test_sub">마지막 단계입니다. 10가지의 O/X 문답을 각각 작성합니다. 작성한 답변 10개중 5개 이상이 일치한다면 통과할 수 있습니다. 4단계를 통과하게 되면 커플 매칭이 이루어지고 커플 채팅방에 입장할 수 있습니다.</string>
+    <string name="qna_sub">상대방에게 궁금한 점이나 연애에서 중요하게 생각하는 부분에 대해서 질문합니다. 답변이 마음에 들면 통과 할 수 있습니다.</string>
+    <string name="blind_test">4단계 : 블라인드 테스트</string>
+    <string name="blind_test_sub">마지막 단계입니다. 10가지의 O/X 문답을 각각 작성합니다. 작성한 답변 10개중 5개 이상이 일치한다면 통과 할 수 있습니다. 4단계를 통과하게 되면 커플 매칭이 이루어지고 커플 채팅방에 입장 할 수 있습니다.</string>
     <string name="start_chat">채팅 시작하기</string>
     <string name="enter_message">매세지 입력</string>
     <string name="members">멤버</string>
@@ -86,4 +86,10 @@
     <string name="hour_before">%1$d시간 전</string>
     <string name="couple_chat_list">커플 채팅방</string>
     <string name="last_read_here">여기까지 읽으셨습니다.</string>
+    <string name="failed">실패</string>
+    <string name="success">성공</string>
+    <string name="me_reg_photo">교환하고 싶은 사진 한 장을 올려주세요.</string>
+    <string name="you_reg_photo">아직 사진을 올리지 않았습니다. 잠시만 기다려주세요.</string>
+    <string name="reg">등록하기</string>
+    <string name="me_photo_waiting">상대방에게 사진을 보냈습니다.  응답이 올때까지 기다려주세요.</string>
 </resources>
