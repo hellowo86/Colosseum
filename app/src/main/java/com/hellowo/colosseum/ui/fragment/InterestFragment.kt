@@ -15,6 +15,7 @@ import android.view.animation.Animation
 import android.view.animation.TranslateAnimation
 import com.bumptech.glide.Glide
 import com.hellowo.colosseum.R
+import com.hellowo.colosseum.model.User
 import com.hellowo.colosseum.ui.adapter.SwipeStackAdapter
 import com.hellowo.colosseum.ui.dialog.InterestCompletedDialog
 import com.hellowo.colosseum.utils.makePublicPhotoUrl
@@ -87,7 +88,7 @@ class InterestFragment : Fragment() {
                 responseBtn.alpha = 1f
                 val user = list[0]
                 Glide.with(this).load(makePublicPhotoUrl(user.id)).bitmapTransform(CropCircleTransformation(context))
-                        .placeholder(user.getDefaultImgId()).into(responseProfileImg)
+                        .placeholder(User.getDefaultImgId(user.gender)).into(responseProfileImg)
                 responseText.text = String.format(getString(R.string.response_btn_text), user.nickName, list.size)
                 responseBtn.setOnClickListener {
 

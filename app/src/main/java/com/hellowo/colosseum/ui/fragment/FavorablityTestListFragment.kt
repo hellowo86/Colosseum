@@ -43,9 +43,9 @@ class FavorablityTestListFragment : Fragment() {
         swipeRefreshView.setOnRefreshListener { listViewModel.loadCoupleList() }
         swipeRefreshView.setProgressViewOffset(true, dpToPx(context!!, 100f), dpToPx(context!!, 200f))
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = FavorabilityTestAdapter(activity!!, ArrayList()) { couple ->
+        recyclerView.adapter = FavorabilityTestAdapter(activity!!, listViewModel.coupleList.value!!) { couple ->
             val intent = Intent(activity, FavorabilityTestActivity::class.java)
-            intent.putExtra("couple", couple)
+            intent.putExtra("coupleId", couple.id)
             startActivityForResult(intent, 1)
         }
 
@@ -61,8 +61,7 @@ class FavorablityTestListFragment : Fragment() {
     private fun setObserver() {
         listViewModel.coupleList.observe(this, Observer{ list ->
             if(list != null && list.isNotEmpty()) {
-                TransitionManager.beginDelayedTransition(recyclerView, makeSlideFromBottomTransition())
-                (recyclerView.adapter as FavorabilityTestAdapter).refresh(list)
+                recyclerView.adapter.notifyDataSetChanged()
             }else {
 
             }

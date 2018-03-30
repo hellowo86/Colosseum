@@ -31,10 +31,10 @@ class InterestCompletedDialog(activity: Activity, private val you: User) : BaseD
         })
         Glide.with(context).load(makePublicPhotoUrl(Me.value?.id))
                 .bitmapTransform(CropCircleTransformation(context))
-                .placeholder(Me.value?.getDefaultImgId()!!).into(profileImg)
+                .placeholder(User.getDefaultImgId(Me.value?.gender!!)).into(profileImg)
         Glide.with(context).load(makePublicPhotoUrl(you.id))
                 .bitmapTransform(CropCircleTransformation(context))
-                .placeholder(you.getDefaultImgId()).into(youImg)
+                .placeholder(User.getDefaultImgId(you.gender!!)).into(youImg)
 
         rootLy.postDelayed({ dismiss() }, 5000)
     }

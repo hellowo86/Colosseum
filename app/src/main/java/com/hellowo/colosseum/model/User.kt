@@ -17,10 +17,13 @@ data class User (
         var dtConnected: Long = 0,
         var dtCreated: Long = 0,
         var pushToken: String? = null): Serializable {
-
-    fun getDefaultImgId() = if(gender == 0) R.drawable.man_default else R.drawable.woman_default
+    companion object {
+        fun getDefaultImgId(gender: Int) = if(gender == 0) R.drawable.man_default else R.drawable.woman_default
+    }
 
     fun makeChatMember(): ChatMember {
         return ChatMember(id, nickName, System.currentTimeMillis(), true, pushToken)
     }
+
+    fun getYourGender(): Int = if(gender == 0) 1 else 0
 }

@@ -89,12 +89,10 @@
                                     android:layout_width="0dp"
                                     android:layout_height="match_parent"
                                     android:layout_weight="1"
-                                    android:background="@color/colorPrimary"
                                     android:textSize="11dp"
                                     android:textColor="@color/primaryWhiteText"
                                     android:gravity="center"
-                                    android:fontFamily="@font/spoqa_sans_b"
-                                    android:visibility="invisible"/>
+                                    android:fontFamily="@font/spoqa_sans_b"/>
 
                                 <View
                                     android:layout_width="1dp"
@@ -106,12 +104,10 @@
                                     android:layout_width="0dp"
                                     android:layout_height="match_parent"
                                     android:layout_weight="1"
-                                    android:background="@color/colorPrimary"
                                     android:textSize="11dp"
                                     android:textColor="@color/primaryWhiteText"
                                     android:gravity="center"
-                                    android:fontFamily="@font/spoqa_sans_b"
-                                    android:visibility="invisible"/>
+                                    android:fontFamily="@font/spoqa_sans_b"/>
 
                                 <View
                                     android:layout_width="1dp"
@@ -123,12 +119,10 @@
                                     android:layout_width="0dp"
                                     android:layout_height="match_parent"
                                     android:layout_weight="1"
-                                    android:background="@color/colorPrimary"
                                     android:textSize="11dp"
                                     android:textColor="@color/primaryWhiteText"
                                     android:gravity="center"
-                                    android:fontFamily="@font/spoqa_sans_b"
-                                    android:visibility="invisible"/>
+                                    android:fontFamily="@font/spoqa_sans_b"/>
 
                             </LinearLayout>
 

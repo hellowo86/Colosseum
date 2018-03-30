@@ -7,36 +7,35 @@ import java.io.Serializable
 
 data class Couple(
         var id: String ?= null,
-        var me: User? = null,
-        var you: User? = null,
+        var maleId: String ?= null,
+        var maleName: String ?= null,
+        var malePushToken: String ?= null,
+        var maleInterest: Int = 0,
+        var femaleId: String ?= null,
+        var femaleName: String ?= null,
+        var femalePushToken: String ?= null,
+        var femaleInterest: Int = 0,
         var level: Int = 0,
         var step: Int = 0,
         val status: Int = 0,
-        var photoUrl0: String ?= null,
-        var photoUrl1: String ?= null,
-        var photoLike0: Int = -1,
-        var photoLike1: Int = -1,
-        var voiceUrl0: String ?= null,
-        var voiceUrl1: String ?= null,
-        var voiceLike0: Int = -1,
-        var voiceLike1: Int = -1,
-        val question0: Array<String?> = arrayOfNulls(3),
-        val question1: Array<String?> = arrayOfNulls(3),
-        val answer0: Array<String?> = arrayOfNulls(3),
-        val answer1: Array<String?> = arrayOfNulls(3),
-        val answerLike0: Int = -1,
-        val answerLike1: Int = -1,
-        val ox0: String? = null,
-        val ox1: String? = null): Serializable {
+        var malePhotoUrl: String ?= null,
+        var femalePhotoUrl: String ?= null,
+        var malePhotoLike: Int = -1,
+        var femalePhotoLike: Int = -1,
+        var maleVoiceUrl: String ?= null,
+        var femaleVoiceUrl: String ?= null,
+        var maleVoiceLike: Int = -1,
+        var femaleVoiceLike: Int = -1,
+        val maleQuestion: Array<String?> = arrayOfNulls(3),
+        val femaleQuestion: Array<String?> = arrayOfNulls(3),
+        val maleAnswer: Array<String?> = arrayOfNulls(3),
+        val femaleAnswer: Array<String?> = arrayOfNulls(3),
+        val maleAnswerLike: Int = -1,
+        val femaleAnswerLike: Int = -1,
+        val maleOx: String? = null,
+        val femaleOx: String? = null): Serializable {
     companion object {
         fun makeCoupleKey(me: User, you: User) : String {
-            return if(me.gender == 0) {
-                "${me.id}$split${you.id}"
-            }else {
-                "${you.id}$split${me.id}"
-            }
-        }
-        fun makePhotoUrlPath(me: User, you: User) : String {
             return if(me.gender == 0) {
                 "${me.id}${you.id}"
             }else {
@@ -44,16 +43,21 @@ data class Couple(
             }
         }
         fun getYourIdFromCoupleKey(myGender: Int, coupleKey: String): String = coupleKey.split(split)[if(myGender == 0) 1 else 0]
+        fun getGenderKey(gender: Int): String = if(gender == 0) "male" else "female"
     }
 
-    fun getPhotoUrlByGender(gender: Int): String? = if(gender == 0) photoUrl0 else photoUrl1
-    fun getPhotoLikeByGender(gender: Int): Int = if(gender == 0) photoLike0 else photoLike1
-    fun getVoiceUrlByGender(gender: Int): String? = if(gender == 0) voiceUrl0 else voiceUrl1
-    fun getVoiceLikeByGender(gender: Int): Int = if(gender == 0) voiceLike0 else voiceLike1
-    fun getQuestionByGender(gender: Int): Array<String?> = if(gender == 0) question0 else question1
-    fun getAnswerByGender(gender: Int): Array<String?> = if(gender == 0) answer0 else answer1
-    fun getAnswerLikeByGender(gender: Int): Int = if(gender == 0) answerLike0 else answerLike1
-    fun getOxByGender(gender: Int): String? = if(gender == 0) ox0 else ox1
+    fun getIdByGender(gender: Int): String? = if(gender == 0) maleId else femaleId
+    fun getNameByGender(gender: Int): String? = if(gender == 0) maleName else femaleName
+    fun getPushTokenByGender(gender: Int): String? = if(gender == 0) malePushToken else femalePushToken
+    fun getInterestByGender(gender: Int): Int? = if(gender == 0) maleInterest else femaleInterest
+    fun getPhotoUrlByGender(gender: Int): String? = if(gender == 0) malePhotoUrl else femalePhotoUrl
+    fun getPhotoLikeByGender(gender: Int): Int = if(gender == 0) malePhotoLike else femalePhotoLike
+    fun getVoiceUrlByGender(gender: Int): String? = if(gender == 0) maleVoiceUrl else femaleVoiceUrl
+    fun getVoiceLikeByGender(gender: Int): Int = if(gender == 0) maleVoiceLike else femaleVoiceLike
+    fun getQuestionByGender(gender: Int): Array<String?> = if(gender == 0) maleQuestion else femaleQuestion
+    fun getAnswerByGender(gender: Int): Array<String?> = if(gender == 0) maleAnswer else femaleAnswer
+    fun getAnswerLikeByGender(gender: Int): Int = if(gender == 0) maleAnswerLike else femaleAnswerLike
+    fun getOxByGender(gender: Int): String? = if(gender == 0) maleOx else femaleOx
 
     fun getStepText(context: Context): String? {
         return when(step) {

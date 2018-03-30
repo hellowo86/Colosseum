@@ -110,7 +110,6 @@ class SplashActivity : AppCompatActivity() {
                 }
                 return@setOnEditorActionListener true
             }
-            moreInfoEdit.setOnEditorActionListener(null)
         }else if(mode == 2) {
             logoImg.visibility = View.GONE
             profileImage.visibility = View.VISIBLE
@@ -141,14 +140,6 @@ class SplashActivity : AppCompatActivity() {
             locationBtn.setOnClickListener {
                 val builder = PlacePicker.IntentBuilder()
                 startActivityForResult(builder.build(this), 1)
-            }
-            moreInfoEdit.imeOptions = EditorInfo.IME_ACTION_DONE
-            moreInfoEdit.setOnEditorActionListener{ v, actionId, event ->
-                if(actionId == EditorInfo.IME_ACTION_DONE){
-                    login()
-                    return@setOnEditorActionListener false
-                }
-                return@setOnEditorActionListener true
             }
             passwordEdit.setOnEditorActionListener(null)
         }

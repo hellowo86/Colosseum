@@ -38,7 +38,6 @@ class VoiceActivity : BaseActivity() {
         setContentView(R.layout.activity_voice)
         initLayout()
         initObserve()
-        viewModel.initCouple(intent.getSerializableExtra("couple") as Couple)
     }
 
     private fun initLayout() {

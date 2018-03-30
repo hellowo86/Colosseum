@@ -30,17 +30,17 @@ class InterestViewModel : ViewModel() {
         if(viewMode.value == null) {
             viewMode.value = 0
         }
-        db.collection("couples").whereEqualTo("level", 1).whereEqualTo("${Me.value?.id}", 1).get()
+        val myPrefix = Couple.getGenderKey(Me.value?.gender as Int)
+        val yourPrefix = Couple.getGenderKey(Me.value?.getYourGender() as Int)
+        db.collection("couples").whereEqualTo("level", 1).whereEqualTo("${myPrefix}Id", Me.value?.id)
+                .whereEqualTo("${yourPrefix}Interest", 1).get()
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         val totalCount = task.result.size()
                         if(totalCount > 0) {
-                            val myGender = Me.value?.gender as Int
                             var count = 0
-                            task.result
-                                    .map { Couple.getYourIdFromCoupleKey(myGender, it.id) }
-                                    .forEach {
-                                        db.collection("users").document(it).get().addOnCompleteListener { userTask ->
+                            task.result.forEach {
+                                        db.collection("users").document(it.getString("${yourPrefix}Id")).get().addOnCompleteListener { userTask ->
                                             count++
                                             if (userTask.isSuccessful) {
                                                 interestMeList.value?.add(userTask.result.toObject(User::class.java))
@@ -96,9 +96,12 @@ class InterestViewModel : ViewModel() {
         ref.get().addOnCompleteListener { task ->
             val doc = task.result
             val data = HashMap<String, Any?>()
-            data.put("${user.id}", interest)
+            val yourPrefix = Couple.getGenderKey(user.gender)
+            val myPrefix = Couple.getGenderKey(Me.value?.gender!!)
+            data.put("${myPrefix}Interest", interest)
             if (doc.exists()) {
-                if(interest == 1 && doc.get("${Me.value?.id}").toString() == "1") {
+                if(interest == 1 && doc.get("${yourPrefix}Interest").toString() == "1") {
+                    log(doc.get("${yourPrefix}Interest").toString())
                     data.put("level", 2)
                     interestCompleted.value = user
                     interestCompleted.value = null
@@ -108,7 +111,13 @@ class InterestViewModel : ViewModel() {
                 ref.update(data)
             } else {
                 data.put("level", 1)
-                data.put("${Me.value?.id}", -1)
+                data.put("${yourPrefix}Interest", -1)
+                data.put("${yourPrefix}Id", user.id)
+                data.put("${yourPrefix}Name", user.nickName)
+                data.put("${yourPrefix}PushToken", user.pushToken)
+                data.put("${myPrefix}Id", Me.value?.id)
+                data.put("${myPrefix}Name", Me.value?.nickName)
+                data.put("${myPrefix}PushToken", Me.value?.pushToken)
                 ref.set(data)
             }
         }

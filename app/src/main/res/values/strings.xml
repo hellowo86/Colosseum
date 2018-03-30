@@ -91,5 +91,9 @@
     <string name="me_reg_photo">교환하고 싶은 사진 한 장을 올려주세요.</string>
     <string name="you_reg_photo">아직 사진을 올리지 않았습니다. 잠시만 기다려주세요.</string>
     <string name="reg">등록하기</string>
-    <string name="me_photo_waiting">상대방에게 사진을 보냈습니다.  응답이 올때까지 기다려주세요.</string>
+    <string name="me_photo_waiting">상대방에게 사진을 보냈습니다. 응답이 올때까지 기다려주세요.</string>
+    <string name="me">나</string>
+    <string name="you_photo_waiting">상대방이 사진을 보냈습니다. 사진을 확인하고 마음에 든다면 하트를 눌러주세요.\n[탭하고 사진 확인하기]</string>
+    <string name="like_it">마음에 들어요!</string>
+    <string name="hate_it">별로에요 :(</string>
 </resources>

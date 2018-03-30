@@ -4,7 +4,6 @@ import android.Manifest
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.support.transition.TransitionManager
 import android.view.View
@@ -12,8 +11,9 @@ import com.bumptech.glide.Glide
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import com.hellowo.colosseum.R
+import com.hellowo.colosseum.data.Me
 import com.hellowo.colosseum.model.Couple
-import com.hellowo.colosseum.utils.dpToPx
+import com.hellowo.colosseum.model.User
 import com.hellowo.colosseum.utils.makePublicPhotoUrl
 import com.hellowo.colosseum.utils.makeSlideFromBottomTransition
 import com.hellowo.colosseum.viewmodel.FavobalityTestViewModel
@@ -28,11 +28,10 @@ class FavorabilityTestActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(FavobalityTestViewModel::class.java)
-        viewModel.initCouple(intent.getSerializableExtra("couple") as Couple)
+        viewModel.initCouple(intent.getStringExtra("coupleId"))
         setContentView(R.layout.activity_favorabiliy_test)
         initLayout()
         initObserve()
-        viewModel.loadCouple()
     }
 
     private fun initLayout() {
@@ -46,16 +45,19 @@ class FavorabilityTestActivity : BaseActivity() {
     }
 
     private fun updateUI(couple: Couple) {
-        titleText.text = String.format(getString(R.string.couple_test_item_title), couple.you?.nickName)
-        Glide.with(this).load(makePublicPhotoUrl(couple.you?.id))
-                .bitmapTransform(CropCircleTransformation(this))
-                .placeholder(couple.you?.getDefaultImgId()!!).into(youImg)
-        Glide.with(this).load(makePublicPhotoUrl(couple.me?.id))
-                .bitmapTransform(CropCircleTransformation(this))
-                .placeholder(couple.you?.getDefaultImgId()!!).into(meImg)
+        val myGender = Me.value?.gender as Int
+        val yourGender = Me.value?.getYourGender() as Int
+        titleText.text = String.format(getString(R.string.couple_test_item_title), couple.getNameByGender(yourGender))
 
-        meNameText.text = couple.me?.nickName
-        youNameText.text = couple.you?.nickName
+        Glide.with(this).load(makePublicPhotoUrl(couple.getIdByGender(yourGender)))
+                .bitmapTransform(CropCircleTransformation(this))
+                .placeholder(User.getDefaultImgId(yourGender)).into(youImg)
+        Glide.with(this).load(makePublicPhotoUrl(couple.getIdByGender(myGender)))
+                .bitmapTransform(CropCircleTransformation(this))
+                .placeholder(User.getDefaultImgId(myGender)).into(meImg)
+
+        meNameText.text = getString(R.string.me)
+        youNameText.text = couple.getNameByGender(yourGender)
 
         TransitionManager.beginDelayedTransition(rootLy, makeSlideFromBottomTransition())
 
@@ -66,16 +68,22 @@ class FavorabilityTestActivity : BaseActivity() {
 
         when(couple.step) {
             0 -> {
-                setPhotoView(couple)
+                youLy.visibility = View.VISIBLE
+                meLy.visibility = View.VISIBLE
+                setPhotoView(couple, myGender, yourGender)
+            }
+            1 -> {
+                youLy.visibility = View.VISIBLE
+                meLy.visibility = View.VISIBLE
             }
         }
     }
 
-    private fun setPhotoView(couple: Couple) {
-        val myPhotoUrl = couple.getPhotoUrlByGender(couple.me?.gender!!)
-        val yourPhotoUrl = couple.getPhotoUrlByGender(couple.you?.gender!!)
-        val myPhotoLike = couple.getPhotoLikeByGender(couple.me?.gender!!)
-        val yourPhotoLike = couple.getPhotoLikeByGender(couple.you?.gender!!)
+    private fun setPhotoView(couple: Couple, myGender: Int, yourGender: Int) {
+        val myPhotoUrl = couple.getPhotoUrlByGender(myGender)
+        val yourPhotoUrl = couple.getPhotoUrlByGender(yourGender)
+        val myPhotoLike = couple.getPhotoLikeByGender(myGender)
+        val yourPhotoLike = couple.getPhotoLikeByGender(yourGender)
 
         if(myPhotoUrl.isNullOrEmpty()) {
             meStatusIconImg.setImageResource(R.drawable.color_in_love)
@@ -83,17 +91,19 @@ class FavorabilityTestActivity : BaseActivity() {
             regLy.visibility = View.VISIBLE
             regBtn.setOnClickListener { checkExternalStoragePermission() }
         }else {
-            regLy.visibility = View.GONE
+            regLy.visibility = View.INVISIBLE
             when(yourPhotoLike) {
                 -1 -> {
                     meStatusIconImg.setImageResource(R.drawable.color_letter)
                     meStatusText.text = getString(R.string.me_photo_waiting)
                 }
                 0 -> {
-
+                    meStatusIconImg.setImageResource(R.drawable.color_heart)
+                    meStatusText.text = getString(R.string.hate_it)
                 }
                 1 -> {
-
+                    meStatusIconImg.setImageResource(R.drawable.color_care)
+                    meStatusText.text = getString(R.string.like_it)
                 }
             }
         }
@@ -101,18 +111,35 @@ class FavorabilityTestActivity : BaseActivity() {
         if(yourPhotoUrl.isNullOrEmpty()) {
             youStatusIconImg.setImageResource(R.drawable.color_in_love)
             youStatusText.text = getString(R.string.you_reg_photo)
-            likeLy.visibility = View.GONE
-            hateLy.visibility = View.GONE
+            likeLy.visibility = View.INVISIBLE
+            hateLy.visibility = View.INVISIBLE
+            youLy.setOnClickListener(null)
         }else {
             when(myPhotoLike) {
                 -1 -> {
-
+                    youStatusIconImg.setImageResource(R.drawable.color_love_letter)
+                    youStatusText.text = getString(R.string.you_photo_waiting)
+                    youLy.setOnClickListener {
+                        val intent = Intent(this, PhotoActivity::class.java)
+                        intent.putExtra("photoUrl", yourPhotoUrl)
+                        startActivity(intent)
+                    }
+                    likeLy.visibility = View.VISIBLE
+                    hateLy.visibility = View.VISIBLE
+                    likeLy.setOnClickListener { viewModel.like("${Couple.getGenderKey(myGender)}PhotoLike", 1, yourPhotoLike) }
+                    hateLy.setOnClickListener { viewModel.like("${Couple.getGenderKey(myGender)}PhotoLike", 0, yourPhotoLike) }
                 }
                 0 -> {
-
+                    youStatusIconImg.setImageResource(R.drawable.color_heart)
+                    youStatusText.text = getString(R.string.hate_it)
+                    likeLy.visibility = View.INVISIBLE
+                    hateLy.visibility = View.INVISIBLE
                 }
                 1 -> {
-
+                    youStatusIconImg.setImageResource(R.drawable.color_care)
+                    youStatusText.text = getString(R.string.like_it)
+                    likeLy.visibility = View.INVISIBLE
+                    hateLy.visibility = View.INVISIBLE
                 }
             }
         }
