@@ -1,6 +1,7 @@
 package com.hellowo.colosseum.ui.adapter
 
 import android.content.Context
+import android.support.v7.util.SortedList
 import android.support.v7.widget.RecyclerView
 import android.util.ArrayMap
 import android.view.LayoutInflater
@@ -16,7 +17,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.list_item_big_chat.view.*
 
 class MyChatListAdapter(val context: Context,
-                        val mContentsList: ArrayMap<String, MyChat>,
+                        val mContentsList: ArrayList<MyChat>,
                         val adapterInterface: (chat: MyChat) -> Unit) : RecyclerView.Adapter<MyChatListAdapter.ViewHolder>() {
     inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container)
 
@@ -24,7 +25,7 @@ class MyChatListAdapter(val context: Context,
             = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_chat, parent, false))
 
     override fun onBindViewHolder(holder: MyChatListAdapter.ViewHolder, position: Int) {
-        val chat = mContentsList.valueAt(position)
+        val chat = mContentsList[position]
         val v = holder.itemView
 
         v.titleText.text = chat.title

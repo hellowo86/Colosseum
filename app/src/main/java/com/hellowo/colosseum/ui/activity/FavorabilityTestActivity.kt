@@ -47,6 +47,9 @@ class FavorabilityTestActivity : BaseActivity() {
         viewModel.couple.observe(this, Observer { it?.let { updateUI(it) } })
         viewModel.loading.observe(this, Observer { progressBar.visibility = if(it as Boolean) View.VISIBLE else View.GONE })
         viewModel.isUploading.observe(this, Observer { if(it as Boolean) showProgressDialog() else hideProgressDialog() })
+        viewModel.joinChat.observe(this, Observer { if(it as Boolean) {
+
+        }})
     }
 
     private fun updateUI(couple: Couple) {
@@ -79,8 +82,7 @@ class FavorabilityTestActivity : BaseActivity() {
         val myOxString = couple.getOxByGender(myGender)
         val yourOxString = couple.getOxByGender(yourGender)
 
-        if(myPhotoLike != -1 && yourPhotoLike != -1 && myVoiceLike != -1 && yourVoiceLike != -1 &&
-                !myOxString.isNullOrEmpty() && !yourOxString.isNullOrEmpty()) {
+        if(couple.isSuccess()) {
             youLy.visibility = View.INVISIBLE
             meLy.visibility = View.INVISIBLE
             successLy.visibility = View.VISIBLE
@@ -346,7 +348,7 @@ class FavorabilityTestActivity : BaseActivity() {
         }
 
         if(!myOxString.isNullOrEmpty() && !yourOxString.isNullOrEmpty()) {
-            if(evaluateCheckList(myOxString, yourOxString)) {
+            if(Couple.evaluateCheckList(myOxString, yourOxString)) {
                 meQuestionBtn.cardElevation = dpToPx(this, 0f)
                 meQuestionLy.setBackgroundResource(R.color.colorPrimary)
                 meQuestionIconImg.setImageResource(R.drawable.ic_done_black_48dp)
@@ -380,21 +382,13 @@ class FavorabilityTestActivity : BaseActivity() {
         }
     }
 
-    private fun evaluateCheckList(myOxString: String?, yourOxString: String?) : Boolean {
-        var count = 0
-        (0 until myOxString?.length!!).forEach {
-            if(myOxString[it] == yourOxString!![it]) count++
-        }
-        return count >= 5
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == 1) {
             val myGender = Me.value?.gender as Int
-            if(resultCode == Activity.RESULT_OK) {
+            if(resultCode == 2) {
                 viewModel.like("${Couple.getGenderKey(myGender)}PhotoLike", 1)
-            }else if(resultCode == Activity.RESULT_CANCELED){
+            }else if(resultCode == 1){
                 viewModel.like("${Couple.getGenderKey(myGender)}PhotoLike", 0)
             }
         }

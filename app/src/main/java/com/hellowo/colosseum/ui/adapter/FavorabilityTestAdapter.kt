@@ -31,7 +31,8 @@ class FavorabilityTestAdapter(private val context: Context, private val mItems: 
         val v = holder.itemView
 
         v.nameText.text = String.format(context.getString(R.string.couple_test_item_title), item.getNameByGender(yourGender))
-
+        v.subText.text = item.getStatusText(context)
+        v.subText.setTextColor(item.getStatusColor(context) as Int)
 
         Glide.with(context).load(makePublicPhotoUrl(item.getIdByGender(yourGender)))
                 .bitmapTransform(CropCircleTransformation(context))

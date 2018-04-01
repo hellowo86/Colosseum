@@ -42,8 +42,18 @@ data class Couple(
                 "${you.id}${me.id}"
             }
         }
+
         fun getYourIdFromCoupleKey(myGender: Int, coupleKey: String): String = coupleKey.split(split)[if(myGender == 0) 1 else 0]
+
         fun getGenderKey(gender: Int): String = if(gender == 0) "male" else "female"
+
+        fun evaluateCheckList(myOxString: String?, yourOxString: String?) : Boolean {
+            var count = 0
+            (0 until myOxString?.length!!).forEach {
+                if(myOxString[it] == yourOxString!![it]) count++
+            }
+            return count >= 5
+        }
     }
 
     fun getIdByGender(gender: Int): String? = if(gender == 0) maleId else femaleId
@@ -80,20 +90,21 @@ data class Couple(
     }
 
     fun getStatusText(context: Context): String? {
-        return when(status) {
-            -1 -> context.getString(R.string.failed)
-            0 -> context.getString(R.string.ing)
-            1 -> context.getString(R.string.success)
-            else -> null
+        return when {
+            isSuccess() -> context.getString(R.string.success)
+            isIng() -> context.getString(R.string.ing)
+            else -> context.getString(R.string.failed)
         }
     }
 
     fun getStatusColor(context: Context): Int? {
-        return when(status) {
-            -1 -> context.resources.getColor(R.color.disableText)
-            0 -> context.resources.getColor(R.color.blue)
-            1 -> context.resources.getColor(R.color.colorPrimary)
-            else -> null
+        return when {
+            isSuccess() -> context.resources.getColor(R.color.colorPrimary)
+            isIng() -> context.resources.getColor(R.color.colorAccent)
+            else -> context.resources.getColor(R.color.grey)
         }
     }
+
+    fun isSuccess() : Boolean = malePhotoLike == 1 && femalePhotoLike == 1 && maleVoiceLike == 1 && femaleVoiceLike == 1 && evaluateCheckList(maleOx, femaleOx)
+    fun isIng() : Boolean = malePhotoLike == -1 || femalePhotoLike == -1 || maleVoiceLike == -1 || femaleVoiceLike == -1 || maleOx.isNullOrEmpty() || femaleOx.isNullOrEmpty()
 }

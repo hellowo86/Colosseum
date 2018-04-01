@@ -5,73 +5,105 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:foreground="?android:attr/selectableItemBackground">
 
-    <LinearLayout
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:padding="@dimen/normal_margin">
-
-        <ImageView
-            android:id="@+id/chatImage"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/default_profile" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="@dimen/big_margin"
+        android:layout_marginRight="@dimen/big_margin"
+        app:cardBackgroundColor="@color/background"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="2dp">
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:layout_marginStart="@dimen/normal_margin"
-            android:layout_gravity="center_vertical">
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-            <TextView
-                android:id="@+id/titleText"
-                style="@style/TitleText"
+            <FrameLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:maxLines="1" />
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/lastMessageText"
-                style="@style/NormalText"
-                android:layout_width="wrap_content"
+                <ImageView
+                    android:id="@+id/chatImage"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/default_profile"
+                    android:layout_margin="15dp" />
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/badgeView"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="right"
+                    android:layout_margin="10dp"
+                    android:visibility="invisible"
+                    app:cardBackgroundColor="@color/red"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="2dp">
+
+                    <TextView
+                        android:id="@+id/badgeText"
+                        style="@style/SubText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="4dp"
+                        android:textColor="@color/primaryWhiteText" />
+
+                </android.support.v7.widget.CardView>
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:maxLines="2" />
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginRight="@dimen/big_margin"
+                android:layout_gravity="center_vertical">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/titleText"
+                        style="@style/TitleText"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/spoqa_sans_b"
+                        android:maxLines="1"
+                        android:text="name"/>
+
+                    <TextView
+                        android:id="@+id/lastTimeText"
+                        style="@style/SubText"
+                        android:layout_gravity="right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/spoqa_sans_r"
+                        android:text="time"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/lastMessageText"
+                    style="@style/NormalText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/spoqa_sans_r"
+                    android:maxLines="2"
+                    android:text="message" />
+
+            </LinearLayout>
 
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/lastTimeText"
-            style="@style/SubText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-    </LinearLayout>
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/badgeView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        app:cardBackgroundColor="@color/red"
-        app:cardCornerRadius="@dimen/small_margin"
-        app:contentPadding="@dimen/thin_margin"
-        app:cardElevation="0dp"
-        android:layout_margin="@dimen/normal_margin"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/badgeText"
-            style="@style/SubText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
-            android:textColor="@color/primaryWhiteText" />
 
     </android.support.v7.widget.CardView>
 

@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.hellowo.colosseum.R
 import com.hellowo.colosseum.data.InterestedCouple
 import com.hellowo.colosseum.data.Me
+import com.hellowo.colosseum.data.MyChatList
 import com.hellowo.colosseum.model.User
 import com.hellowo.colosseum.ui.fragment.InterestFragment
 import com.hellowo.colosseum.ui.fragment.FavorablityTestListFragment
@@ -70,6 +71,7 @@ class MainActivity : BaseActivity() {
 
     private fun initObserve() {
         Me.observe(this, Observer { updateUserUI(it) })
+        MyChatList.observe(this, Observer {  })
     }
 
     private fun checkIntentExtra() {

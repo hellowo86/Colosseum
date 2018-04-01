@@ -17,6 +17,7 @@ data class User (
         var dtConnected: Long = 0,
         var dtCreated: Long = 0,
         var pushToken: String? = null): Serializable {
+
     companion object {
         fun getDefaultImgId(gender: Int) = if(gender == 0) R.drawable.man_default else R.drawable.woman_default
     }

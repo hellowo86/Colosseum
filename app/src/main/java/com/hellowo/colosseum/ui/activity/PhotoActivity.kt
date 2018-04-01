@@ -27,11 +27,11 @@ class PhotoActivity : BaseActivity() {
         if(intent.getBooleanExtra("evaluation", false)) {
             evaluationLy.visibility = View.VISIBLE
             likeBtn.setOnClickListener {
-                setResult(Activity.RESULT_OK)
+                setResult(2)
                 finish()
             }
             hateBtn.setOnClickListener {
-                setResult(Activity.RESULT_CANCELED)
+                setResult(1)
                 finish()
             }
         }else {

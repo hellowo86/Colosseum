@@ -22,7 +22,7 @@ class FavobalityTestViewModel : ViewModel() {
     var couple = MutableLiveData<Couple>()
     var loading = MutableLiveData<Boolean>()
     val isUploading = MutableLiveData<Boolean>()
-    var myAudioFilePath = MutableLiveData<String>()
+    var joinChat = MutableLiveData<Boolean>()
     var coupleId: String? = null
     private var coupleListenerRegistration: ListenerRegistration? = null
 
@@ -58,9 +58,8 @@ class FavobalityTestViewModel : ViewModel() {
                 val batch = db.batch()
 
                 val chatRef = db.collection("chats").document(it.id!!)
-                val chat = Chat(id = it.id!!, title = "!!!", hostId = Me.value?.id,
-                        dtCreated = System.currentTimeMillis(),
-                        dtUpdated = System.currentTimeMillis())
+                val chat = Chat(id = it.id!!, title = "", hostId = Me.value?.id, dtCreated = System.currentTimeMillis(), dtUpdated = System.currentTimeMillis(),
+                        maleId = couple.value?.maleId, maleName = couple.value?.maleName, femaleId = couple.value?.femaleId, femaleName = couple.value?.femaleName)
                 batch.set(chatRef, chat)
 
                 val messageRef = db.collection("chats").document(chat.id!!).collection("messages").document(UUID.randomUUID().toString())
