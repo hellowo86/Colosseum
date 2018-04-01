@@ -30,7 +30,7 @@ class MyChatListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         swipeRefreshView.setColorSchemeColors(resources.getColor(R.color.colorPrimary))
         swipeRefreshView.setOnRefreshListener { MyChatList.loadChatList() }
-        swipeRefreshView.setProgressViewOffset(true, dpToPx(context!!, 100f), dpToPx(context!!, 200f))
+        swipeRefreshView.setProgressViewOffset(true, dpToPx(context!!, 100f).toInt(), dpToPx(context!!, 200f).toInt())
 
         adapter = MyChatListAdapter(activity!!, MyChatList.value!!) {
             val intent = Intent(activity, ChatingActivity::class.java)

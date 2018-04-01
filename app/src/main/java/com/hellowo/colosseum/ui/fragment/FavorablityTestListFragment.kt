@@ -41,7 +41,7 @@ class FavorablityTestListFragment : Fragment() {
     private fun setLayout() {
         swipeRefreshView.setColorSchemeColors(resources.getColor(R.color.colorPrimary))
         swipeRefreshView.setOnRefreshListener { listViewModel.loadCoupleList() }
-        swipeRefreshView.setProgressViewOffset(true, dpToPx(context!!, 100f), dpToPx(context!!, 200f))
+        swipeRefreshView.setProgressViewOffset(true, dpToPx(context!!, 100f).toInt(), dpToPx(context!!, 200f).toInt())
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = FavorabilityTestAdapter(activity!!, listViewModel.coupleList.value!!) { couple ->
             val intent = Intent(activity, FavorabilityTestActivity::class.java)

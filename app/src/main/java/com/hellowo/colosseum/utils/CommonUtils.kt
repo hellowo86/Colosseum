@@ -1,5 +1,6 @@
 package com.hellowo.colosseum.utils
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
@@ -8,6 +9,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.support.v7.app.AlertDialog
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
@@ -15,10 +17,13 @@ import android.view.ViewTreeObserver
 import android.widget.Toast
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.TedPermission
 import com.hellowo.colosseum.R
 import com.hellowo.colosseum.storageUrl
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
+import gun0912.tedbottompicker.TedBottomPicker
+import java.io.*
+import java.util.ArrayList
 
 fun log(text: String){
     Log.d("aaa", text)
@@ -70,9 +75,9 @@ fun distFrom(lat1: Double, lng1: Double, lat2: Double, lng2: Double): Double {
     return earthRadius * c
 }
 
-fun dpToPx(context: Context, dp: Float): Int {
+fun dpToPx(context: Context, dp: Float): Float {
     val px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.resources.displayMetrics)
-    return px.toInt()
+    return px
 }
 
 fun runCallbackAfterViewDrawed(view: View, callback: Runnable) {
@@ -88,6 +93,26 @@ fun runCallbackAfterViewDrawed(view: View, callback: Runnable) {
                     callback.run()
                 }
             })
+}
+
+fun showPhotoPicker(activity: AppCompatActivity, onComplete: (Uri) -> Unit) {
+    TedPermission(activity)
+            .setPermissionListener(object : PermissionListener {
+                override fun onPermissionGranted() {
+                    val bottomSheetDialogFragment = TedBottomPicker.Builder(activity)
+                            .setOnImageSelectedListener { onComplete.invoke(it) }
+                            .setPreviewMaxCount(100)
+                            .create()
+                    bottomSheetDialogFragment.show(activity.supportFragmentManager)
+                }
+                override fun onPermissionDenied(deniedPermissions: ArrayList<String>) {}
+            })
+            .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            .check()
+}
+
+private fun checkExternalStoragePermission() {
+
 }
 
 fun uploadPhoto(context: Context, uri: Uri, fileName: String, onSuccess: (UploadTask.TaskSnapshot, Bitmap?) -> Unit, onFailed: (Exception) -> Unit) {
@@ -107,6 +132,23 @@ fun uploadPhoto(context: Context, uri: Uri, fileName: String, onSuccess: (Upload
         }.addOnSuccessListener { taskSnapshot ->
             onSuccess.invoke(taskSnapshot, bitmap)
             bitmap?.recycle()
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+        onFailed.invoke(e)
+    }
+}
+
+fun uploadFile(context: Context, filePath: String, fileName: String, onSuccess: (UploadTask.TaskSnapshot) -> Unit, onFailed: (Exception) -> Unit) {
+    try {
+        val storageRef = FirebaseStorage.getInstance().getReferenceFromUrl("$storageUrl$fileName")
+        val file = File(filePath)
+        val bis = ByteArrayInputStream(file.readBytes())
+        val uploadTask = storageRef.putStream(bis)
+        uploadTask.addOnFailureListener { e ->
+            onFailed.invoke(e)
+        }.addOnSuccessListener { taskSnapshot ->
+            onSuccess.invoke(taskSnapshot)
         }
     } catch (e: Exception) {
         e.printStackTrace()

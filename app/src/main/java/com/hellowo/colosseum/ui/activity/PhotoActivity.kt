@@ -1,5 +1,6 @@
 package com.hellowo.colosseum.ui.activity
 
+import android.app.Activity
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
@@ -23,6 +24,19 @@ class PhotoActivity : BaseActivity() {
     private fun initLayout() {
         progressBar.visibility = View.VISIBLE
         backBtn.setOnClickListener{ finish() }
+        if(intent.getBooleanExtra("evaluation", false)) {
+            evaluationLy.visibility = View.VISIBLE
+            likeBtn.setOnClickListener {
+                setResult(Activity.RESULT_OK)
+                finish()
+            }
+            hateBtn.setOnClickListener {
+                setResult(Activity.RESULT_CANCELED)
+                finish()
+            }
+        }else {
+            evaluationLy.visibility = View.GONE
+        }
     }
 
     private fun initObserve() {

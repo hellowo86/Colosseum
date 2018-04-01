@@ -20,9 +20,9 @@
         android:paddingBottom="1dp"
         android:paddingLeft="25dp"
         android:paddingRight="25dp"
-        android:background="@color/background"
+        android:background="@color/white"
         android:layout_gravity="bottom"
-        android:elevation="1dp">
+        android:elevation="8dp">
 
         <FrameLayout
             android:id="@+id/homeTab"
@@ -38,7 +38,7 @@
                 android:scaleType="centerInside"
                 android:padding="@dimen/normal_margin"
                 android:src="@drawable/search_love"
-                android:tint="@color/disableText"/>
+                android:tint="@color/iconTint"/>
 
         </FrameLayout>
 
@@ -56,7 +56,7 @@
                 android:scaleType="centerInside"
                 android:padding="@dimen/normal_margin"
                 android:src="@drawable/color_jigsaw"
-                android:tint="@color/disableText"/>
+                android:tint="@color/iconTint"/>
 
         </FrameLayout>
 
@@ -74,7 +74,7 @@
                 android:scaleType="centerInside"
                 android:padding="@dimen/normal_margin"
                 android:src="@drawable/chat"
-                android:tint="@color/disableText"/>
+                android:tint="@color/iconTint"/>
 
         </FrameLayout>
 
@@ -92,7 +92,7 @@
                 android:scaleType="centerInside"
                 android:padding="@dimen/normal_margin"
                 android:src="@drawable/color_potion"
-                android:tint="@color/disableText"/>
+                android:tint="@color/iconTint"/>
 
         </FrameLayout>
 
@@ -109,8 +109,7 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerInside"
                 android:padding="13dp"
-                android:src="@drawable/default_profile"
-                android:tint="@color/disableText"/>
+                android:src="@drawable/default_profile"/>
 
         </FrameLayout>
 

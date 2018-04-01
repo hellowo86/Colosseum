@@ -251,7 +251,11 @@ class ChatingActivity : BaseActivity() {
         bottomSheetDialogFragment.show(supportFragmentManager)
     }
 
-    private fun startUserActivity(userId: String) {}
+    private fun startUserActivity(userId: String) {
+        val intent = Intent(this, UserActivity::class.java)
+        intent.putExtra("userId", userId)
+        startActivity(intent)
+    }
 
     private fun startPhotoActivity(photoUrl: String) {
         val intent = Intent(this, PhotoActivity::class.java)

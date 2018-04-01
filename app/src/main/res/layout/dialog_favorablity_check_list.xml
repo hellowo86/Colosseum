@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootLy"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/big_margin"
+            android:layout_marginLeft="@dimen/extra_margin"
+            android:layout_marginRight="@dimen/extra_margin"
+            android:textSize="16dp"
+            android:gravity="center"
+            android:textColor="@color/primaryText"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/favorability_check_list"
+            android:fontFamily="@font/spoqa_sans_b"/>
+
+        <TextView
+            android:id="@+id/subText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_margin"
+            android:layout_marginLeft="@dimen/extra_margin"
+            android:layout_marginRight="@dimen/extra_margin"
+            android:textSize="14dp"
+            android:gravity="center"
+            android:textColor="@color/secondaryText"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/favorability_check_list_sub"
+            android:fontFamily="@font/spoqa_sans_r"/>
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false">
+                </android.support.v7.widget.RecyclerView>
+
+                <LinearLayout
+                    android:id="@+id/confirmBtn"
+                    android:layout_height="60dp"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/normal_margin"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:background="@color/disableText"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/textViewCard"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/ok"
+                        android:textColor="@color/white"
+                        android:gravity="center"
+                        android:fontFamily="@font/spoqa_sans_b"
+                        android:textSize="16dp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+    </LinearLayout>
+
+</FrameLayout>

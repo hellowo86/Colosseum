@@ -50,7 +50,7 @@ class MainActivity : BaseActivity() {
 
     private fun clickTab(item: ImageView) {
         if(item != clickedTab) {
-            if(clickedTab != profileImg) clickedTab?.setColorFilter(resources.getColor(R.color.disableText))
+            if(clickedTab != profileImg) clickedTab?.setColorFilter(resources.getColor(R.color.iconTint))
             if(item != profileImg) item.setColorFilter(resources.getColor(R.color.colorPrimary))
             clickedTab = item
         }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="favorablility_check_list">
+        <item>나는 결혼을 전제로 만나고 싶다</item>
+        <item>나는 장거리 연애가 가능하다</item>
+        <item>나는 일 주일에 한 번 이상은 꼭 만나야 한다</item>
+        <item>나는 하루에 한 번 이상 꼭 통화를 해야한다</item>
+        <item>나는 기념일을 꼭 챙겨야 한다</item>
+        <item>나는 연애를 위해서 나의 생활패턴을 바꿀 수 있다</item>
+        <item>나는 상대방의 종교가 중요하다</item>
+        <item>나는 상대방의 직업이 중요하다</item>
+        <item>나는 상대방의 경제력이 중요하다</item>
+        <item>나는 나의 연애를 공개할 수 있다</item>
+    </array>
+</resources>

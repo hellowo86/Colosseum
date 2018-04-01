@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.4">
+
+            <ImageView
+                android:id="@+id/profileImg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_gravity="bottom"
+                android:background="@drawable/bottom_black_alpha_gradient"
+                android:layout_width="match_parent"
+                android:layout_height="150dp">
+
+                <TextView
+                    android:id="@+id/nameText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="25dp"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="@dimen/extra_margin"
+                    android:layout_marginLeft="@dimen/extra_margin"
+                    android:text="Name"
+                    android:fontFamily="@font/spoqa_sans_b"/>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/extra_margin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14dp"
+                        android:text="@string/age"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/spoqa_sans_b"/>
+
+                    <TextView
+                        android:id="@+id/ageText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14dp"
+                        android:layout_marginLeft="5dp"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/spoqa_sans_b"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/normal_margin"
+                        android:textSize="14dp"
+                        android:text="@string/distance_of_me"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/spoqa_sans_b"/>
+
+                    <TextView
+                        android:id="@+id/locText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14dp"
+                        android:layout_marginLeft="5dp"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/spoqa_sans_b"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/moreText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/extra_margin"
+                    android:layout_marginRight="@dimen/extra_margin"
+                    android:textSize="14dp"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/spoqa_sans_b"/>
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/colorPrimary"
+        android:visibility="gone"/>
+
+</FrameLayout>

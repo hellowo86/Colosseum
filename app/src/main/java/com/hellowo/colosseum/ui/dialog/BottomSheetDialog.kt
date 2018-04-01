@@ -16,7 +16,6 @@ open class BottomSheetDialog : BottomSheetDialogFragment() {
                 dismiss()
             }
         }
-
         override fun onSlide(bottomSheet: View, slideOffset: Float) {}
     }
 

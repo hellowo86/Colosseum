@@ -10,7 +10,9 @@ import com.hellowo.colosseum.data.Me
 import com.hellowo.colosseum.model.Chat
 import com.hellowo.colosseum.model.Couple
 import com.hellowo.colosseum.model.Message
+import com.hellowo.colosseum.ui.activity.FavorabilityTestActivity
 import com.hellowo.colosseum.utils.log
+import com.hellowo.colosseum.utils.uploadFile
 import com.hellowo.colosseum.utils.uploadPhoto
 import java.util.*
 import kotlin.collections.HashMap
@@ -49,6 +51,7 @@ class FavobalityTestViewModel : ViewModel() {
     }
 
     fun createChat() {
+        isUploading.value = true
         Me.value?.let {
             couple.value?.let{
                 val db = FirebaseFirestore.getInstance()
@@ -71,19 +74,26 @@ class FavobalityTestViewModel : ViewModel() {
                 batch.set(userChatRef, HashMap<String, Any?>())
 
                 batch.commit().addOnCompleteListener({
-
+                    isUploading.value = false
                 })
             }
         }
     }
 
-    fun like(likeKey: String, myLike: Int, yourLike: Int) {
+    fun like(likeKey: String, myLike: Int) {
         loading.value = true
         val data = HashMap<String, Any?>()
         data.put(likeKey, myLike)
-        if(myLike == 1 && yourLike == 1) {
-            data.put("step", couple.value?.step!! + 1)
+        FirebaseFirestore.getInstance().collection("couples").document(couple.value?.id!!).update(data).addOnCompleteListener { task ->
+            if (task.isSuccessful) {}
+            isUploading.value = false
         }
+    }
+
+    fun setCheckList(checkListKey: String, oxString: String) {
+        loading.value = true
+        val data = HashMap<String, Any?>()
+        data.put(checkListKey, oxString)
         FirebaseFirestore.getInstance().collection("couples").document(couple.value?.id!!).update(data).addOnCompleteListener { task ->
             if (task.isSuccessful) {}
             isUploading.value = false
@@ -94,9 +104,9 @@ class FavobalityTestViewModel : ViewModel() {
         isUploading.value = true
         uri?.let {
             val myGender = Me.value?.gender as Int
-            val filePath = "couplePhoto/$coupleId/$myGender"
-            log(filePath)
-            uploadPhoto(context, uri, filePath,
+            val fileName = "couplePhoto/$coupleId/$myGender"
+            log(fileName)
+            uploadPhoto(context, uri, fileName,
                     { snapshot, bitmap ->
                         snapshot.downloadUrl?.let{
                             val photoUrl = it.toString()
@@ -112,6 +122,26 @@ class FavobalityTestViewModel : ViewModel() {
                     }
             )
         }
+    }
+
+    fun uploadVoice(context: Context, filePath: String) {
+        isUploading.value = true
+        val myGender = Me.value?.gender as Int
+        val fileName = "coupleVoice/$coupleId/$myGender"
+        uploadFile(context, filePath, fileName,
+                { snapshot ->
+                    snapshot.downloadUrl?.let{
+                        val voiceUrl = it.toString()
+                        FirebaseFirestore.getInstance().collection("couples").document(couple.value?.id!!)
+                                .update("${Couple.getGenderKey(myGender)}VoiceUrl", voiceUrl).addOnCompleteListener { task ->
+                            if (task.isSuccessful) {}
+                            isUploading.value = false
+                        }
+                    }
+                },
+                { e ->
+                    isUploading.value = false
+                })
     }
 
 }

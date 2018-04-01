@@ -32,32 +32,6 @@ class FavorabilityTestAdapter(private val context: Context, private val mItems: 
 
         v.nameText.text = String.format(context.getString(R.string.couple_test_item_title), item.getNameByGender(yourGender))
 
-        when(item.step) {
-            0 -> {
-                v.levelView1.setBackgroundColor(context.resources.getColor(R.color.green))
-                v.levelView2.setBackgroundColor(Color.TRANSPARENT)
-                v.levelView3.setBackgroundColor(Color.TRANSPARENT)
-                v.levelView4.setBackgroundColor(Color.TRANSPARENT)
-            }
-            1 -> {
-                v.levelView1.setBackgroundColor(context.resources.getColor(R.color.colorPrimary))
-                v.levelView2.setBackgroundColor(context.resources.getColor(R.color.green))
-                v.levelView3.setBackgroundColor(Color.TRANSPARENT)
-                v.levelView4.setBackgroundColor(Color.TRANSPARENT)
-            }
-            2 -> {
-                v.levelView1.setBackgroundColor(context.resources.getColor(R.color.colorPrimary))
-                v.levelView2.setBackgroundColor(context.resources.getColor(R.color.colorPrimary))
-                v.levelView3.setBackgroundColor(context.resources.getColor(R.color.green))
-                v.levelView4.setBackgroundColor(Color.TRANSPARENT)
-            }
-            3 -> {
-                v.levelView1.setBackgroundColor(context.resources.getColor(R.color.colorPrimary))
-                v.levelView2.setBackgroundColor(context.resources.getColor(R.color.colorPrimary))
-                v.levelView3.setBackgroundColor(context.resources.getColor(R.color.colorPrimary))
-                v.levelView4.setBackgroundColor(context.resources.getColor(R.color.green))
-            }
-        }
 
         Glide.with(context).load(makePublicPhotoUrl(item.getIdByGender(yourGender)))
                 .bitmapTransform(CropCircleTransformation(context))

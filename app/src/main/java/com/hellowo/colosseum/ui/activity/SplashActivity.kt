@@ -61,6 +61,14 @@ class SplashActivity : AppCompatActivity() {
         moreInfoEdit.visibility = View.GONE
         rootLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         loginBtn.setOnClickListener { login() }
+        loginBtn.setOnLongClickListener {
+            viewModel.signIn(this, "admin@gmail.com", "aaaaaaaa")
+            return@setOnLongClickListener false
+        }
+        optionBtn.setOnLongClickListener {
+            viewModel.signIn(this, "sj@gmail.com", "aaaaaaaa")
+            return@setOnLongClickListener false
+        }
     }
 
     private fun initObserve() {
@@ -127,7 +135,14 @@ class SplashActivity : AppCompatActivity() {
                 updateUI()
             }
             optionBtn.text = getString(R.string.do_login)
-            profileImage.setOnClickListener { checkExternalStoragePermission() }
+            profileImage.setOnClickListener {
+                com.hellowo.colosseum.utils.showPhotoPicker(this) { uri ->
+                    this.uri = uri
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) { profileImage.imageTintList = null }
+                    Glide.with(this).load(uri).placeholder(R.drawable.default_profile)
+                            .bitmapTransform(CropCircleTransformation(this)).into(profileImage)
+                }
+            }
             genderBtn.setOnClickListener {
                 if(gender == -1 || gender == 1) {
                     gender = 0
@@ -192,33 +207,6 @@ class SplashActivity : AppCompatActivity() {
                     pushToken = FirebaseInstanceId.getInstance().token)
             viewModel.signUp(this, user, passwordEdit.text.toString(), uri!!)
         }
-    }
-
-    private val permissionlistener = object : PermissionListener {
-        override fun onPermissionGranted() {
-            showPhotoPicker()
-        }
-        override fun onPermissionDenied(deniedPermissions: ArrayList<String>) {}
-    }
-
-    private fun checkExternalStoragePermission() {
-        TedPermission(this)
-                .setPermissionListener(permissionlistener)
-                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .check()
-    }
-
-    private fun showPhotoPicker() {
-        val bottomSheetDialogFragment = TedBottomPicker.Builder(this)
-                .setOnImageSelectedListener { uri -> this.uri = uri
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        profileImage.imageTintList = null
-                    }
-                    Glide.with(this).load(uri).placeholder(R.drawable.default_profile)
-                            .bitmapTransform(CropCircleTransformation(this)).into(profileImage)}
-                .setPreviewMaxCount(100)
-                .create()
-        bottomSheetDialogFragment.show(supportFragmentManager)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

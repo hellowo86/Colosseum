@@ -19,14 +19,59 @@
 
     <ImageButton
         android:id="@+id/backBtn"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:background="?android:attr/selectableItemBackground"
         android:src="@drawable/ic_keyboard_arrow_left_black_48dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="@dimen/big_margin"
-        android:layout_marginLeft="@dimen/big_margin"
+        android:padding="8dp"
         android:scaleType="centerInside"
         android:tint="@color/white" />
+
+    <LinearLayout
+        android:id="@+id/evaluationLy"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/top_menu_bar_height"
+        android:layout_gravity="bottom"
+        android:visibility="visible"
+        android:elevation="8dp">
+
+        <FrameLayout
+            android:id="@+id/hateBtn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/grey"
+            android:foreground="?android:attr/selectableItemBackground">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside"
+                android:padding="@dimen/big_margin"
+                android:src="@drawable/broken_heart"
+                android:tint="@color/white"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/likeBtn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:foreground="?android:attr/selectableItemBackground">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside"
+                android:padding="@dimen/big_margin"
+                android:src="@drawable/heart"
+                android:tint="@color/white"/>
+
+        </FrameLayout>
+
+    </LinearLayout>
 
 </FrameLayout>

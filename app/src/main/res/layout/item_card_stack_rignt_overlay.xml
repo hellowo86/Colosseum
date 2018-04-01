@@ -8,7 +8,7 @@
     android:layout_marginBottom="32dp"
     android:layout_marginLeft="28dp"
     android:layout_marginRight="28dp"
-    card_view:cardBackgroundColor="@color/colorPrimaryAlpha"
+    card_view:cardBackgroundColor="@color/colorPrimary"
     card_view:cardCornerRadius="20dp">
 
     <ImageView

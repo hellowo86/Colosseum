@@ -58,7 +58,7 @@ dependencies {
     //View
     compile "com.yuyakaido.android:card-stack-view:1.0.0-beta9"
     compile 'com.skyfishjy.ripplebackground:library:1.0.1'
-    //https://github.com/DanielMartinus/konfetti
+    compile 'nl.dionsegijn:konfetti:1.1.0'
     //util
     compile 'com.squareup.okhttp3:okhttp:3.8.0'
 }

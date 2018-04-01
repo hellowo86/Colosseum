@@ -10,20 +10,23 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="@dimen/big_margin">
+        android:clipChildren="false">
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:gravity="center_vertical"
+            android:layout_marginTop="40dp"
             android:layout_marginLeft="@dimen/normal_margin"
-            android:gravity="center_vertical">
+            android:layout_marginRight="@dimen/big_margin"
+            android:layout_marginBottom="@dimen/big_margin">
 
             <ImageView
                 android:id="@+id/backBtn"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:padding="3dp"
                 android:background="?android:attr/selectableItemBackground"
                 android:src="@drawable/ic_keyboard_arrow_left_black_48dp"
                 android:tint="@color/primaryText"/>
@@ -32,53 +35,12 @@
                 android:id="@+id/titleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
+                android:textSize="22dp"
                 android:textColor="@color/primaryText"
                 android:text="@string/favorability_test"
-                android:fontFamily="@font/spoqa_sans_b"
-                android:visibility="visible"/>
+                android:fontFamily="@font/spoqa_sans_b"/>
 
         </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_marginTop="@dimen/normal_margin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/extra_margin">
-
-            <TextView
-                android:id="@+id/stepText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/show_another_photo"
-                android:textColor="@color/secondaryText"
-                android:textSize="15dp"
-                android:fontFamily="@font/spoqa_sans_b" />
-
-            <TextView
-                android:id="@+id/statusText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/ing"
-                android:textColor="@color/blue"
-                android:textSize="18dp"
-                android:layout_marginLeft="@dimen/normal_margin"
-                android:fontFamily="@font/spoqa_sans_b" />
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/stepSubText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/small_margin"
-            android:layout_marginBottom="10dp"
-            android:text="@string/show_another_photo_sub"
-            android:textColor="@color/secondaryText"
-            android:fontFamily="@font/spoqa_sans_r"
-            android:layout_marginLeft="@dimen/extra_margin"
-            android:textSize="14dp"/>
 
         <FrameLayout
             android:id="@+id/youLy"
@@ -86,224 +48,419 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:clipChildren="false"
-            android:visibility="invisible">
+            android:visibility="visible">
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="20dp"
                 android:layout_marginLeft="@dimen/extra_margin"
                 android:layout_marginRight="@dimen/extra_margin"
                 android:layout_marginBottom="20dp"
-                app:cardBackgroundColor="@color/almostWhite"
+                app:cardBackgroundColor="@color/background"
                 app:cardCornerRadius="10dp"
-                app:cardElevation="0dp">
+                app:cardElevation="8dp">
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:clipChildren="false">
 
-                    <TextView
-                        android:id="@+id/youNameText"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:textSize="14dp"
-                        android:text="name"
-                        android:fontFamily="@font/spoqa_sans_b"/>
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="@dimen/normal_margin"
+                        android:layout_marginLeft="@dimen/normal_margin"
+                        android:layout_marginRight="@dimen/normal_margin">
+
+                        <ImageView
+                            android:id="@+id/youImg"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/default_profile"/>
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp">
+
+                            <TextView
+                                android:id="@+id/youNameText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="13dp"
+                                android:text="name"
+                                android:textColor="@color/colorPrimary"
+                                android:fontFamily="@font/spoqa_sans_r"/>
+
+                            <TextView
+                                android:id="@+id/youStatusText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="13dp"
+                                android:text="name"
+                                android:fontFamily="@font/spoqa_sans_r"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
 
                     <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="30dp"
-                        android:layout_marginLeft="@dimen/big_margin"
-                        android:layout_marginRight="25dp"
-                        android:gravity="center_vertical">
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="@dimen/normal_margin"
+                        android:layout_marginRight="@dimen/normal_margin"
+                        android:layout_marginBottom="@dimen/normal_margin"
+                        android:clipChildren="false">
 
-                        <ImageView
-                            android:id="@+id/youStatusIconImg"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:layout_marginTop="0dp"
-                            android:src="@drawable/color_in_love"
-                            android:elevation="1dp"/>
+                        <android.support.v7.widget.CardView
+                            android:id="@+id/youPhotoBtn"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            app:cardBackgroundColor="@color/background"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="0dp"
+                            android:layout_marginRight="5dp">
 
-                        <TextView
-                            android:id="@+id/youStatusText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:textSize="14dp"
-                            android:textColor="@color/secondaryText"
-                            android:fontFamily="@font/spoqa_sans_r"/>
+                            <LinearLayout
+                                android:id="@+id/youPhotoLy"
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/dash_rect"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:id="@+id/youPhotoIconImg"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/ic_add_a_photo_black_48dp"
+                                    android:layout_marginTop="10dp"
+                                    android:tint="@color/iconTint"/>
+
+                                <TextView
+                                    android:id="@+id/youPhotoStatusText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="10dp"
+                                    android:gravity="center"
+                                    android:textSize="10dp"
+                                    android:text="@string/reg_photo"
+                                    android:textColor="@color/disableText"
+                                    android:fontFamily="@font/spoqa_sans_r"/>
+
+                            </LinearLayout>
+
+                        </android.support.v7.widget.CardView>
+
+                        <android.support.v7.widget.CardView
+                            android:id="@+id/youVoiceBtn"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            app:cardBackgroundColor="@color/background"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="0dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp">
+
+                            <LinearLayout
+                                android:id="@+id/youVoiceLy"
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/dash_rect"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:id="@+id/youVoiceIconImg"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/ic_mic_black_48dp"
+                                    android:layout_marginTop="10dp"
+                                    android:tint="@color/iconTint"/>
+
+                                <TextView
+                                    android:id="@+id/youVoiceStatusText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="10dp"
+                                    android:gravity="center"
+                                    android:textSize="10dp"
+                                    android:text="@string/reg_voice"
+                                    android:textColor="@color/disableText"
+                                    android:fontFamily="@font/spoqa_sans_r"/>
+
+                            </LinearLayout>
+
+                        </android.support.v7.widget.CardView>
+
+                        <android.support.v7.widget.CardView
+                            android:id="@+id/youQuestionBtn"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            app:cardBackgroundColor="@color/background"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="0dp"
+                            android:layout_marginLeft="5dp">
+
+                            <LinearLayout
+                                android:id="@+id/youQuestionLy"
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/dash_rect"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:id="@+id/youQuestionIconImg"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/ic_lightbulb_outline_black_48dp"
+                                    android:layout_marginTop="10dp"
+                                    android:tint="@color/iconTint"/>
+
+                                <TextView
+                                    android:id="@+id/youQuestionStatusText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="10dp"
+                                    android:gravity="center"
+                                    android:textSize="10dp"
+                                    android:text="@string/reg_questions"
+                                    android:textColor="@color/disableText"
+                                    android:fontFamily="@font/spoqa_sans_r"/>
+
+                            </LinearLayout>
+
+                        </android.support.v7.widget.CardView>
 
                     </LinearLayout>
 
                 </LinearLayout>
-
-            </android.support.v7.widget.CardView>
-
-            <ImageView
-                android:id="@+id/youImg"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="0dp"
-                android:src="@drawable/default_profile"
-                android:elevation="1dp"/>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/likeLy"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="right|bottom"
-                android:layout_marginRight="50dp"
-                android:layout_marginBottom="3dp"
-                app:cardBackgroundColor="@color/colorPrimary"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="1dp"
-                android:visibility="invisible">
-
-                <ImageView
-                    android:id="@+id/likeBtn"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textColor="@color/white"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:src="@drawable/heart"
-                    android:tint="@color/white"/>
-
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/hateLy"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="right|bottom"
-                android:layout_marginRight="100dp"
-                android:layout_marginBottom="3dp"
-                app:cardBackgroundColor="@color/disableText"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="1dp"
-                android:visibility="invisible">
-
-                <ImageView
-                    android:id="@+id/hateBtn"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textColor="@color/white"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:src="@drawable/broken_heart"
-                    android:tint="@color/white"/>
 
             </android.support.v7.widget.CardView>
 
         </FrameLayout>
 
         <FrameLayout
+            android:id="@+id/meLy"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:clipChildren="false"
-            android:id="@+id/meLy"
-            android:visibility="invisible">
+            android:visibility="visible">
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="20dp"
                 android:layout_marginLeft="@dimen/extra_margin"
                 android:layout_marginRight="@dimen/extra_margin"
                 android:layout_marginBottom="20dp"
                 app:cardBackgroundColor="@color/background"
                 app:cardCornerRadius="10dp"
-                app:cardElevation="1dp">
+                app:cardElevation="8dp">
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:clipChildren="false">
 
-                    <TextView
-                        android:id="@+id/meNameText"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:textSize="14dp"
-                        android:text="name"
-                        android:fontFamily="@font/spoqa_sans_b"/>
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="@dimen/normal_margin"
+                        android:layout_marginLeft="@dimen/normal_margin"
+                        android:layout_marginRight="@dimen/normal_margin">
+
+                        <ImageView
+                            android:id="@+id/meImg"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:src="@drawable/default_profile"/>
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp">
+
+                            <TextView
+                                android:id="@+id/meNameText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="13dp"
+                                android:text="name"
+                                android:textColor="@color/colorPrimary"
+                                android:fontFamily="@font/spoqa_sans_r"/>
+
+                            <TextView
+                                android:id="@+id/meStatusText"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="13dp"
+                                android:text="name"
+                                android:fontFamily="@font/spoqa_sans_r"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
 
                     <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="30dp"
-                        android:layout_marginLeft="@dimen/big_margin"
-                        android:layout_marginRight="25dp"
-                        android:gravity="center_vertical">
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="@dimen/normal_margin"
+                        android:layout_marginRight="@dimen/normal_margin"
+                        android:layout_marginBottom="@dimen/normal_margin"
+                        android:clipChildren="false">
 
-                        <ImageView
-                            android:id="@+id/meStatusIconImg"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:layout_marginTop="0dp"
-                            android:src="@drawable/color_love_letter"
-                            android:elevation="1dp"/>
+                        <android.support.v7.widget.CardView
+                            android:id="@+id/mePhotoBtn"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            app:cardBackgroundColor="@color/background"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="2dp"
+                            android:layout_marginRight="5dp">
 
-                        <TextView
-                            android:id="@+id/meStatusText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:textSize="14dp"
-                            android:textColor="@color/secondaryText"
-                            android:fontFamily="@font/spoqa_sans_r"/>
+                            <LinearLayout
+                                android:id="@+id/mePhotoLy"
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/dash_rect"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:id="@+id/mePhotoIconImg"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/ic_add_a_photo_black_48dp"
+                                    android:layout_marginTop="10dp"
+                                    android:tint="@color/iconTint"/>
+
+                                <TextView
+                                    android:id="@+id/mePhotoStatusText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="10dp"
+                                    android:gravity="center"
+                                    android:textSize="10dp"
+                                    android:text="@string/reg_photo"
+                                    android:textColor="@color/disableText"
+                                    android:fontFamily="@font/spoqa_sans_r"/>
+
+                            </LinearLayout>
+
+                        </android.support.v7.widget.CardView>
+
+                        <android.support.v7.widget.CardView
+                            android:id="@+id/meVoiceBtn"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            app:cardBackgroundColor="@color/background"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="0dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp">
+
+                            <LinearLayout
+                                android:id="@+id/meVoiceLy"
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/dash_rect"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:id="@+id/meVoiceIconImg"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/ic_mic_black_48dp"
+                                    android:layout_marginTop="10dp"
+                                    android:tint="@color/iconTint"/>
+
+                                <TextView
+                                    android:id="@+id/meVoiceStatusText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="10dp"
+                                    android:gravity="center"
+                                    android:textSize="10dp"
+                                    android:text="@string/reg_voice"
+                                    android:textColor="@color/disableText"
+                                    android:fontFamily="@font/spoqa_sans_r"/>
+
+                            </LinearLayout>
+
+                        </android.support.v7.widget.CardView>
+
+                        <android.support.v7.widget.CardView
+                            android:id="@+id/meQuestionBtn"
+                            android:layout_weight="1"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:foreground="?android:attr/selectableItemBackground"
+                            app:cardBackgroundColor="@color/background"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="0dp"
+                            android:layout_marginLeft="5dp">
+
+                            <LinearLayout
+                                android:id="@+id/meQuestionLy"
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/dash_rect"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:id="@+id/meQuestionIconImg"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:src="@drawable/ic_lightbulb_outline_black_48dp"
+                                    android:layout_marginTop="10dp"
+                                    android:tint="@color/iconTint"/>
+
+                                <TextView
+                                    android:id="@+id/meQuestionStatusText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="10dp"
+                                    android:gravity="center"
+                                    android:textSize="10dp"
+                                    android:text="@string/reg_questions"
+                                    android:textColor="@color/disableText"
+                                    android:fontFamily="@font/spoqa_sans_r"/>
+
+                            </LinearLayout>
+
+                        </android.support.v7.widget.CardView>
 
                     </LinearLayout>
 
                 </LinearLayout>
-
-            </android.support.v7.widget.CardView>
-
-            <ImageView
-                android:id="@+id/meImg"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="0dp"
-                android:src="@drawable/default_profile"
-                android:elevation="1dp"/>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/regLy"
-                android:layout_width="100dp"
-                android:layout_height="40dp"
-                android:layout_gravity="right|bottom"
-                android:layout_marginRight="50dp"
-                android:layout_marginBottom="3dp"
-                app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="1dp"
-                android:visibility="invisible">
-
-                <TextView
-                    android:id="@+id/regBtn"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textColor="@color/secondaryText"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:gravity="center"
-                    android:text="@string/reg"
-                    android:textSize="14dp"
-                    android:fontFamily="@font/spoqa_sans_b"/>
 
             </android.support.v7.widget.CardView>
 
@@ -318,5 +475,108 @@
         android:layout_gravity="center"
         android:indeterminateTint="@color/colorPrimary"
         android:visibility="gone"/>
+
+    <FrameLayout
+        android:id="@+id/successLy"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/extra_margin"
+                android:layout_marginRight="@dimen/extra_margin"
+                android:textSize="35dp"
+                android:gravity="center"
+                android:textColor="@color/colorPrimary"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/congratulation"
+                android:fontFamily="@font/spoqa_sans_b"/>
+
+            <TextView
+                android:id="@+id/nameText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/extra_margin"
+                android:layout_marginRight="@dimen/extra_margin"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/small_margin"
+                android:textColor="@color/secondaryText"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/success_matching"
+                android:fontFamily="@font/spoqa_sans_r"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="@dimen/big_margin"
+                android:layout_marginLeft="@dimen/extra_margin"
+                android:layout_marginRight="@dimen/extra_margin">
+
+                <ImageView
+                    android:id="@+id/successMeImg"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"/>
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="@dimen/normal_margin"
+                    android:layout_marginRight="@dimen/normal_margin"
+                    android:padding="5dp"
+                    android:src="@drawable/color_letter"/>
+
+                <ImageView
+                    android:id="@+id/successYouImg"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"/>
+
+            </LinearLayout>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/joinChatBtn"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:layout_marginTop="@dimen/big_margin"
+                android:layout_marginLeft="@dimen/extra_margin"
+                android:layout_marginRight="@dimen/extra_margin"
+                android:layout_marginBottom="@dimen/big_margin"
+                app:cardBackgroundColor="@color/colorPrimary"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center"
+                    android:textSize="@dimen/button_text_size"
+                    android:text="@string/join_chat"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/spoqa_sans_b"/>
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <nl.dionsegijn.konfetti.KonfettiView
+        android:id="@+id/konfettiView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"/>
 
 </FrameLayout>

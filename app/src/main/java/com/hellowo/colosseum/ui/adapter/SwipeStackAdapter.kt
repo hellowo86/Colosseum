@@ -36,11 +36,11 @@ class SwipeStackAdapter(private val activity: Activity) : ArrayAdapter<User>(act
         val user = getItem(position)
 
         Glide.with(activity).load(makePublicPhotoUrl(user.id)).into(holder.profileImg)
-        holder.nameText.text = " : ${user.nickName}"
+        holder.nameText.text = "${user.nickName}"
         try{
             holder.locText.text = " : ${Math.round(distFrom(user.lat, user.lng, Me.value?.lat!!, Me.value?.lng!!) * 100) / 100.0}km"
         }catch (e: Exception){}
-        holder.ageText.text = "${cal.get(Calendar.YEAR) - user.birth + 1}"
+        holder.ageText.text = " : ${cal.get(Calendar.YEAR) - user.birth + 1}"
         holder.moreText.text = user.moreInfo
 
         return contentView
