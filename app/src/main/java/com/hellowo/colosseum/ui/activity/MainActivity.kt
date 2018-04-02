@@ -12,10 +12,7 @@ import com.hellowo.colosseum.data.InterestedCouple
 import com.hellowo.colosseum.data.Me
 import com.hellowo.colosseum.data.MyChatList
 import com.hellowo.colosseum.model.User
-import com.hellowo.colosseum.ui.fragment.InterestFragment
-import com.hellowo.colosseum.ui.fragment.FavorablityTestListFragment
-import com.hellowo.colosseum.ui.fragment.MyChatListFragment
-import com.hellowo.colosseum.ui.fragment.ProfileFragment
+import com.hellowo.colosseum.ui.fragment.*
 import com.hellowo.colosseum.utils.log
 import com.hellowo.colosseum.utils.makePublicPhotoUrl
 import com.hellowo.colosseum.viewmodel.MainViewModel
@@ -62,7 +59,7 @@ class MainActivity : BaseActivity() {
                     homeTabImg -> InterestFragment()
                     matchingTabImg -> FavorablityTestListFragment()
                     chatTabImg -> MyChatListFragment()
-                    communityTabImg -> InterestFragment()
+                    communityTabImg -> IssueFragment()
                     profileImg -> ProfileFragment()
                     else -> return
                 })

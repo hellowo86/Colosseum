@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground"
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/big_margin"
+        android:layout_marginRight="50dp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/sub_line_size"
+            android:background="@color/backgroundDark"/>
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/small_margin"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/profileImage"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/default_profile"/>
+
+            <TextView
+                android:id="@+id/nameText"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="name"
+                android:textColor="@color/primaryText"
+                style="@style/NormalText"
+                android:textSize="@dimen/normal_text_size"
+                android:fontFamily="@font/spoqa_sans_b"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/activeTimeText"
+                    style="@style/SubText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/small_margin"
+                    android:text="time"
+                    android:textColor="@color/disableText" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/messageText"
+            android:layout_marginLeft="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="message"
+            android:textColor="@color/secondaryText"
+            style="@style/NormalText"
+            android:textSize="@dimen/normal_text_size"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_gravity="center_vertical|right"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/heart"
+        android:padding="5dp"
+        android:layout_margin="@dimen/normal_margin"
+        android:tint="@color/iconTint"/>
+
+</FrameLayout>

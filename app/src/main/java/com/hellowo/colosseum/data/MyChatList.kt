@@ -32,7 +32,6 @@ object MyChatList : LiveData<ArrayList<MyChat>>() {
     override fun onInactive() {
         listenerMap.forEach { it.value.remove() }
         listenerMap.clear()
-        chatMap.clear()
         log("MyChatList onInactive")
     }
 
@@ -46,6 +45,7 @@ object MyChatList : LiveData<ArrayList<MyChat>>() {
                 if(task.result.size() > 0) {
                     val totalSize = task.result.size()
                     var count = 0
+
                     task.result.forEach { doc ->
                         val chatId = doc.id
                         deleteMap.remove(chatId)
@@ -53,11 +53,17 @@ object MyChatList : LiveData<ArrayList<MyChat>>() {
                             count++
                             if(task.isSuccessful) {
                                 val yourGenderKey = Couple.getGenderKey(Me.value?.getYourGender()!!)
+                                val myChat: MyChat
                                 if(chatMap.containsKey(chatId)) {
-                                    // 업데이트
+                                    myChat = chatMap[chatId]!!
                                 }else {
-                                    val myChat = MyChat(id = chatId, title = task.result.getString("${yourGenderKey}Name"),
+                                    myChat = MyChat(id = chatId, title = task.result.getString("${yourGenderKey}Name"),
                                             hostId = task.result.getString("${yourGenderKey}Id"))
+                                    value?.add(myChat)
+                                }
+                                chatMap.put(chatId, myChat)
+
+                                if(!listenerMap.containsKey(chatId)) {
                                     val listener = db.collection("chats").document(chatId).collection("messages")
                                             .orderBy("dtCreated", Query.Direction.DESCENDING).limit(1).addSnapshotListener{ snapshots, e ->
                                         if (e != null) {
@@ -77,11 +83,10 @@ object MyChatList : LiveData<ArrayList<MyChat>>() {
                                             value = value
                                         }
                                     }
-                                    value?.add(myChat)
-                                    chatMap.put(chatId, myChat)
                                     listenerMap.put(chatId, listener)
                                 }
                             }
+
                             if(count == totalSize) {
                                 sort()
                                 value = value
@@ -89,11 +94,17 @@ object MyChatList : LiveData<ArrayList<MyChat>>() {
                             }
                         }
                     }
+
                     deleteMap.forEach {
-                        listenerMap.remove(it)
-                        chatMap.remove(it)
+                        try{
+                            listenerMap.remove(it)
+                            value?.remove(chatMap.remove(it))
+                        }catch (e: Exception){}
                     }
                 }else {
+                    chatMap.clear()
+                    listenerMap.clear()
+                    value?.clear()
                     value = value
                     loading.value = false
                 }

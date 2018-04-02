@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PaperPlane</string>
+    <string name="app_name">CoupIns</string>
     <string name="ok">확인</string>
     <string name="cancel">취소</string>
     <string name="sign_in">로그인</string>
@@ -119,4 +119,5 @@
     <string name="check_list_success">체크리스트가\n5개 이상\n일치합니다!</string>
     <string name="congratulation">축하합니다!</string>
     <string name="success_matching">커플 연결에 성공하였습니다.\n이제 커플 채팅방에서 상대방과 자유롭게 대화할 수 있습니다</string>
+    <string name="issue">오늘의 연애 이슈</string>
 </resources>
