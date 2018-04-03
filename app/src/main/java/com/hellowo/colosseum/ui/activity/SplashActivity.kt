@@ -25,6 +25,7 @@ import com.hellowo.colosseum.data.Me
 import com.hellowo.colosseum.model.User
 import com.hellowo.colosseum.ui.activity.MainActivity
 import com.hellowo.colosseum.utils.isEmailValid
+import com.hellowo.colosseum.utils.log
 import com.hellowo.colosseum.utils.toast
 import com.hellowo.colosseum.viewmodel.SplashViewModel
 import gun0912.tedbottompicker.TedBottomPicker
@@ -49,16 +50,14 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun initLayout() {
-        profileImage.visibility = View.GONE
+        profileLy.visibility = View.GONE
         emailEdit.visibility = View.GONE
         passwordEdit.visibility = View.GONE
         nameEdit.visibility = View.GONE
-        genderBtn.visibility = View.GONE
         ageEdit.visibility = View.GONE
-        locationBtn.visibility = View.GONE
+        locationLy.visibility = View.GONE
         loginBtn.visibility = View.GONE
         optionBtn.visibility = View.GONE
-        moreInfoEdit.visibility = View.GONE
         rootLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         loginBtn.setOnClickListener { login() }
         loginBtn.setOnLongClickListener {
@@ -95,14 +94,12 @@ class SplashActivity : AppCompatActivity() {
         progressBar.visibility = View.GONE
         if(mode == 1) {
             logoImg.visibility = View.VISIBLE
-            profileImage.visibility = View.GONE
+            profileLy.visibility = View.GONE
             emailEdit.visibility = View.VISIBLE
             passwordEdit.visibility = View.VISIBLE
             nameEdit.visibility = View.GONE
-            genderBtn.visibility = View.GONE
             ageEdit.visibility = View.GONE
-            locationBtn.visibility = View.GONE
-            moreInfoEdit.visibility = View.GONE
+            locationLy.visibility = View.GONE
             loginBtn.visibility = View.VISIBLE
             optionBtn.visibility = View.VISIBLE
             optionBtn.setOnClickListener {
@@ -110,6 +107,7 @@ class SplashActivity : AppCompatActivity() {
                 updateUI()
             }
             optionBtn.text = getString(R.string.do_sign_up)
+            ageEdit.setOnEditorActionListener(null)
             passwordEdit.imeOptions = EditorInfo.IME_ACTION_DONE
             passwordEdit.setOnEditorActionListener{ v, actionId, event ->
                 if(actionId == EditorInfo.IME_ACTION_DONE){
@@ -120,14 +118,12 @@ class SplashActivity : AppCompatActivity() {
             }
         }else if(mode == 2) {
             logoImg.visibility = View.GONE
-            profileImage.visibility = View.VISIBLE
+            profileLy.visibility = View.VISIBLE
             emailEdit.visibility = View.VISIBLE
             passwordEdit.visibility = View.VISIBLE
             nameEdit.visibility = View.VISIBLE
-            genderBtn.visibility = View.VISIBLE
             ageEdit.visibility = View.VISIBLE
-            locationBtn.visibility = View.VISIBLE
-            moreInfoEdit.visibility = View.VISIBLE
+            locationLy.visibility = View.VISIBLE
             loginBtn.visibility = View.VISIBLE
             optionBtn.visibility = View.VISIBLE
             optionBtn.setOnClickListener {
@@ -143,20 +139,30 @@ class SplashActivity : AppCompatActivity() {
                             .bitmapTransform(CropCircleTransformation(this)).into(profileImage)
                 }
             }
-            genderBtn.setOnClickListener {
-                if(gender == -1 || gender == 1) {
-                    gender = 0
-                    genderBtn.text = getString(R.string.male)
-                }else {
-                    gender = 1
-                    genderBtn.text = getString(R.string.female)
-                }
+            maleBtn.setOnClickListener {
+                gender = 0
+                maleBtn.setTextColor(resources.getColor(R.color.colorPrimary))
+                femaleBtn.setTextColor(resources.getColor(R.color.iconTint))
+            }
+            femaleBtn.setOnClickListener {
+                gender = 1
+                maleBtn.setTextColor(resources.getColor(R.color.iconTint))
+                femaleBtn.setTextColor(resources.getColor(R.color.colorPrimary))
             }
             locationBtn.setOnClickListener {
                 val builder = PlacePicker.IntentBuilder()
                 startActivityForResult(builder.build(this), 1)
             }
             passwordEdit.setOnEditorActionListener(null)
+            ageEdit.imeOptions = EditorInfo.IME_ACTION_DONE
+            ageEdit.setOnEditorActionListener{ v, actionId, event ->
+                if(actionId == EditorInfo.IME_ACTION_DONE){
+                    val builder = PlacePicker.IntentBuilder()
+                    startActivityForResult(builder.build(this), 1)
+                    return@setOnEditorActionListener false
+                }
+                return@setOnEditorActionListener true
+            }
         }
     }
 
@@ -179,9 +185,6 @@ class SplashActivity : AppCompatActivity() {
         } else if (mode == 2 && ageEdit.text.length < 2) {
             ageEdit.error = getString(R.string.plz_check_age)
             return
-        } else if (mode == 2 && moreInfoEdit.text.isEmpty()) {
-            moreInfoEdit.error = getString(R.string.plz_check_moreInfo)
-            return
         } else if (mode == 2 && uri == null) {
             toast(this, R.string.plz_check_profile_img)
             return
@@ -200,8 +203,7 @@ class SplashActivity : AppCompatActivity() {
                     birth = cal.get(Calendar.YEAR) - ageEdit.text.toString().toInt() + 1,
                     lat = lat,
                     lng = lng,
-                    location = locationBtn.text.toString().trim(),
-                    moreInfo = moreInfoEdit.text.toString().trim(),
+                    location = locationText.text.toString(),
                     dtConnected = cal.timeInMillis,
                     dtCreated = cal.timeInMillis,
                     pushToken = FirebaseInstanceId.getInstance().token)
@@ -215,7 +217,20 @@ class SplashActivity : AppCompatActivity() {
             val place = PlacePicker.getPlace(this, data)
             lat = place.latLng.latitude
             lng = place.latLng.longitude
-            locationBtn.text = getString(R.string.selected)
+            val slice = place.address.split(" ")
+            if(slice.isNotEmpty()){
+                val stringBuilder = StringBuilder()
+                var count = 0
+                ((slice.size - 1) downTo 0).forEach {
+                    count++
+                    if(count < 4) {
+                        stringBuilder.insert(0, " ${slice[it]}")
+                    }
+                }
+                locationText.setText(stringBuilder.trim())
+            }else {
+                locationText.setText(place.address.toString())
+            }
         }
     }
 }

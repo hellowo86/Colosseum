@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
@@ -21,6 +22,8 @@ import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import com.hellowo.colosseum.R
 import com.hellowo.colosseum.storageUrl
+import com.hellowo.colosseum.ui.activity.PhotoActivity
+import com.hellowo.colosseum.ui.activity.UserActivity
 import gun0912.tedbottompicker.TedBottomPicker
 import java.io.*
 import java.util.ArrayList
@@ -154,6 +157,18 @@ fun uploadFile(context: Context, filePath: String, fileName: String, onSuccess: 
         e.printStackTrace()
         onFailed.invoke(e)
     }
+}
+
+fun startUserActivity(activity: Activity, userId: String) {
+    val intent = Intent(activity, UserActivity::class.java)
+    intent.putExtra("userId", userId)
+    activity.startActivity(intent)
+}
+
+fun startPhotoActivity(activity: Activity, photoUrl: String) {
+    val intent = Intent(activity, PhotoActivity::class.java)
+    intent.putExtra("photoUrl", photoUrl)
+    activity.startActivity(intent)
 }
 
 

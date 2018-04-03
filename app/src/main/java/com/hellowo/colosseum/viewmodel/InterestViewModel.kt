@@ -8,6 +8,7 @@ import com.hellowo.colosseum.data.Me
 import com.hellowo.colosseum.model.Couple
 import com.hellowo.colosseum.model.User
 import com.hellowo.colosseum.utils.log
+import java.util.logging.Handler
 
 
 class InterestViewModel : ViewModel() {
@@ -126,6 +127,14 @@ class InterestViewModel : ViewModel() {
 
     fun stackEmpty() {
         viewMode.value = 0
+        loadInterestMeList()
+    }
+
+    fun response() {
+        newList.value?.clear()
+        newList.value?.addAll(interestMeList.value!!)
+        newList.value = newList.value
+        viewMode.value = 3
     }
 
 }

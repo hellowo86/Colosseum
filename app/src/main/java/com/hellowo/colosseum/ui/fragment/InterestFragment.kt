@@ -1,8 +1,10 @@
 package com.hellowo.colosseum.ui.fragment
 
+import android.animation.LayoutTransition
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.os.Handler
 import android.support.transition.Slide
 import android.support.transition.TransitionManager
 import android.support.v4.app.Fragment
@@ -20,11 +22,11 @@ import com.hellowo.colosseum.ui.adapter.SwipeStackAdapter
 import com.hellowo.colosseum.ui.dialog.InterestCompletedDialog
 import com.hellowo.colosseum.utils.makePublicPhotoUrl
 import com.hellowo.colosseum.utils.makeSlideFromBottomTransition
+import com.hellowo.colosseum.utils.startUserActivity
 import com.hellowo.colosseum.viewmodel.InterestViewModel
 import com.pixplicity.easyprefs.library.Prefs
 import com.yuyakaido.android.cardstackview.CardStackView
 import com.yuyakaido.android.cardstackview.SwipeDirection
-import jp.wasabeef.glide.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.fragment_interest.*
 
 
@@ -84,19 +86,47 @@ class InterestFragment : Fragment() {
     private fun setObserver() {
         viewModel.interestMeList.observe(this, Observer { list ->
             if(list != null && list.isNotEmpty()) {
-                responseBtn.isEnabled = true
-                responseBtn.alpha = 1f
-                val user = list[0]
-                Glide.with(this).load(makePublicPhotoUrl(user.id)).bitmapTransform(CropCircleTransformation(context))
-                        .placeholder(User.getDefaultImgId(user.gender)).into(responseProfileImg)
-                responseText.text = String.format(getString(R.string.response_btn_text), user.nickName, list.size)
-                responseBtn.setOnClickListener {
+                responseBtn.visibility = View.VISIBLE
+                peopleLy.visibility = View.VISIBLE
 
+                val user = list[0]
+                people1Ly.visibility = View.VISIBLE
+                people1Name.text = user.nickName
+                Glide.with(this).load(makePublicPhotoUrl(user.id)).centerCrop().into(people1Img)
+                people1Ly.setOnClickListener { startUserActivity(activity!!, user.id!!) }
+
+                if(list.size > 1) {
+                    val user = list[1]
+                    people2Ly.visibility = View.VISIBLE
+                    people2Name.text = user.nickName
+                    Glide.with(this).load(makePublicPhotoUrl(user.id)).centerCrop().into(people2Img)
+                    people2Ly.setOnClickListener { startUserActivity(activity!!, user.id!!) }
+                }else {
+                    people2Ly.visibility = View.GONE
+                }
+
+                if(list.size > 2) {
+                    val user = list[2]
+                    people3Ly.visibility = View.VISIBLE
+                    people3Name.text = user.nickName
+                    Glide.with(this).load(makePublicPhotoUrl(user.id)).centerCrop().into(people3Img)
+                    people3Ly.setOnClickListener { startUserActivity(activity!!, user.id!!) }
+                }else {
+                    people3Ly.visibility = View.GONE
+                }
+
+                if(list.size == 1) {
+                    interestMeText.text = String.format(getString(R.string.people_interest_me_one), user.nickName)
+                }else {
+                    interestMeText.text = String.format(getString(R.string.people_interest_me_many), user.nickName, list.size - 1)
+                }
+                responseBtn.setOnClickListener {
+                    viewModel.response()
                 }
             }else {
-                responseBtn.isEnabled = false
-                responseBtn.alpha = 0.5f
-                responseText.text = getString(R.string.response_empty)
+                responseBtn.visibility = View.GONE
+                peopleLy.visibility = View.GONE
+                interestMeText.text = getString(R.string.response_empty)
             }
         })
         viewModel.newList.observe(this, Observer { it?.let { if(it.size > 0){
@@ -112,16 +142,10 @@ class InterestFragment : Fragment() {
     }
 
     private fun updateUI(viewMode: Int?) {
-        TransitionManager.beginDelayedTransition(rootLy, makeSlideFromBottomTransition())
         when(viewMode){
             0 -> {
+                TransitionManager.beginDelayedTransition(rootLy, makeSlideFromBottomTransition())
                 optionLy.visibility = View.VISIBLE
-                optionChild1.visibility = View.VISIBLE
-                if(!Prefs.getBoolean("interest_tutorial", false)) {
-                    tutorialLy.visibility = View.VISIBLE
-                }
-                responseBtn.visibility = View.VISIBLE
-                searchBtn.visibility = View.VISIBLE
                 loadingLy.visibility = View.INVISIBLE
                 rippleView.visibility = View.INVISIBLE
                 loadingChild1.visibility = View.INVISIBLE
@@ -130,13 +154,8 @@ class InterestFragment : Fragment() {
                 swipeStack.visibility = View.INVISIBLE
             }
             1 -> {
+                TransitionManager.beginDelayedTransition(rootLy, makeSlideFromBottomTransition())
                 optionLy.visibility = View.INVISIBLE
-                optionChild1.visibility = View.INVISIBLE
-                if(!Prefs.getBoolean("interest_tutorial", false)) {
-                    tutorialLy.visibility = View.INVISIBLE
-                }
-                responseBtn.visibility = View.INVISIBLE
-                searchBtn.visibility = View.INVISIBLE
                 loadingLy.visibility = View.VISIBLE
                 rippleView.visibility = View.VISIBLE
                 loadingChild1.visibility = View.VISIBLE
@@ -150,21 +169,19 @@ class InterestFragment : Fragment() {
                 anim.repeatMode = Animation.REVERSE
                 centerImage.startAnimation(anim)
             }
-            2 -> {
-                optionLy.visibility = View.INVISIBLE
-                optionChild1.visibility = View.INVISIBLE
-                if(!Prefs.getBoolean("interest_tutorial", false)) {
-                    tutorialLy.visibility = View.INVISIBLE
-                }
-                responseBtn.visibility = View.INVISIBLE
-                searchBtn.visibility = View.INVISIBLE
-                loadingLy.visibility = View.INVISIBLE
-                rippleView.visibility = View.INVISIBLE
-                loadingChild1.visibility = View.INVISIBLE
-                loadingChild2.visibility = View.INVISIBLE
-                choiceLy.visibility = View.VISIBLE
-                swipeStack.visibility = View.VISIBLE
-            }
+            2 -> { rootLy.postDelayed({ viewModel.viewMode.value = 3 }, 2000) }
+            3 -> { showChoiceLayout() }
         }
+    }
+
+    private fun showChoiceLayout() {
+        TransitionManager.beginDelayedTransition(rootLy, makeSlideFromBottomTransition())
+        optionLy.visibility = View.INVISIBLE
+        loadingLy.visibility = View.INVISIBLE
+        rippleView.visibility = View.INVISIBLE
+        loadingChild1.visibility = View.INVISIBLE
+        loadingChild2.visibility = View.INVISIBLE
+        choiceLy.visibility = View.VISIBLE
+        swipeStack.visibility = View.VISIBLE
     }
 }

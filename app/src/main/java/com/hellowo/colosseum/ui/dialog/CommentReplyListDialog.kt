@@ -21,6 +21,7 @@ import com.hellowo.colosseum.ui.activity.UserActivity
 import com.hellowo.colosseum.ui.adapter.CommentListAdapter
 import com.hellowo.colosseum.utils.makeMessageLastTimeText
 import com.hellowo.colosseum.utils.makePublicPhotoUrl
+import com.hellowo.colosseum.utils.startUserActivity
 import com.hellowo.colosseum.viewmodel.IssueViewModel
 import jp.wasabeef.glide.transformations.CropCircleTransformation
 import java.util.*
@@ -71,9 +72,7 @@ class CommentReplyListDialog(private val issueId: String, private val comment : 
 
             recyclerView.layoutManager = LinearLayoutManager(context!!)
             recyclerView.adapter = CommentListAdapter(context!!, replyList, {}, {}, { userId ->
-                val intent = Intent(context, UserActivity::class.java)
-                intent.putExtra("userId", userId)
-                startActivity(intent)
+                startUserActivity(activity!!, userId)
             }, true)
 
             replyBtn.setOnClickListener {

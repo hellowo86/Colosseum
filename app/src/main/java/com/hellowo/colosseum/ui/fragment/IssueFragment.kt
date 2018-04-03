@@ -20,6 +20,7 @@ import com.hellowo.colosseum.ui.dialog.CommentReplyListDialog
 import com.hellowo.colosseum.ui.dialog.EnterCommentDialog
 import com.hellowo.colosseum.utils.log
 import com.hellowo.colosseum.utils.makeSlideFromBottomTransition
+import com.hellowo.colosseum.utils.startUserActivity
 import com.hellowo.colosseum.viewmodel.IssueViewModel
 import kotlinx.android.synthetic.main.fragment_issue.*
 import java.util.*
@@ -51,9 +52,7 @@ class IssueFragment : Fragment() {
         }, { likedItem ->
             viewModel.like(likedItem)
         }, { userId ->
-            val intent = Intent(context, UserActivity::class.java)
-            intent.putExtra("userId", userId)
-            startActivity(intent)
+            startUserActivity(activity!!, userId)
         }, false)
         layoutManager = LinearLayoutManager(context)
         recyclerView.layoutManager = layoutManager

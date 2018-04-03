@@ -28,10 +28,7 @@ import com.hellowo.colosseum.model.Chat
 import com.hellowo.colosseum.model.Message
 import com.hellowo.colosseum.ui.adapter.ChatMemberListAdapter
 import com.hellowo.colosseum.ui.adapter.MessageListAdapter
-import com.hellowo.colosseum.utils.fadeIn
-import com.hellowo.colosseum.utils.fadeOut
-import com.hellowo.colosseum.utils.log
-import com.hellowo.colosseum.utils.makePublicPhotoUrl
+import com.hellowo.colosseum.utils.*
 import com.hellowo.colosseum.viewmodel.ChatingViewModel
 import gun0912.tedbottompicker.TedBottomPicker
 import jp.wasabeef.glide.transformations.CropCircleTransformation
@@ -89,9 +86,9 @@ class ChatingActivity : BaseActivity() {
     fun initListViews() {
         adapter = MessageListAdapter(this, viewModel.chatId, viewModel.members.value!!,
                 viewModel.messages.value!!, viewModel.typings.value!!, object : MessageListAdapter.AdapterInterface {
-            override fun onProfileClicked(userId: String) { startUserActivity(userId) }
+            override fun onProfileClicked(userId: String) { startUserActivity(this@ChatingActivity, userId) }
             override fun onMessageClicked(message: Message) {}
-            override fun onPhotoClicked(photoUrl: String) { startPhotoActivity(photoUrl) }
+            override fun onPhotoClicked(photoUrl: String) { startPhotoActivity(this@ChatingActivity, photoUrl) }
         })
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
@@ -249,18 +246,6 @@ class ChatingActivity : BaseActivity() {
                 .setOnImageSelectedListener { uri -> viewModel.sendPhotoMessage(this, uri) }
                 .create()
         bottomSheetDialogFragment.show(supportFragmentManager)
-    }
-
-    private fun startUserActivity(userId: String) {
-        val intent = Intent(this, UserActivity::class.java)
-        intent.putExtra("userId", userId)
-        startActivity(intent)
-    }
-
-    private fun startPhotoActivity(photoUrl: String) {
-        val intent = Intent(this, PhotoActivity::class.java)
-        intent.putExtra("photoUrl", photoUrl)
-        startActivity(intent)
     }
 }
 

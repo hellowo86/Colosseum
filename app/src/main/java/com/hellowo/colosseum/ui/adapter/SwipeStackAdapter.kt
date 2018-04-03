@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.hellowo.colosseum.R
@@ -14,6 +15,7 @@ import com.hellowo.colosseum.data.Me
 import com.hellowo.colosseum.model.User
 import com.hellowo.colosseum.utils.distFrom
 import com.hellowo.colosseum.utils.makePublicPhotoUrl
+import com.hellowo.colosseum.utils.startUserActivity
 import java.util.*
 
 class SwipeStackAdapter(private val activity: Activity) : ArrayAdapter<User>(activity, 0) {
@@ -41,7 +43,8 @@ class SwipeStackAdapter(private val activity: Activity) : ArrayAdapter<User>(act
             holder.locText.text = " : ${Math.round(distFrom(user.lat, user.lng, Me.value?.lat!!, Me.value?.lng!!) * 100) / 100.0}km"
         }catch (e: Exception){}
         holder.ageText.text = " : ${cal.get(Calendar.YEAR) - user.birth + 1}"
-        holder.moreText.text = user.moreInfo
+
+        holder.detailBtn.setOnClickListener { startUserActivity(activity, user.id!!)}
 
         return contentView
     }
@@ -51,7 +54,7 @@ class SwipeStackAdapter(private val activity: Activity) : ArrayAdapter<User>(act
         val nameText: TextView = v.findViewById(R.id.nameText)
         val ageText: TextView = v.findViewById(R.id.ageText)
         val locText: TextView = v.findViewById(R.id.locText)
-        val moreText: TextView = v.findViewById(R.id.moreText)
+        val detailBtn: LinearLayout = v.findViewById(R.id.detailBtn)
     }
 
 }

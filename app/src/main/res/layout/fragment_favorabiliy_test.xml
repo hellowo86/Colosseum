@@ -24,15 +24,13 @@
                 android:clipChildren="false">
 
                 <TextView
-                    android:id="@+id/optionChild1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="30dp"
+                    android:textSize="23dp"
                     android:textColor="@color/primaryText"
-                    android:layout_marginTop="40dp"
-                    android:layout_marginBottom="@dimen/big_margin"
+                    android:layout_marginTop="20dp"
                     android:layout_marginLeft="@dimen/extra_margin"
-                    android:text="@string/favorability_test"
+                    android:text="Chemistry"
                     android:fontFamily="@font/spoqa_sans_b"
                     android:visibility="visible"/>
 
@@ -40,26 +38,27 @@
                     android:id="@+id/tutorialLy"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/normal_margin"
+                    android:visibility="visible">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="15dp"
+                        android:textSize="13dp"
                         android:textColor="@color/secondaryText"
                         android:layout_marginLeft="@dimen/extra_margin"
-                        android:layout_marginRight="72dp"
+                        android:layout_marginRight="50dp"
                         android:fontFamily="@font/spoqa_sans_r"
                         android:text="@string/favorability_tutorial_text"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="13dp"
+                        android:textSize="12dp"
                         android:textColor="@color/disableText"
                         android:layout_marginLeft="@dimen/extra_margin"
-                        android:layout_marginRight="72dp"
-                        android:layout_marginBottom="@dimen/big_margin"
+                        android:layout_marginRight="50dp"
                         android:fontFamily="@font/spoqa_sans_r"
                         android:text="@string/tab_to_close"/>
 
@@ -68,6 +67,7 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerView"
                     android:nestedScrollingEnabled="false"
+                    android:layout_marginTop="@dimen/normal_margin"
                     android:layout_marginBottom="50dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

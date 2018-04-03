@@ -1,5 +1,6 @@
 package com.hellowo.colosseum.model
 
+import com.google.firebase.firestore.Exclude
 import com.hellowo.colosseum.R
 import com.hellowo.colosseum.split
 import java.io.Serializable
@@ -26,5 +27,5 @@ data class User (
         return ChatMember(id, nickName, System.currentTimeMillis(), true, pushToken)
     }
 
-    fun getYourGender(): Int = if(gender == 0) 1 else 0
+    @Exclude fun getYourGender(): Int = if(gender == 0) 1 else 0
 }
