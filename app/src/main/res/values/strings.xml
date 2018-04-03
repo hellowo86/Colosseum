@@ -128,4 +128,8 @@
     <string name="set_filter">필터 설정</string>
     <string name="searching_sub">운명의 상대를 찾는중입니다…</string>
     <string name="show_detail">자세히보기</string>
+    <string name="age_limit">나이 제한</string>
+    <string name="distance_limit">거리 제한</string>
+    <string name="height_limit">키 제한</string>
+    <string name="weight_limit">몸무게 제한</string>
 </resources>

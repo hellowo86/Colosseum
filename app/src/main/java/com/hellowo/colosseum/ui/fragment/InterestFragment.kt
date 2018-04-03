@@ -20,6 +20,7 @@ import com.hellowo.colosseum.R
 import com.hellowo.colosseum.model.User
 import com.hellowo.colosseum.ui.adapter.SwipeStackAdapter
 import com.hellowo.colosseum.ui.dialog.InterestCompletedDialog
+import com.hellowo.colosseum.ui.dialog.SearchFilterDialog
 import com.hellowo.colosseum.utils.makePublicPhotoUrl
 import com.hellowo.colosseum.utils.makeSlideFromBottomTransition
 import com.hellowo.colosseum.utils.startUserActivity
@@ -72,6 +73,7 @@ class InterestFragment : Fragment() {
             override fun onCardClicked(index: Int) {}
         })
 
+        filterBtn.setOnClickListener { SearchFilterDialog().show(activity?.supportFragmentManager, null ) }
         searchBtn.setOnClickListener { viewModel.startNewSearch(null) }
 
         if(Prefs.getBoolean("interest_tutorial", false)) {

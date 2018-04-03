@@ -10,7 +10,7 @@
         android:id="@+id/choiceLy"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible">
+        android:visibility="visible">
 
         <com.yuyakaido.android.cardstackview.CardStackView
             android:id="@+id/swipeStack"
@@ -38,6 +38,7 @@
             android:id="@+id/rippleView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="100dp"
             android:visibility="invisible"
             app:rb_color="@color/colorPrimary"
             app:rb_radius="32dp"
@@ -304,6 +305,7 @@
                     android:textSize="16dp"/>
 
                 <TextView
+                    android:id="@+id/filterBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorPrimary"

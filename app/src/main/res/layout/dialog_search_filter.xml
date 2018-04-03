@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardElevation="0dp"
+        app:cardCornerRadius="16dp">
+    </android.support.v7.widget.CardView>
+
+    <FrameLayout
+        android:id="@+id/rootLy"
+        android:layout_marginTop="16dp"
+        android:paddingBottom="@dimen/extra_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/titleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="@dimen/extra_margin"
+                android:layout_marginRight="@dimen/extra_margin"
+                android:textSize="16dp"
+                android:gravity="center"
+                android:textColor="@color/primaryText"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/set_filter"
+                android:fontFamily="@font/spoqa_sans_b"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_margin"
+                android:layout_marginLeft="@dimen/extra_margin"
+                android:layout_marginRight="@dimen/extra_margin"
+                android:textSize="14dp"
+                android:textColor="@color/secondaryText"
+                android:text="@string/age_limit"
+                android:fontFamily="@font/spoqa_sans_r"/>
+
+            <SeekBar
+                style="@style/Widget.AppCompat.SeekBar.Discrete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="10"
+                android:progress="5" />
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.appyvet.materialrangebar.RangeBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/extra_margin"
+                android:layout_marginRight="@dimen/extra_margin"
+                app:mrb_pinMaxFont="10sp"
+                app:mrb_rangeBarPaddingBottom="12dp"
+                app:mrb_selectorBoundaryColor="@color/colorPrimary"
+                app:mrb_selectorBoundarySize="2dp"
+                app:mrb_pinTextColor="@color/colorPrimary"
+                app:mrb_selectorSize="10dp"
+                app:mrb_tickEnd="10"
+                app:mrb_tickInterval="1"
+                app:mrb_tickStart="5"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/big_margin"
+                android:layout_marginLeft="@dimen/extra_margin"
+                android:layout_marginRight="@dimen/extra_margin"
+                android:textSize="14dp"
+                android:textColor="@color/secondaryText"
+                android:text="@string/distance_limit"
+                android:fontFamily="@font/spoqa_sans_r"/>
+
+            <com.appyvet.materialrangebar.RangeBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/extra_margin"
+                android:layout_marginRight="@dimen/extra_margin"
+                app:mrb_pinMaxFont="10sp"
+                app:mrb_rangeBarPaddingBottom="12dp"
+                app:mrb_selectorBoundaryColor="@color/colorPrimary"
+                app:mrb_selectorBoundarySize="2dp"
+                app:mrb_pinTextColor="@color/colorPrimary"
+                app:mrb_selectorSize="10dp"
+                app:mrb_tickEnd="10"
+                app:mrb_tickInterval="1"
+                app:mrb_tickStart="5"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/big_margin"
+                android:layout_marginLeft="@dimen/extra_margin"
+                android:layout_marginRight="@dimen/extra_margin"
+                android:textSize="14dp"
+                android:textColor="@color/secondaryText"
+                android:text="@string/height_limit"
+                android:fontFamily="@font/spoqa_sans_r"/>
+
+            <com.appyvet.materialrangebar.RangeBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/extra_margin"
+                android:layout_marginRight="@dimen/extra_margin"
+                app:mrb_pinMaxFont="10sp"
+                app:mrb_rangeBarPaddingBottom="12dp"
+                app:mrb_selectorBoundaryColor="@color/colorPrimary"
+                app:mrb_selectorBoundarySize="2dp"
+                app:mrb_pinTextColor="@color/colorPrimary"
+                app:mrb_selectorSize="10dp"
+                app:mrb_tickEnd="10"
+                app:mrb_tickInterval="1"
+                app:mrb_tickStart="5"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/big_margin"
+                android:layout_marginLeft="@dimen/extra_margin"
+                android:layout_marginRight="@dimen/extra_margin"
+                android:textSize="14dp"
+                android:textColor="@color/secondaryText"
+                android:text="@string/weight_limit"
+                android:fontFamily="@font/spoqa_sans_r"/>
+
+            <com.appyvet.materialrangebar.RangeBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/extra_margin"
+                android:layout_marginRight="@dimen/extra_margin"
+                app:mrb_pinMaxFont="10sp"
+                app:mrb_rangeBarPaddingBottom="12dp"
+                app:mrb_selectorBoundaryColor="@color/colorPrimary"
+                app:mrb_selectorBoundarySize="2dp"
+                app:mrb_pinTextColor="@color/colorPrimary"
+                app:mrb_selectorSize="10dp"
+                app:mrb_tickEnd="10"
+                app:mrb_tickInterval="1"
+                app:mrb_tickStart="5"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
+</FrameLayout>
