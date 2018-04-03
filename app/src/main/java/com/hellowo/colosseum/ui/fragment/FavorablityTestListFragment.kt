@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.fragment_favorabiliy_test.*
 
 class FavorablityTestListFragment : Fragment() {
     private lateinit var listViewModel: FavobalityTestListViewModel
+    var listInitAnimation = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,11 +61,11 @@ class FavorablityTestListFragment : Fragment() {
 
     private fun setObserver() {
         listViewModel.coupleList.observe(this, Observer{ list ->
-            if(list != null && list.isNotEmpty()) {
-                recyclerView.adapter.notifyDataSetChanged()
-            }else {
-
+            if(listInitAnimation) {
+                TransitionManager.beginDelayedTransition(recyclerView, makeSlideFromBottomTransition())
+                listInitAnimation = list?.size!! == 0
             }
+            recyclerView.adapter.notifyDataSetChanged()
         })
         listViewModel.loading.observe(this, Observer { swipeRefreshView.isRefreshing = it as Boolean })
     }

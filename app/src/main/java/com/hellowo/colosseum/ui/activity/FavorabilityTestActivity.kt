@@ -100,16 +100,19 @@ class FavorabilityTestActivity : BaseActivity() {
             konfettiView.postDelayed({
                 konfettiView.build()
                         .addColors(resources.getColor(R.color.colorPrimary))
-                        .setDirection(0.0, 359.0)
-                        .setSpeed(1f, 5f)
+                        .setDirection(0.0, 180.0)
+                        .setSpeed(5f, 10f)
                         .setFadeOutEnabled(true)
                         .setTimeToLive(2000L)
                         .addShapes(Shape.RECT, Shape.CIRCLE)
                         .addSizes(Size(12))
-                        .setPosition(konfettiView.x + konfettiView.width / 2, konfettiView.y + konfettiView.height / 2)
-                        .burst(50)
-                //        .setPosition(-50f, konfettiView.width + 50f, -50f, -50f)
-                //        .stream(30, 5000L)
+                        .setPosition(-50f, konfettiView.width + 50f, -50f, -50f)
+                        .stream(50, 5000L)
+                /*
+
+                        .setPosition(konfettiView.x + konfettiView.width / 2, konfettiView.y)
+                        .burst(200)
+                 */
 
             }, 1000)
             return
@@ -141,7 +144,7 @@ class FavorabilityTestActivity : BaseActivity() {
                     mePhotoStatusText.setTextColor(resources.getColor(R.color.colorAccent))
                     mePhotoBtn.setOnClickListener {
                         val intent = Intent(this, PhotoActivity::class.java)
-                        intent.putExtra("photoUrl", yourPhotoUrl)
+                        intent.putExtra("photoUrl", myPhotoUrl)
                         startActivityForResult(intent, 1)
                     }
                 }

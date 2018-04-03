@@ -21,6 +21,7 @@ open class BottomSheetDialog : BottomSheetDialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
 
     @SuppressLint("RestrictedApi")

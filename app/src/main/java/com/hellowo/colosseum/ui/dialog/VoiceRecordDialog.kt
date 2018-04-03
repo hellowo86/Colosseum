@@ -40,6 +40,7 @@ class VoiceRecordDialog(private val voiceUrl: String?, private val evalutaion : 
         super.setupDialog(dialog, style)
         val contentView = View.inflate(context, R.layout.dialog_voice_record, null)
         dialog.setContentView(contentView)
+        (contentView.parent as View).setBackgroundColor(resources.getColor(android.R.color.transparent))
 
         val layoutParams = (contentView.parent as View).layoutParams as CoordinatorLayout.LayoutParams
         sheetBehavior = layoutParams.behavior as BottomSheetBehavior<*>?

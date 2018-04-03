@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:background="@color/white">
 
@@ -17,13 +17,33 @@
         android:paddingRight="@dimen/normal_margin"
         android:paddingLeft="@dimen/normal_margin"
         android:paddingBottom="@dimen/small_margin"
-        android:paddingTop="@dimen/small_margin" />
+        android:paddingTop="@dimen/small_margin"
+        android:textSize="14dp"
+        android:textColor="@color/primaryText"
+        android:fontFamily="@font/spoqa_sans_r"/>
 
-    <Button
+    <android.support.v7.widget.CardView
         android:id="@+id/sendBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
+        android:layout_width="50dp"
+        android:layout_margin="10dp"
         android:layout_gravity="bottom"
-        android:text="@string/confirm"/>
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardBackgroundColor="@color/colorPrimary"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="2dp">
+
+        <TextView
+            android:id="@+id/textViewCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/confirm"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:fontFamily="@font/spoqa_sans_b"
+            android:textSize="14dp"/>
+
+    </android.support.v7.widget.CardView>
 
 </LinearLayout>

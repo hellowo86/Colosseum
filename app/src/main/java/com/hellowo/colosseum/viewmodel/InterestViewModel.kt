@@ -27,9 +27,6 @@ class InterestViewModel : ViewModel() {
     fun loadInterestMeList() {
         loading.value = true
         interestMeList.value?.clear()
-        if(viewMode.value == null) {
-            viewMode.value = 0
-        }
         val myPrefix = Couple.getGenderKey(Me.value?.gender as Int)
         val yourPrefix = Couple.getGenderKey(Me.value?.getYourGender() as Int)
         db.collection("couples").whereEqualTo("level", 1).whereEqualTo("${myPrefix}Id", Me.value?.id)
@@ -58,6 +55,10 @@ class InterestViewModel : ViewModel() {
                     }else {
                         interestMeList.value = interestMeList.value
                         loading.value = false
+                    }
+
+                    if(viewMode.value == null) {
+                        viewMode.value = 0
                     }
                 }
     }

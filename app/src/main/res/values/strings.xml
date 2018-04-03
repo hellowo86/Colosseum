@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CoupIns</string>
+    <string name="app_name">Couple\nInside</string>
     <string name="ok">확인</string>
     <string name="cancel">취소</string>
     <string name="sign_in">로그인</string>
@@ -23,7 +23,7 @@
     <string name="plz_wait">잠시만 기다려주세요…</string>
     <string name="failed_upload">사진 업로드를 실패했습니다. 다시 시도해 주세요.</string>
     <string name="confirm">완료</string>
-    <string name="enter_comment">댓글 입력하기</string>
+    <string name="enter_comment">코멘트 입력</string>
     <string name="sign_up_by_google">구글 계정으로 시작하기</string>
     <string name="welcome">환영합니다!</string>
     <string name="welcome_sub">몇 가지 질문에 대답해주시면\n당신과 어울리는 친구를 추천해드려요</string>
@@ -120,4 +120,5 @@
     <string name="congratulation">축하합니다!</string>
     <string name="success_matching">커플 연결에 성공하였습니다.\n이제 커플 채팅방에서 상대방과 자유롭게 대화할 수 있습니다</string>
     <string name="issue">오늘의 연애 이슈</string>
+    <string name="reply">답글작성</string>
 </resources>

@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.content.Context
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.CoordinatorLayout
+import android.support.v7.widget.CardView
 import android.text.TextUtils
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -29,7 +30,7 @@ class EnterCommentDialog(private val dialogInterface: (String) -> Unit) : Bottom
             val messageInput = contentView.findViewById<EditText>(R.id.messageInput)
             messageInput.setHint(R.string.enter_comment)
 
-            val sendBtn = contentView.findViewById<TextView>(R.id.sendBtn)
+            val sendBtn = contentView.findViewById<CardView>(R.id.sendBtn)
             sendBtn.setOnClickListener {
                 if (!TextUtils.isEmpty(messageInput.text)) {
                     dialogInterface.invoke(messageInput.text.toString())

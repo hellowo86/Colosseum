@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.hellowo.colosseum.R
+import com.hellowo.colosseum.data.Me
 import com.hellowo.colosseum.model.ChatMember
 import com.hellowo.colosseum.model.Comment
 import com.hellowo.colosseum.utils.makeMessageLastTimeText
@@ -17,7 +18,10 @@ import kotlinx.android.synthetic.main.list_item_comment.view.*
 
 class CommentListAdapter(val context: Context,
                          val mContentsList: ArrayList<Comment>,
-                         val adapterInterface: (comment: Comment) -> Unit) : RecyclerView.Adapter<CommentListAdapter.ViewHolder>() {
+                         val onReplyClick: (comment: Comment) -> Unit,
+                         val onLikeClick: (comment: Comment) -> Unit,
+                         val onUserClick: (userId: String) -> Unit,
+                         val replyMode: Boolean) : RecyclerView.Adapter<CommentListAdapter.ViewHolder>() {
 
     inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container)
 
@@ -31,6 +35,7 @@ class CommentListAdapter(val context: Context,
         v.nameText.text = comment.userName
         v.messageText.text = comment.text
         v.activeTimeText.text = makeMessageLastTimeText(context, comment.dtCreated)
+        v.likeCountText.text = comment.likeCount.toString()
 
         Glide.with(context)
                 .load(makePublicPhotoUrl(comment.userId))
@@ -38,7 +43,46 @@ class CommentListAdapter(val context: Context,
                 .placeholder(R.drawable.default_profile)
                 .into(v.profileImage)
 
-        v.setOnClickListener { adapterInterface.invoke(comment) }
+        v.profileImage.setOnClickListener {
+            onUserClick.invoke(comment.userId!!)
+        }
+
+        if(replyMode) {
+            v.replyCountText.visibility = View.GONE
+            v.replyBtn.visibility = View.GONE
+            v.likeCountText.visibility = View.GONE
+            v.likeBtn.visibility = View.GONE
+        }else {
+            v.replyCountText.visibility = View.VISIBLE
+            v.replyBtn.visibility = View.VISIBLE
+            v.likeCountText.visibility = View.VISIBLE
+            v.likeBtn.visibility = View.VISIBLE
+
+            if(comment.like.containsKey(Me.value?.id)) {
+                v.likeBtn.setColorFilter(context.resources.getColor(R.color.colorPrimary))
+            }else {
+                v.likeBtn.setColorFilter(context.resources.getColor(R.color.iconTint))
+            }
+
+            v.likeBtn.setOnClickListener {
+                v.progressBar.visibility = View.VISIBLE
+                v.likeBtn.visibility = View.GONE
+                onLikeClick.invoke(comment)
+            }
+
+            if(comment.replyCount > 0) {
+                v.replyBtn.setColorFilter(context.resources.getColor(R.color.colorPrimary))
+            }else {
+                v.replyBtn.setColorFilter(context.resources.getColor(R.color.iconTint))
+            }
+
+            v.replyCountText.text = comment.replyCount.toString()
+            v.replyBtn.setOnClickListener {
+                onReplyClick.invoke(comment)
+            }
+        }
+
+        v.progressBar.visibility = View.GONE
     }
 
     override fun getItemId(position: Int) = position.toLong()

@@ -27,6 +27,7 @@ class FavorablityCheckListDialog(private val oxString: String, private val enabl
         super.setupDialog(dialog, style)
         val contentView = View.inflate(context, R.layout.dialog_favorablity_check_list, null)
         dialog.setContentView(contentView)
+        (contentView.parent as View).setBackgroundColor(resources.getColor(android.R.color.transparent))
 
         val layoutParams = (contentView.parent as View).layoutParams as CoordinatorLayout.LayoutParams
         sheetBehavior = layoutParams.behavior as BottomSheetBehavior<*>?

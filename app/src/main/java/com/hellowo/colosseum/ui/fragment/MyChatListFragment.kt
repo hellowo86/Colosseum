@@ -3,6 +3,7 @@ package com.hellowo.colosseum.ui.fragment
 import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
+import android.support.transition.TransitionManager
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -13,10 +14,12 @@ import com.hellowo.colosseum.data.MyChatList
 import com.hellowo.colosseum.ui.activity.ChatingActivity
 import com.hellowo.colosseum.ui.adapter.MyChatListAdapter
 import com.hellowo.colosseum.utils.dpToPx
+import com.hellowo.colosseum.utils.makeSlideFromBottomTransition
 import kotlinx.android.synthetic.main.fragment_my_chat_list.*
 
 class MyChatListFragment : Fragment() {
     lateinit var adapter: MyChatListAdapter
+    var listInitAnimation = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +43,13 @@ class MyChatListFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
 
-        MyChatList.observe(this, Observer { adapter.notifyDataSetChanged() })
+        MyChatList.observe(this, Observer { list ->
+            if(listInitAnimation) {
+                TransitionManager.beginDelayedTransition(recyclerView, makeSlideFromBottomTransition())
+                listInitAnimation = list?.size!! == 0
+            }
+            adapter.notifyDataSetChanged()
+        })
         MyChatList.loading.observe(this, Observer { swipeRefreshView.isRefreshing = it as Boolean })
     }
 }
