@@ -33,7 +33,7 @@ class ProfileFragment : Fragment() {
             Glide.with(this).load(makePublicPhotoUrl(it.id)).placeholder(R.drawable.img_default_profile)
                     .bitmapTransform(CropCircleTransformation(context)).into(profileImage)
             nameText.text = it.nickName
-            descriptionText.text = it.id
+            profileSettingText.text = context?.getString(R.string.profile_setting_sub)
         }
     }
 }

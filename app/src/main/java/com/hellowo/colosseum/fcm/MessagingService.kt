@@ -12,6 +12,7 @@ import com.google.firebase.messaging.RemoteMessage
 import com.hellowo.colosseum.R
 import com.hellowo.colosseum.utils.log
 import com.hellowo.colosseum.utils.makePublicPhotoUrl
+import com.pixplicity.easyprefs.library.Prefs
 import jp.wasabeef.glide.transformations.CropCircleTransformation
 import org.json.JSONException
 import org.json.JSONObject
@@ -51,6 +52,7 @@ class MessagingService : com.google.firebase.messaging.FirebaseMessagingService(
         intent.putExtra("chatId", chatId)
         val pendingIntent = PendingIntent.getActivity(this,0, intent, PendingIntent.FLAG_ONE_SHOT)
 
+        Prefs.putInt(chatId, Prefs.getInt(chatId, 0) + 1)
         sendNotification(userName, message, resource, pendingIntent)
     }
 

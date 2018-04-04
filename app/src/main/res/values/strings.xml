@@ -28,6 +28,7 @@
     <string name="welcome">환영합니다!</string>
     <string name="welcome_sub">몇 가지 질문에 대답해주시면\n당신과 어울리는 친구를 추천해드려요</string>
     <string name="profile_setting">프로필 설정</string>
+    <string name="profile_setting_sub">프로필 확인 및 설정하기</string>
     <string name="nick_name">이름</string>
     <string name="area">지역</string>
     <string name="save">저장하기</string>
@@ -132,4 +133,7 @@
     <string name="distance_limit">거리 제한</string>
     <string name="height_limit">키 제한</string>
     <string name="weight_limit">몸무게 제한</string>
+    <string name="no_limit">제한없음</string>
+    <string name="alarm">알람</string>
+    <string name="setting">환경설정</string>
 </resources>

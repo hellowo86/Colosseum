@@ -1,5 +1,6 @@
 package com.hellowo.colosseum.ui.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.support.v4.util.ArrayMap
 import android.support.v7.widget.RecyclerView
@@ -28,6 +29,7 @@ class CommentListAdapter(val context: Context,
     override fun onCreateViewHolder(parent: ViewGroup, position: Int)
             = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_comment, parent, false))
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: CommentListAdapter.ViewHolder, position: Int) {
         val comment = mContentsList[position]
         val v = holder.itemView
@@ -35,7 +37,6 @@ class CommentListAdapter(val context: Context,
         v.nameText.text = comment.userName
         v.messageText.text = comment.text
         v.activeTimeText.text = makeMessageLastTimeText(context, comment.dtCreated)
-        v.likeCountText.text = comment.likeCount.toString()
 
         Glide.with(context)
                 .load(makePublicPhotoUrl(comment.userId))
@@ -64,6 +65,7 @@ class CommentListAdapter(val context: Context,
                 v.likeBtn.setColorFilter(context.resources.getColor(R.color.iconTint))
             }
 
+            v.likeCountText.text = "${comment.likeCount} Like"
             v.likeBtn.setOnClickListener {
                 v.progressBar.visibility = View.VISIBLE
                 v.likeBtn.visibility = View.GONE
@@ -76,7 +78,7 @@ class CommentListAdapter(val context: Context,
                 v.replyBtn.setColorFilter(context.resources.getColor(R.color.iconTint))
             }
 
-            v.replyCountText.text = comment.replyCount.toString()
+            v.replyCountText.text = "${comment.replyCount} Reply"
             v.replyBtn.setOnClickListener {
                 onReplyClick.invoke(comment)
             }

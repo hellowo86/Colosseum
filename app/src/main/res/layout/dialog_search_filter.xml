@@ -41,123 +41,89 @@
                 android:text="@string/set_filter"
                 android:fontFamily="@font/spoqa_sans_b"/>
 
-            <TextView
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/small_margin"
                 android:layout_marginLeft="@dimen/extra_margin"
-                android:layout_marginRight="@dimen/extra_margin"
-                android:textSize="14dp"
-                android:textColor="@color/secondaryText"
-                android:text="@string/age_limit"
-                android:fontFamily="@font/spoqa_sans_r"/>
+                android:layout_marginRight="@dimen/extra_margin">
 
-            <SeekBar
-                style="@style/Widget.AppCompat.SeekBar.Discrete"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:max="10"
-                android:progress="5" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14dp"
+                    android:textColor="@color/secondaryText"
+                    android:text="@string/age_limit"
+                    android:fontFamily="@font/spoqa_sans_b"/>
 
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/ageText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="15dp"
+                    android:textColor="@color/colorPrimary"
+                    android:text="0 ~ 0"
+                    android:fontFamily="@font/spoqa_sans_b"/>
 
-            <com.appyvet.materialrangebar.RangeBar
+            </LinearLayout>
+
+            <me.bendik.simplerangeview.SimpleRangeView
+                android:id="@+id/ageSeekbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/extra_margin"
                 android:layout_marginRight="@dimen/extra_margin"
-                app:mrb_pinMaxFont="10sp"
-                app:mrb_rangeBarPaddingBottom="12dp"
-                app:mrb_selectorBoundaryColor="@color/colorPrimary"
-                app:mrb_selectorBoundarySize="2dp"
-                app:mrb_pinTextColor="@color/colorPrimary"
-                app:mrb_selectorSize="10dp"
-                app:mrb_tickEnd="10"
-                app:mrb_tickInterval="1"
-                app:mrb_tickStart="5"/>
+                app:count="23"
+                app:activeLineColor="@color/colorPrimary"
+                app:activeFocusThumbColor="@color/colorPrimary"
+                app:activeThumbColor="@color/colorPrimary"
+                app:activeLabelColor="@color/colorPrimary"
+                app:activeThumbLabelColor="@color/colorPrimary"
+                app:minDistance="1" />
 
-
-            <TextView
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/big_margin"
+                android:layout_marginTop="@dimen/normal_margin"
                 android:layout_marginLeft="@dimen/extra_margin"
-                android:layout_marginRight="@dimen/extra_margin"
-                android:textSize="14dp"
-                android:textColor="@color/secondaryText"
-                android:text="@string/distance_limit"
-                android:fontFamily="@font/spoqa_sans_r"/>
+                android:layout_marginRight="@dimen/extra_margin">
 
-            <com.appyvet.materialrangebar.RangeBar
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14dp"
+                    android:textColor="@color/secondaryText"
+                    android:text="@string/distance_limit"
+                    android:fontFamily="@font/spoqa_sans_b"/>
+
+                <TextView
+                    android:id="@+id/distanceText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="15dp"
+                    android:textColor="@color/colorPrimary"
+                    android:text="0 ~ 0"
+                    android:fontFamily="@font/spoqa_sans_b"/>
+
+            </LinearLayout>
+
+            <me.bendik.simplerangeview.SimpleRangeView
+                android:id="@+id/distanceSeekbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/extra_margin"
                 android:layout_marginRight="@dimen/extra_margin"
-                app:mrb_pinMaxFont="10sp"
-                app:mrb_rangeBarPaddingBottom="12dp"
-                app:mrb_selectorBoundaryColor="@color/colorPrimary"
-                app:mrb_selectorBoundarySize="2dp"
-                app:mrb_pinTextColor="@color/colorPrimary"
-                app:mrb_selectorSize="10dp"
-                app:mrb_tickEnd="10"
-                app:mrb_tickInterval="1"
-                app:mrb_tickStart="5"/>
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/big_margin"
-                android:layout_marginLeft="@dimen/extra_margin"
-                android:layout_marginRight="@dimen/extra_margin"
-                android:textSize="14dp"
-                android:textColor="@color/secondaryText"
-                android:text="@string/height_limit"
-                android:fontFamily="@font/spoqa_sans_r"/>
-
-            <com.appyvet.materialrangebar.RangeBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/extra_margin"
-                android:layout_marginRight="@dimen/extra_margin"
-                app:mrb_pinMaxFont="10sp"
-                app:mrb_rangeBarPaddingBottom="12dp"
-                app:mrb_selectorBoundaryColor="@color/colorPrimary"
-                app:mrb_selectorBoundarySize="2dp"
-                app:mrb_pinTextColor="@color/colorPrimary"
-                app:mrb_selectorSize="10dp"
-                app:mrb_tickEnd="10"
-                app:mrb_tickInterval="1"
-                app:mrb_tickStart="5"/>
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/big_margin"
-                android:layout_marginLeft="@dimen/extra_margin"
-                android:layout_marginRight="@dimen/extra_margin"
-                android:textSize="14dp"
-                android:textColor="@color/secondaryText"
-                android:text="@string/weight_limit"
-                android:fontFamily="@font/spoqa_sans_r"/>
-
-            <com.appyvet.materialrangebar.RangeBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/extra_margin"
-                android:layout_marginRight="@dimen/extra_margin"
-                app:mrb_pinMaxFont="10sp"
-                app:mrb_rangeBarPaddingBottom="12dp"
-                app:mrb_selectorBoundaryColor="@color/colorPrimary"
-                app:mrb_selectorBoundarySize="2dp"
-                app:mrb_pinTextColor="@color/colorPrimary"
-                app:mrb_selectorSize="10dp"
-                app:mrb_tickEnd="10"
-                app:mrb_tickInterval="1"
-                app:mrb_tickStart="5"/>
+                app:count="22"
+                app:activeLineColor="@color/colorPrimary"
+                app:activeFocusThumbColor="@color/colorPrimary"
+                app:activeThumbColor="@color/colorPrimary"
+                app:activeLabelColor="@color/colorPrimary"
+                app:activeThumbLabelColor="@color/colorPrimary"
+                app:minDistance="1" />
 
         </LinearLayout>
 

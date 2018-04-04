@@ -13,8 +13,9 @@ import com.hellowo.colosseum.model.Chat
 import com.hellowo.colosseum.model.MyChat
 import com.hellowo.colosseum.utils.makeMessageLastTimeText
 import com.hellowo.colosseum.utils.makePublicPhotoUrl
+import com.pixplicity.easyprefs.library.Prefs
 import jp.wasabeef.glide.transformations.CropCircleTransformation
-import kotlinx.android.synthetic.main.list_item_big_chat.view.*
+import kotlinx.android.synthetic.main.list_item_chat.view.*
 
 class MyChatListAdapter(val context: Context,
                         val mContentsList: ArrayList<MyChat>,
@@ -31,21 +32,25 @@ class MyChatListAdapter(val context: Context,
         v.titleText.text = chat.title
         v.lastMessageText.text = chat.lastMessage ?: ""
         v.lastTimeText.text = if(chat.lastMessageTime > 0) makeMessageLastTimeText(context, chat.lastMessageTime) else ""
-/*
-        if(chat.messageCount - chat.lastCheckIndex > 0) {
+
+        val badgeCount = Prefs.getInt(chat.id, 0)
+        if(badgeCount > 0) {
             v.badgeView.visibility = View.VISIBLE
-            v.badgeText.text = (chat.messageCount - chat.lastCheckIndex).toString()
+            v.badgeText.text = badgeCount.toString()
         }else {
             v.badgeView.visibility = View.GONE
         }
-*/
+
         Glide.with(context)
                 .load(makePublicPhotoUrl(chat.hostId))
                 .bitmapTransform(CropCircleTransformation(context))
                 .placeholder(R.drawable.default_profile)
                 .into(v.chatImage)
 
-        v.setOnClickListener { adapterInterface.invoke(chat) }
+        v.setOnClickListener {
+            Prefs.putInt(chat.id, 0)
+            adapterInterface.invoke(chat)
+        }
     }
 
     override fun getItemId(position: Int) = position.toLong()

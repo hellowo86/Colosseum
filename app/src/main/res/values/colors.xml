@@ -28,6 +28,7 @@
     <color name="secondaryWhiteText">#b3FFFFFF</color>
     <color name="disableWhiteText">#80FFFFFF</color>
 
+    <color name="test">#0F7BFF</color>
     <!--
     <color name="primaryText">#de000000</color>
     <color name="secondaryText">#89000000</color>

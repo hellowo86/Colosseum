@@ -7,7 +7,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.hellowo.colosseum.data.Me
 import com.hellowo.colosseum.model.Couple
 import com.hellowo.colosseum.model.User
+import com.hellowo.colosseum.utils.distFrom
 import com.hellowo.colosseum.utils.log
+import com.pixplicity.easyprefs.library.Prefs
 import java.util.logging.Handler
 
 
@@ -76,13 +78,33 @@ class InterestViewModel : ViewModel() {
             query = query.startAfter(lastVisible)
         }
 
+        val maxResult = 5
+        val myLat = Me.value?.lat!!
+        val myLng = Me.value?.lng!!
+        val ageMin = Prefs.getInt("ageMin", 0) + 18
+        var ageMax = Prefs.getInt("ageMax", 22) + 18
+        if(ageMax == 40) {
+            ageMax = Int.MAX_VALUE
+        }
+        val distanceMin = Prefs.getInt("distanceMin", 0) * 10
+        var distanceMax = Prefs.getInt("distanceMax", 21) * 10
+        if(distanceMax == 210) {
+            distanceMax = Int.MAX_VALUE
+        }
+
         query.get().addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        for (document in task.result) {
-                            newList.value?.add(document.toObject(User::class.java))
-                            log(document.toObject(User::class.java).toString())
-                        }
-                        if(task.result.size() > 0 && newList.value?.size!! < 10) {
+                        task.result
+                                .map { it.toObject(User::class.java) }
+                                .forEach { user ->
+                                    val age = User.getAge(user.birth)
+                                    val distance = distFrom(user.lat, user.lng, myLat, myLng).toInt()
+
+                                    if(age in ageMin..ageMax && distance in distanceMin..distanceMax) {
+                                        newList.value?.add(user)
+                                    }
+                                }
+                        if(task.result.size() > 0 && newList.value?.size!! < maxResult) {
                             startNewSearch(task.result.last())
                         }else {
                             newList.value = newList.value

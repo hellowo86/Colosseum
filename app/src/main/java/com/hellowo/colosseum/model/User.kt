@@ -4,6 +4,7 @@ import com.google.firebase.firestore.Exclude
 import com.hellowo.colosseum.R
 import com.hellowo.colosseum.split
 import java.io.Serializable
+import java.util.*
 
 data class User (
         var id: String ?= null,
@@ -20,7 +21,9 @@ data class User (
         var pushToken: String? = null): Serializable {
 
     companion object {
+        private val cal = Calendar.getInstance()
         fun getDefaultImgId(gender: Int) = if(gender == 0) R.drawable.man_default else R.drawable.woman_default
+        fun getAge(birth: Int) = cal.get(Calendar.YEAR) - birth + 1
     }
 
     fun makeChatMember(): ChatMember {

@@ -21,6 +21,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    flavorDimensions "stage"
+    productFlavors {
+        dev {
+            dimension "stage"
+            minSdkVersion 21
+        }
+        prd {
+            dimension "stage"
+        }
+    }
 }
 
 dependencies {
@@ -59,7 +70,7 @@ dependencies {
     compile "com.yuyakaido.android:card-stack-view:1.0.0-beta9"
     compile 'com.skyfishjy.ripplebackground:library:1.0.1'
     compile 'nl.dionsegijn:konfetti:1.1.0'
-    compile 'com.appyvet:materialrangebar:1.4.1'
+    compile 'me.bendik.simplerangeview:simplerangeview:0.2.0'
     //util
     compile 'com.squareup.okhttp3:okhttp:3.8.0'
 }

@@ -42,7 +42,7 @@ class SwipeStackAdapter(private val activity: Activity) : ArrayAdapter<User>(act
         try{
             holder.locText.text = " : ${Math.round(distFrom(user.lat, user.lng, Me.value?.lat!!, Me.value?.lng!!) * 100) / 100.0}km"
         }catch (e: Exception){}
-        holder.ageText.text = " : ${cal.get(Calendar.YEAR) - user.birth + 1}"
+        holder.ageText.text = " : ${User.getAge(user.birth)}"
 
         holder.detailBtn.setOnClickListener { startUserActivity(activity, user.id!!)}
 
