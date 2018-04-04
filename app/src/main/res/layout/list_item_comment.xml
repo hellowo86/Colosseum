@@ -4,23 +4,25 @@
     android:layout_height="wrap_content">
 
     <View
+        android:layout_marginLeft="@dimen/big_margin"
+        android:layout_marginRight="@dimen/big_margin"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/backgroundDark"
-        android:layout_marginLeft="@dimen/big_margin"
-        android:layout_gravity="bottom"/>
+        android:background="@color/iconTint"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
         android:layout_marginLeft="@dimen/big_margin"
         android:layout_marginRight="@dimen/big_margin">
 
         <LinearLayout
             android:layout_marginTop="@dimen/small_margin"
             android:orientation="horizontal"
-            android:gravity="center_vertical"
+            android:gravity="bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -43,7 +45,6 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -73,7 +74,6 @@
         <LinearLayout
             android:layout_marginLeft="35dp"
             android:layout_marginTop="0dp"
-            android:layout_marginBottom="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -114,9 +114,9 @@
                 android:layout_height="30dp"
                 android:layout_marginLeft="10dp"
                 android:padding="5dp"
-                android:src="@drawable/ic_format_quote_black_48dp"
+                android:src="@drawable/ic_textsms_black_48dp"
                 android:foreground="?android:attr/selectableItemBackground"
-                android:tint="@color/primaryText"/>
+                android:tint="@color/iconTint"/>
 
             <TextView
                 android:layout_gravity="center_vertical"

@@ -14,53 +14,60 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/top_menu_bar_height"
+            android:layout_height="wrap_content"
             android:background="@color/background"
-            android:elevation="2dp">
+            android:elevation="1dp">
 
-            <ImageButton
-                android:id="@+id/backBtn"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginEnd="50dp"
-                android:layout_gravity="center_vertical"
-                android:background="?android:attr/selectableItemBackground"
-                android:padding="14dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_arrow_back_black_48dp"
-                android:tint="@color/iconTint" />
-
-            <TextView
-                android:id="@+id/titleText"
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="@dimen/normal_margin"
+                android:layout_marginBottom="@dimen/normal_margin"
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/TitleText"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="72dp"
-                android:layout_marginEnd="50dp"/>
+                android:layout_height="wrap_content">
 
-            <ImageButton
-                android:id="@+id/searchBtn"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginEnd="50dp"
-                android:layout_gravity="center_vertical|end"
-                android:background="?android:attr/selectableItemBackground"
-                android:padding="14dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_search_black_48dp"
-                android:tint="@color/iconTint" />
+                <ImageButton
+                    android:id="@+id/backBtn"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:padding="5dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_keyboard_arrow_left_black_48dp"
+                    android:tint="@color/primaryText" />
+
+                <ImageView
+                    android:id="@+id/profileImg"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center_vertical"/>
+
+                <TextView
+                    android:id="@+id/titleText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="7dp"
+                    android:textSize="21dp"
+                    android:textColor="@color/primaryText"
+                    android:text=""
+                    android:fontFamily="@font/spoqa_sans_b"
+                    android:visibility="visible"/>
+
+            </LinearLayout>
 
             <ImageButton
                 android:id="@+id/menuBtn"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center_vertical|end"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="end"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="@dimen/normal_margin"
                 android:background="?android:attr/selectableItemBackground"
-                android:padding="14dp"
+                android:padding="7dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/ic_menu_black_48dp"
-                android:tint="@color/iconTint" />
+                android:tint="@color/primaryText" />
 
         </FrameLayout>
 
@@ -68,12 +75,14 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/top_menu_bar_height">
+            android:layout_marginTop="70dp"
+            android:clipChildren="false">
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/white">
 
                 <android.support.v4.widget.SwipeRefreshLayout
                     android:layout_width="match_parent"
@@ -84,8 +93,10 @@
                         android:id="@+id/recyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:paddingTop="30dp"
                         android:paddingBottom="30dp"
                         android:clipToPadding="false"
+                        android:clipChildren="false"
                         android:scrollbars="vertical">
                     </android.support.v7.widget.RecyclerView>
 
@@ -168,6 +179,7 @@
                             android:layout_marginStart="@dimen/small_margin"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:padding="@dimen/normal_margin"
                             android:visibility="gone">
 
                             <ImageView
@@ -210,51 +222,42 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:elevation="2dp">
+                android:elevation="4dp">
 
                 <EditText
                     android:id="@+id/messageInput"
-                    style="@style/NormalEditText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@color/transparent"
+                    android:textColor="@color/primaryText"
+                    android:textSize="15dp"
                     android:minHeight="@dimen/top_menu_bar_height"
-                    android:paddingStart="@dimen/normal_margin"
-                    android:paddingEnd="@dimen/normal_margin"
+                    android:padding="@dimen/normal_margin"
                     android:gravity="center_vertical"
                     android:hint="@string/enter_message"/>
 
                 <ImageButton
                     android:id="@+id/sendImageBtn"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_gravity="bottom"
                     android:background="?android:attr/selectableItemBackground"
-                    android:padding="14dp"
+                    android:padding="15dp"
                     android:scaleType="centerInside"
-                    android:src="@drawable/ic_add_black_48dp"
+                    android:src="@drawable/ic_image_black_48dp"
                     android:tint="@color/iconTint" />
 
-                <android.support.v7.widget.CardView
+                <ImageButton
                     android:id="@+id/sendBtn"
-                    android:layout_margin="5dp"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_gravity="bottom"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    app:cardElevation="2dp"
-                    app:cardCornerRadius="20dp"
-                    app:contentPadding="@dimen/small_margin"
-                    app:cardBackgroundColor="@color/colorAccent">
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_send_black_24dp"
-                        android:tint="@color/white" />
-
-                </android.support.v7.widget.CardView>
+                    android:background="?android:attr/selectableItemBackground"
+                    android:padding="15dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_send_black_24dp"
+                    android:tint="@color/colorPrimary" />
 
             </LinearLayout>
 

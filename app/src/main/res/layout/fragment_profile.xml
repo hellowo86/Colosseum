@@ -45,7 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="@dimen/normal_margin"
                     android:orientation="vertical">
 
                     <TextView
@@ -78,11 +78,11 @@
                 android:background="?android:attr/selectableItemBackground">
 
                 <View
-                    android:layout_marginLeft="@dimen/normal_margin"
-                    android:layout_marginRight="@dimen/normal_margin"
+                    android:layout_marginLeft="@dimen/big_margin"
+                    android:layout_marginRight="@dimen/big_margin"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/disableText"/>
+                    android:background="@color/iconTint"/>
 
                 <TextView
                     android:layout_gravity="center_vertical"
@@ -110,11 +110,11 @@
                 android:background="?android:attr/selectableItemBackground">
 
                 <View
-                    android:layout_marginLeft="@dimen/normal_margin"
-                    android:layout_marginRight="@dimen/normal_margin"
+                    android:layout_marginLeft="@dimen/big_margin"
+                    android:layout_marginRight="@dimen/big_margin"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/disableText"/>
+                    android:background="@color/iconTint"/>
 
                 <TextView
                     android:layout_gravity="center_vertical"
@@ -130,10 +130,117 @@
                     android:layout_height="30dp"
                     android:layout_gravity="center_vertical|right"
                     android:layout_marginRight="@dimen/extra_margin"
-                    android:src="@drawable/ic_home_black_24dp"
+                    android:src="@drawable/ic_settings_black_48dp"
                     android:tint="@color/iconTint"/>
 
             </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/inviteBtn"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <View
+                    android:layout_marginLeft="@dimen/big_margin"
+                    android:layout_marginRight="@dimen/big_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/iconTint"/>
+
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/extra_margin"
+                    android:textColor="@color/secondaryText"
+                    android:text="@string/invite_friends"
+                    android:textSize="16dp" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginRight="@dimen/extra_margin"
+                    android:src="@drawable/ic_redeem_black_48dp"
+                    android:tint="@color/iconTint"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/contactBtn"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <View
+                    android:layout_marginLeft="@dimen/big_margin"
+                    android:layout_marginRight="@dimen/big_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/iconTint"/>
+
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/extra_margin"
+                    android:textColor="@color/secondaryText"
+                    android:text="@string/contact_us"
+                    android:textSize="16dp" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginRight="@dimen/extra_margin"
+                    android:src="@drawable/ic_mail_outline_black_48dp"
+                    android:tint="@color/iconTint"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/logoutBtn"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <View
+                    android:layout_marginLeft="@dimen/big_margin"
+                    android:layout_marginRight="@dimen/big_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/iconTint"/>
+
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/extra_margin"
+                    android:textColor="@color/secondaryText"
+                    android:text="@string/logout"
+                    android:textSize="16dp" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginRight="@dimen/extra_margin"
+                    android:src="@drawable/ic_exit_to_app_black_48dp"
+                    android:tint="@color/iconTint"/>
+
+            </FrameLayout>
+
+            <TextView
+                android:layout_marginTop="@dimen/normal_margin"
+                android:layout_marginBottom="50dp"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:gravity="center"
+                android:textColor="@color/disableText"
+                android:text="@string/copyright"/>
 
         </LinearLayout>
 

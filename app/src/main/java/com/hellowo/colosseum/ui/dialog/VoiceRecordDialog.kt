@@ -3,6 +3,7 @@ package com.hellowo.colosseum.ui.dialog
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.DialogInterface
 import android.media.*
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.CoordinatorLayout
@@ -35,6 +36,8 @@ class VoiceRecordDialog(private val voiceUrl: String?, private val evalutaion : 
     lateinit var hateBtn: FrameLayout
     lateinit var titleText: TextView
     lateinit var subText: TextView
+
+    var isClosed = false
 
     override fun setupDialog(dialog: Dialog, style: Int) {
         super.setupDialog(dialog, style)
@@ -123,15 +126,17 @@ class VoiceRecordDialog(private val voiceUrl: String?, private val evalutaion : 
         rippleView.startRippleAnimation()
         centerImage.visibility = View.INVISIBLE
         rippleView.postDelayed({
-            isRecording = false
-            rippleView.stopRippleAnimation()
-            centerImage.setImageResource(R.drawable.play)
-            centerImage.setColorFilter(activity?.resources?.getColor(R.color.lol_primary)!!)
-            centerImage.visibility = View.VISIBLE
-            confirmBtn.setBackgroundColor(activity?.resources?.getColor(R.color.lol_primary)!!)
-            confirmBtn.setOnClickListener {
-                filePath?.let { dialogInterface.invoke(it, false) }
-                dismiss()
+            if(!isClosed) {
+                isRecording = false
+                rippleView.stopRippleAnimation()
+                centerImage.setImageResource(R.drawable.play)
+                centerImage.setColorFilter(activity?.resources?.getColor(R.color.lol_primary)!!)
+                centerImage.visibility = View.VISIBLE
+                confirmBtn.setBackgroundColor(activity?.resources?.getColor(R.color.lol_primary)!!)
+                confirmBtn.setOnClickListener {
+                    filePath?.let { dialogInterface.invoke(it, false) }
+                    dismiss()
+                }
             }
         }, 5000)
 
@@ -176,9 +181,11 @@ class VoiceRecordDialog(private val voiceUrl: String?, private val evalutaion : 
         rippleView.startRippleAnimation()
         centerImage.visibility = View.INVISIBLE
         rippleView.postDelayed({
-            isPlaying = false
-            rippleView.stopRippleAnimation()
-            centerImage.visibility = View.VISIBLE
+            if(!isClosed) {
+                isPlaying = false
+                rippleView.stopRippleAnimation()
+                centerImage.visibility = View.VISIBLE
+            }
         }, 5000)
 
         val track = AudioTrack(AudioManager.STREAM_MUSIC, sampleRate, channel, format, bufferSize, AudioTrack.MODE_STREAM)
@@ -246,5 +253,10 @@ class VoiceRecordDialog(private val voiceUrl: String?, private val evalutaion : 
         }
         isPlaying = true
         thread.start()
+    }
+
+    override fun onDismiss(dialog: DialogInterface?) {
+        super.onDismiss(dialog)
+        isClosed = true
     }
 }

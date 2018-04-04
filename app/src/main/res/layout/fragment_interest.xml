@@ -51,7 +51,8 @@
                 android:layout_height="64dp"
                 android:layout_centerInParent="true"
                 android:id="@+id/centerImage"
-                android:src="@drawable/color_search"/>
+                android:src="@drawable/search_love"
+                android:tint="@color/white"/>
 
         </com.skyfishjy.library.RippleBackground>
 
@@ -137,11 +138,19 @@
 
             </LinearLayout>
 
+            <View
+                android:layout_marginLeft="@dimen/big_margin"
+                android:layout_marginRight="@dimen/big_margin"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/iconTint"
+                android:layout_marginTop="@dimen/normal_margin"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/primaryText"
-                android:layout_marginTop="@dimen/extra_margin"
+                android:layout_marginTop="@dimen/normal_margin"
                 android:layout_marginLeft="@dimen/extra_margin"
                 android:text="@string/people_interest_me"
                 android:fontFamily="@font/spoqa_sans_b"
@@ -290,10 +299,18 @@
 
             </android.support.v7.widget.CardView>
 
+            <View
+                android:layout_marginLeft="@dimen/big_margin"
+                android:layout_marginRight="@dimen/big_margin"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/iconTint"
+                android:layout_marginTop="40dp"/>
+
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp">
+                android:layout_marginTop="@dimen/normal_margin">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -304,17 +321,33 @@
                     android:fontFamily="@font/spoqa_sans_b"
                     android:textSize="16dp"/>
 
-                <TextView
+                <LinearLayout
                     android:id="@+id/filterBtn"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:orientation="horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorPrimary"
                     android:layout_gravity="right"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:layout_marginRight="@dimen/extra_margin"
-                    android:text="@string/set_filter"
-                    android:fontFamily="@font/spoqa_sans_b"
-                    android:textSize="14dp"/>
+                    android:gravity="center_vertical"
+                    android:layout_marginRight="@dimen/extra_margin">
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center_vertical|right"
+                        android:src="@drawable/ic_filter_list_black_48dp"
+                        android:tint="@color/colorPrimary"/>
+
+                    <TextView
+                        android:layout_marginLeft="3dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorPrimary"
+                        android:text="@string/set_filter"
+                        android:fontFamily="@font/spoqa_sans_b"
+                        android:textSize="14dp"/>
+
+                </LinearLayout>
 
             </FrameLayout>
 

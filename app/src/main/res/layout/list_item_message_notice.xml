@@ -14,37 +14,39 @@
 
         <View
             android:layout_width="0dp"
-            android:layout_height="@dimen/line_size"
+            android:layout_height="1dp"
             android:layout_weight="1"
-            android:layout_marginEnd="@dimen/normal_margin"
-            android:background="@color/disableText"/>
+            android:layout_marginStart="@dimen/big_margin"
+            android:layout_marginEnd="@dimen/big_margin"
+            android:background="@color/iconTint"/>
 
         <TextView
             android:id="@+id/dateDividerText"
-            style="@style/SubText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
+            android:textSize="10dp"
+            android:fontFamily="@font/spoqa_sans_b"
             android:text="date"
             android:textColor="@color/disableText" />
 
         <View
             android:layout_width="0dp"
-            android:layout_height="@dimen/line_size"
+            android:layout_height="1dp"
             android:layout_weight="1"
-            android:layout_marginStart="@dimen/normal_margin"
-            android:background="@color/disableText"/>
+            android:layout_marginStart="@dimen/big_margin"
+            android:layout_marginEnd="@dimen/big_margin"
+            android:background="@color/iconTint"/>
 
     </LinearLayout>
 
     <TextView
         android:id="@+id/messageText"
-        style="@style/SubText"
         android:layout_marginTop="@dimen/normal_margin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="notice"
+        android:textSize="10dp"
         android:textColor="@color/disableText" />
 
 </LinearLayout>

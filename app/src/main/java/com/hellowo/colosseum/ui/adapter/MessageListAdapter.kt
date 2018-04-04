@@ -14,6 +14,7 @@ import com.hellowo.colosseum.model.Chat
 import com.hellowo.colosseum.model.ChatMember
 import com.hellowo.colosseum.model.Message
 import com.hellowo.colosseum.utils.makePublicPhotoUrl
+import com.hellowo.colosseum.utils.setClipBoardLink
 import jp.wasabeef.glide.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.list_item_message.view.*
 import org.json.JSONObject
@@ -50,6 +51,7 @@ class MessageListAdapter(val context: Context,
         val viewType = getItemViewType(position)
         val message = getItem(position)
         val nextMessage = getItem(position + 1)
+        val prevMessage = getItem(position - 1)
         message?.let {
             currentCal.timeInMillis = message.dtCreated
             nextCal.timeInMillis = nextMessage?.dtCreated ?: 0
@@ -62,11 +64,16 @@ class MessageListAdapter(val context: Context,
                         && message.userId.equals(nextMessage.userId)
                         && message.dtCreated - nextMessage.dtCreated < 1000 * 60
 
+                val isEndOfContext = prevMessage == null
+                        || prevMessage.type != 0
+                        || !message.userId.equals(prevMessage.userId)
+                        || prevMessage.dtCreated - message.dtCreated > 1000 * 30
+
                 var uncheckCount = 0
                 memberMap.forEach { if(!it.value.live && it.value.lastConnectedTime < message.dtCreated) uncheckCount++ }
 
                 v.topMargin.visibility = if(isContinueMessage) View.GONE else View.VISIBLE
-                v.timeText.text = if(isContinueMessage) "" else DateFormat.getTimeInstance(DateFormat.SHORT).format(currentCal.time)
+                v.timeText.text = if(isEndOfContext) DateFormat.getTimeInstance(DateFormat.SHORT).format(currentCal.time) else ""
                 v.uncheckText.text = if(uncheckCount == 0) "" else uncheckCount.toString()
 
                 setContents(v, message)
@@ -98,6 +105,10 @@ class MessageListAdapter(val context: Context,
                 v.photoImg.visibility = View.GONE
                 v.photoImg.setImageDrawable(null)
                 v.setOnClickListener { adapterInterface.onMessageClicked(message) }
+                v.setOnLongClickListener {
+                    message.text?.let { setClipBoardLink(context, it) }
+                    return@setOnLongClickListener false
+                }
             }
             3 -> {
                 v.messageText.visibility = View.GONE
@@ -143,10 +154,11 @@ class MessageListAdapter(val context: Context,
 
     private fun getItem(position: Int): Message? {
         try{
-            return messageList[position]
-        }catch (e: Exception) {
-            return null
-        }
+            if(position in 0 until messageList.size) {
+                return messageList[position]
+            }
+        }catch (e: Exception) {}
+        return null
     }
 
     override fun getItemViewType(position: Int): Int {

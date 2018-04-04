@@ -24,6 +24,7 @@ import com.bumptech.glide.Glide
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import com.hellowo.colosseum.R
+import com.hellowo.colosseum.data.Me
 import com.hellowo.colosseum.model.Chat
 import com.hellowo.colosseum.model.Message
 import com.hellowo.colosseum.ui.adapter.ChatMemberListAdapter
@@ -127,6 +128,7 @@ class ChatingActivity : BaseActivity() {
         })
         viewModel.newMessage.observe(this, Observer {
             adapter.notifyItemInserted(0)
+            adapter.notifyItemChanged(1)
             if(layoutManager.findFirstVisibleItemPosition() <= 1) {
                 recyclerView.scrollToPosition(0)
             }else {
@@ -159,7 +161,10 @@ class ChatingActivity : BaseActivity() {
     }
 
     private fun updateChatUI(chat: Chat) {
-        titleText.text = chat.title
+        val yourGender = Me.value?.getYourGender()!!
+        titleText.text = chat.getNameByGender(yourGender)
+        Glide.with(this).load(makePublicPhotoUrl(chat.getIdByGender(yourGender))).placeholder(R.drawable.img_default_profile)
+                .bitmapTransform(CropCircleTransformation(this)).into(profileImg)
     }
 
     private fun updateTypingUI(typingList: List<String>?) {

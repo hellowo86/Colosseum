@@ -73,7 +73,7 @@ class CommentListAdapter(val context: Context,
             }
 
             if(comment.replyCount > 0) {
-                v.replyBtn.setColorFilter(context.resources.getColor(R.color.colorPrimary))
+                v.replyBtn.setColorFilter(context.resources.getColor(R.color.grey))
             }else {
                 v.replyBtn.setColorFilter(context.resources.getColor(R.color.iconTint))
             }
