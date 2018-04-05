@@ -27,7 +27,8 @@ data class User (
     }
 
     fun makeChatMember(): ChatMember {
-        return ChatMember(id, nickName, System.currentTimeMillis(), true, pushToken)
+        val time = System.currentTimeMillis()
+        return ChatMember(id, nickName, time, time, true, pushToken)
     }
 
     @Exclude fun getYourGender(): Int = if(gender == 0) 1 else 0

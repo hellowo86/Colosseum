@@ -6,14 +6,17 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.hellowo.colosseum.data.Me
 import com.hellowo.colosseum.model.Couple
+import com.hellowo.colosseum.model.SearchedUser
 import com.hellowo.colosseum.model.User
 import com.hellowo.colosseum.utils.distFrom
 import com.hellowo.colosseum.utils.log
 import com.pixplicity.easyprefs.library.Prefs
+import io.realm.Realm
 import java.util.logging.Handler
 
 
 class InterestViewModel : ViewModel() {
+    val realm = Realm.getDefaultInstance()
     val db = FirebaseFirestore.getInstance()
     var newList = MutableLiveData<ArrayList<User>>()
     var interestMeList = MutableLiveData<ArrayList<User>>()
@@ -100,10 +103,15 @@ class InterestViewModel : ViewModel() {
                                     val age = User.getAge(user.birth)
                                     val distance = distFrom(user.lat, user.lng, myLat, myLng).toInt()
 
-                                    if(age in ageMin..ageMax && distance in distanceMin..distanceMax) {
-                                        newList.value?.add(user)
+                                    if(newList.value?.size!! < maxResult && age in ageMin..ageMax && distance in distanceMin..distanceMax) {
+                                        realm.executeTransaction { _ ->
+                                            if(realm.where(SearchedUser::class.java).equalTo("id", user.id).count() == 0L) {
+                                                newList.value?.add(user)
+                                            }
+                                        }
                                     }
                                 }
+
                         if(task.result.size() > 0 && newList.value?.size!! < maxResult) {
                             startNewSearch(task.result.last())
                         }else {
@@ -125,7 +133,6 @@ class InterestViewModel : ViewModel() {
             data.put("${myPrefix}Interest", interest)
             if (doc.exists()) {
                 if(interest == 1 && doc.get("${yourPrefix}Interest").toString() == "1") {
-                    log(doc.get("${yourPrefix}Interest").toString())
                     data.put("level", 2)
                     interestCompleted.value = user
                     interestCompleted.value = null
@@ -144,6 +151,12 @@ class InterestViewModel : ViewModel() {
                 data.put("${myPrefix}PushToken", Me.value?.pushToken)
                 ref.set(data)
             }
+
+            realm.executeTransaction { _ ->
+                if(realm.where(SearchedUser::class.java).equalTo("id", user.id).count() == 0L) {
+                    realm.createObject(SearchedUser::class.java, user.id)
+                }
+            }
         }
     }
 
@@ -157,6 +170,11 @@ class InterestViewModel : ViewModel() {
         newList.value?.addAll(interestMeList.value!!)
         newList.value = newList.value
         viewMode.value = 3
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        realm.close()
     }
 
 }

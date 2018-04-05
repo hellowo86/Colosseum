@@ -10,7 +10,7 @@ import com.hellowo.colosseum.model.Couple
 import com.hellowo.colosseum.model.User
 import com.hellowo.colosseum.utils.log
 
-class FavobalityTestListViewModel : ViewModel() {
+class ChemistryListViewModel : ViewModel() {
     val db = FirebaseFirestore.getInstance()
     var coupleList = MutableLiveData<ArrayMap<String, Couple>>()
     var loading = MutableLiveData<Boolean>()

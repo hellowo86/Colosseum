@@ -54,11 +54,14 @@ object MyChatList : LiveData<ArrayList<MyChat>>() {
                             if(task.isSuccessful) {
                                 val yourGenderKey = Couple.getGenderKey(Me.value?.getYourGender()!!)
                                 val myChat: MyChat
+                                val title = task.result.getString("${yourGenderKey}Name")
+                                val hostId = task.result.getString("${yourGenderKey}Id")
                                 if(chatMap.containsKey(chatId)) {
                                     myChat = chatMap[chatId]!!
+                                    myChat.title = title
+                                    myChat.hostId = hostId
                                 }else {
-                                    myChat = MyChat(id = chatId, title = task.result.getString("${yourGenderKey}Name"),
-                                            hostId = task.result.getString("${yourGenderKey}Id"))
+                                    myChat = MyChat(id = chatId, title = title, hostId = hostId)
                                     value?.add(myChat)
                                 }
                                 chatMap.put(chatId, myChat)

@@ -71,7 +71,7 @@
             </LinearLayout>
 
             <FrameLayout
-                android:id="@+id/alarmBtn"
+                android:id="@+id/notiBtn"
                 android:layout_marginTop="@dimen/extra_margin"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
@@ -90,7 +90,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/extra_margin"
                     android:textColor="@color/secondaryText"
-                    android:text="@string/alarm"
+                    android:text="@string/noti_setting"
                     android:textSize="16dp" />
 
                 <ImageView
@@ -195,6 +195,38 @@
                     android:layout_gravity="center_vertical|right"
                     android:layout_marginRight="@dimen/extra_margin"
                     android:src="@drawable/ic_mail_outline_black_48dp"
+                    android:tint="@color/iconTint"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/evaluationBtn"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <View
+                    android:layout_marginLeft="@dimen/big_margin"
+                    android:layout_marginRight="@dimen/big_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/iconTint"/>
+
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/extra_margin"
+                    android:textColor="@color/secondaryText"
+                    android:text="@string/evaluation"
+                    android:textSize="16dp" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginRight="@dimen/extra_margin"
+                    android:src="@drawable/ic_grade_black_48dp"
                     android:tint="@color/iconTint"/>
 
             </FrameLayout>

@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "830309029851-spuhehm117kj2e8rnpt272l8sj34u4e6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hellowo.colosseum",
+            "certificate_hash": "3c5ee37fa7f3d0c78faae7560c20667a2652696d"
+          }
+        },
+        {
           "client_id": "830309029851-1abdoljfth35seruatgm9vsjl0u26udu.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

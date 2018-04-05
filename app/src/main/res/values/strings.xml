@@ -134,11 +134,21 @@
     <string name="height_limit">키 제한</string>
     <string name="weight_limit">몸무게 제한</string>
     <string name="no_limit">제한없음</string>
-    <string name="alarm">알람</string>
+    <string name="notification">알림</string>
     <string name="setting">환경설정</string>
     <string name="invite_friends">친구 초대하기</string>
     <string name="copyright">Copyright 2018 CoupleInside, Inc.\nContact us at dayfly86@gmail.com</string>
     <string name="contact_us">문의하기</string>
     <string name="logout">로그아웃</string>
     <string name="copy_completed">복사되었습니다</string>
+    <string name="evaluation">앱 평가하기</string>
+    <string name="logout_sub">로그아웃 하시겠습니까?</string>
+    <string name="noti_setting">알림 설정하기</string>
+    <string name="chat_message_noti">채팅 메세지 알림</string>
+    <string name="like_noti">내 글에 좋아요 알림</string>
+    <string name="interest_noti">서로 관심주기 성공 알림</string>
+    <string name="chemistry_noti">캐미 확인 알림</string>
+    <string name="remove_interest_list">관심목록 지우기</string>
+    <string name="version">버전</string>
+    <string name="delete_account">탈퇴하기</string>
 </resources>

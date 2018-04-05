@@ -1,10 +1,8 @@
 package com.hellowo.colosseum.ui.activity
 
-import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.support.transition.TransitionManager
 import android.view.View
@@ -19,18 +17,18 @@ import com.hellowo.colosseum.utils.dpToPx
 import com.hellowo.colosseum.utils.makePublicPhotoUrl
 import com.hellowo.colosseum.utils.makeSlideFromBottomTransition
 import com.hellowo.colosseum.utils.showPhotoPicker
-import com.hellowo.colosseum.viewmodel.FavobalityTestViewModel
+import com.hellowo.colosseum.viewmodel.ChemistryViewModel
 import jp.wasabeef.glide.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.activity_favorabiliy_test.*
 import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
 
-class FavorabilityTestActivity : BaseActivity() {
-    private lateinit var viewModel: FavobalityTestViewModel
+class ChemistryActivity : BaseActivity() {
+    private lateinit var viewModel: ChemistryViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(FavobalityTestViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(ChemistryViewModel::class.java)
         viewModel.initCouple(intent.getStringExtra("coupleId"))
         setContentView(R.layout.activity_favorabiliy_test)
         initLayout()
@@ -47,9 +45,12 @@ class FavorabilityTestActivity : BaseActivity() {
         viewModel.couple.observe(this, Observer { it?.let { updateUI(it) } })
         viewModel.loading.observe(this, Observer { progressBar.visibility = if(it as Boolean) View.VISIBLE else View.GONE })
         viewModel.isUploading.observe(this, Observer { if(it as Boolean) showProgressDialog() else hideProgressDialog() })
-        viewModel.joinChat.observe(this, Observer { if(it as Boolean) {
-
-        }})
+        viewModel.joinChat.observe(this, Observer {
+            val chatIntent = Intent(this, ChatingActivity::class.java)
+            chatIntent.putExtra("chatId", it)
+            startActivity(chatIntent)
+            finish()
+        })
     }
 
     private fun updateUI(couple: Couple) {
@@ -130,7 +131,7 @@ class FavorabilityTestActivity : BaseActivity() {
             mePhotoIconImg.setColorFilter(resources.getColor(R.color.iconTint))
             mePhotoStatusText.text = getString(R.string.reg_photo)
             mePhotoStatusText.setTextColor(resources.getColor(R.color.disableText))
-            mePhotoBtn.setOnClickListener { showPhotoPicker(this@FavorabilityTestActivity){
+            mePhotoBtn.setOnClickListener { showPhotoPicker(this@ChemistryActivity){
                 uri -> viewModel.uploadPhoto(this, uri)
             }}
         }else {

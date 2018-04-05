@@ -1,7 +1,6 @@
 package com.hellowo.colosseum.ui.adapter
 
 import android.content.Context
-import android.graphics.Color
 import android.support.v7.widget.RecyclerView
 import android.util.ArrayMap
 import android.view.LayoutInflater
@@ -16,8 +15,8 @@ import com.hellowo.colosseum.utils.makePublicPhotoUrl
 import jp.wasabeef.glide.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.item_couple_test.view.*
 
-class FavorabilityTestAdapter(private val context: Context, private val mItems: ArrayMap<String, Couple>,
-                              private val adapterInterface: (Couple) -> Unit) : RecyclerView.Adapter<FavorabilityTestAdapter.ViewHolder>() {
+class ChemistryListAdapter(private val context: Context, private val mItems: ArrayMap<String, Couple>,
+                           private val adapterInterface: (Couple) -> Unit) : RecyclerView.Adapter<ChemistryListAdapter.ViewHolder>() {
     val myGender = Me.value?.gender as Int
     val yourGender = Me.value?.getYourGender() as Int
 

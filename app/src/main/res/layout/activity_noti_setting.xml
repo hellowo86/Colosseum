@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="@dimen/normal_margin"
+                android:layout_marginBottom="@dimen/normal_margin"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    android:id="@+id/backBtn"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:padding="5dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_keyboard_arrow_left_black_48dp"
+                    android:tint="@color/primaryText" />
+
+                <TextView
+                    android:id="@+id/titleText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="23dp"
+                    android:textColor="@color/primaryText"
+                    android:text="@string/noti_setting"
+                    android:fontFamily="@font/spoqa_sans_b"
+                    android:visibility="visible"/>
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_marginTop="@dimen/extra_margin"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <View
+                    android:layout_marginLeft="@dimen/big_margin"
+                    android:layout_marginRight="@dimen/big_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/iconTint"/>
+
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/extra_margin"
+                    android:textColor="@color/secondaryText"
+                    android:text="@string/chat_message_noti"
+                    android:textSize="16dp" />
+
+                <Switch
+                    android:id="@+id/chatNotiSwitch"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginRight="@dimen/extra_margin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <View
+                    android:layout_marginLeft="@dimen/big_margin"
+                    android:layout_marginRight="@dimen/big_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/iconTint"/>
+
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/extra_margin"
+                    android:textColor="@color/secondaryText"
+                    android:text="@string/interest_noti"
+                    android:textSize="16dp" />
+
+                <Switch
+                    android:id="@+id/interestNotiSwitch"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginRight="@dimen/extra_margin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <View
+                    android:layout_marginLeft="@dimen/big_margin"
+                    android:layout_marginRight="@dimen/big_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/iconTint"/>
+
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/extra_margin"
+                    android:textColor="@color/secondaryText"
+                    android:text="@string/chemistry_noti"
+                    android:textSize="16dp" />
+
+                <Switch
+                    android:id="@+id/chemistryNotiSwitch"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginRight="@dimen/extra_margin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <View
+                    android:layout_marginLeft="@dimen/big_margin"
+                    android:layout_marginRight="@dimen/big_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/iconTint"/>
+
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/extra_margin"
+                    android:textColor="@color/secondaryText"
+                    android:text="@string/like_noti"
+                    android:textSize="16dp" />
+
+                <Switch
+                    android:id="@+id/likeNotiSwitch"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginRight="@dimen/extra_margin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

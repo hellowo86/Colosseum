@@ -6,6 +6,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.DialogInterface
+import android.content.pm.PackageManager
 import android.os.Build
 import android.support.v7.app.AlertDialog
 import android.util.Log
@@ -14,6 +15,7 @@ import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.Toast
 import com.hellowo.colosseum.R
+import java.util.*
 
 fun log(text: String){
     Log.d("aaa", text)
@@ -92,4 +94,22 @@ fun setClipBoardLink(context: Context, text: String){
     Toast.makeText(context, context.getString(R.string.copy_completed), Toast.LENGTH_SHORT).show()
 }
 
+fun getUserDeviceInfoText(context: Context): String {
+    try {
+        val version = context.packageManager.getPackageInfo(context.packageName, 0).versionName
+        val versionCode = context.packageManager.getPackageInfo(context.packageName, 0).versionCode
+        val matrix = context.resources.displayMetrics
+        return "\n\n\n=============================\n" +
+                "[Device information]\n" +
+                "-Language : " + Locale.getDefault().language + "\n" +
+                "-Os : Android " + Build.VERSION.RELEASE + "\n" +
+                "-Brand : " + Build.BRAND + "\n" +
+                "-device : " + Build.MODEL + "\n" +
+                "-display : " + matrix.widthPixels + " x " + matrix.heightPixels + "\n" +
+                "-Version : " + version + " (" + versionCode + ")"
+    } catch (e: PackageManager.NameNotFoundException) {
+        e.printStackTrace()
+        return ""
+    }
+}
 

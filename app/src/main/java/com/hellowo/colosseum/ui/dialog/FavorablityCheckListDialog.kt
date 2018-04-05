@@ -6,14 +6,11 @@ import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.CoordinatorLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.ArrayMap
 import android.view.View
 import android.widget.LinearLayout
-import android.widget.ProgressBar
 import android.widget.TextView
 import com.hellowo.colosseum.R
-import com.hellowo.colosseum.ui.adapter.FavorablityCheckListAdapter
-import com.hellowo.colosseum.utils.log
+import com.hellowo.colosseum.ui.adapter.ChemistryCheckListAdapter
 
 @SuppressLint("ValidFragment")
 class FavorablityCheckListDialog(private val oxString: String, private val enableCheck : Boolean,
@@ -48,7 +45,7 @@ class FavorablityCheckListDialog(private val oxString: String, private val enabl
             }
 
             recyclerView.layoutManager = LinearLayoutManager(context!!)
-            recyclerView.adapter = FavorablityCheckListAdapter(context!!, items, checkeds, enableCheck)
+            recyclerView.adapter = ChemistryCheckListAdapter(context!!, items, checkeds, enableCheck)
 
             if(enableCheck) {
                 confirmBtn.visibility = View.VISIBLE

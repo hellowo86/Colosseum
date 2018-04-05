@@ -19,10 +19,12 @@
 
         <activity android:name=".ui.activity.MainActivity"/>
         <activity android:name=".ui.activity.BasicActivity"/>
-        <activity android:name=".ui.activity.FavorabilityTestActivity"/>
+        <activity android:name=".ui.activity.ChemistryActivity"/>
         <activity android:name=".ui.activity.ChatingActivity"/>
         <activity android:name=".ui.activity.PhotoActivity"/>
         <activity android:name=".ui.activity.UserActivity"/>
+        <activity android:name=".ui.activity.NotiSettingActivity"/>
+        <activity android:name=".ui.activity.SettingActivity"/>
 
         <service
             android:name=".fcm.MessagingService">

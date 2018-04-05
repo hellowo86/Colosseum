@@ -6,14 +6,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import com.bumptech.glide.Glide
-import com.google.firebase.auth.FirebaseAuth
 import com.hellowo.colosseum.R
-import com.hellowo.colosseum.data.InterestedCouple
 import com.hellowo.colosseum.data.Me
 import com.hellowo.colosseum.data.MyChatList
 import com.hellowo.colosseum.model.User
 import com.hellowo.colosseum.ui.fragment.*
-import com.hellowo.colosseum.utils.log
 import com.hellowo.colosseum.utils.makePublicPhotoUrl
 import com.hellowo.colosseum.viewmodel.MainViewModel
 import jp.wasabeef.glide.transformations.CropCircleTransformation
@@ -32,12 +29,6 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initLayout() {
-        communityTab.setOnLongClickListener {
-            FirebaseAuth.getInstance().signOut()
-            startActivity(Intent(this, SplashActivity::class.java))
-            finish()
-            return@setOnLongClickListener false
-        }
         homeTab.setOnClickListener{ clickTab(homeTabImg) }
         matchingTab.setOnClickListener{ clickTab(matchingTabImg) }
         chatTab.setOnClickListener{ clickTab(chatTabImg) }
@@ -57,7 +48,7 @@ class MainActivity : BaseActivity() {
         fragmentTransaction.replace(R.id.container,
                 when (item) {
                     homeTabImg -> InterestFragment()
-                    matchingTabImg -> FavorablityTestListFragment()
+                    matchingTabImg -> ChemistryListFragment()
                     chatTabImg -> MyChatListFragment()
                     communityTabImg -> IssueFragment()
                     profileImg -> ProfileFragment()

@@ -11,21 +11,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.hellowo.colosseum.R
-import com.hellowo.colosseum.ui.activity.FavorabilityTestActivity
-import com.hellowo.colosseum.ui.adapter.FavorabilityTestAdapter
+import com.hellowo.colosseum.ui.activity.ChemistryActivity
+import com.hellowo.colosseum.ui.adapter.ChemistryListAdapter
 import com.hellowo.colosseum.utils.dpToPx
 import com.hellowo.colosseum.utils.makeSlideFromBottomTransition
-import com.hellowo.colosseum.viewmodel.FavobalityTestListViewModel
+import com.hellowo.colosseum.viewmodel.ChemistryListViewModel
 import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.fragment_favorabiliy_test.*
 
-class FavorablityTestListFragment : Fragment() {
-    private lateinit var listViewModel: FavobalityTestListViewModel
+class ChemistryListFragment : Fragment() {
+    private lateinit var listViewModel: ChemistryListViewModel
     var listInitAnimation = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        listViewModel = ViewModelProviders.of(activity!!).get(FavobalityTestListViewModel::class.java)
+        listViewModel = ViewModelProviders.of(activity!!).get(ChemistryListViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -44,8 +44,8 @@ class FavorablityTestListFragment : Fragment() {
         swipeRefreshView.setOnRefreshListener { listViewModel.loadCoupleList() }
         swipeRefreshView.setProgressViewOffset(true, dpToPx(context!!, 100f).toInt(), dpToPx(context!!, 200f).toInt())
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = FavorabilityTestAdapter(activity!!, listViewModel.coupleList.value!!) { couple ->
-            val intent = Intent(activity, FavorabilityTestActivity::class.java)
+        recyclerView.adapter = ChemistryListAdapter(activity!!, listViewModel.coupleList.value!!) { couple ->
+            val intent = Intent(activity, ChemistryActivity::class.java)
             intent.putExtra("coupleId", couple.id)
             startActivityForResult(intent, 1)
         }

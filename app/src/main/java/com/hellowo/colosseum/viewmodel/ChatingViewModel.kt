@@ -49,9 +49,10 @@ class ChatingViewModel : ViewModel() {
     var lastReadPosition = MutableLiveData<Int>()
     var isTyping = false
     var isOut = false
-    val limit = 100L
+    val limit = 30L
     var chatId: String = ""
     var myLastConnectedTime: Long = Long.MAX_VALUE
+    var myEnteredTime: Long = 0
 
     private var messageListenerRegistration: ListenerRegistration? = null
     private var typingListenerRegistration: ListenerRegistration? = null
@@ -80,6 +81,11 @@ class ChatingViewModel : ViewModel() {
 
     private fun loadMessages(lastTime: Double?) {
         log("loadMessages")
+        if(myEnteredTime == -1L) { // 더이상 메세지가 없을때
+            messagesLoading.value = false
+            return
+        }
+
         messagesLoading.value = true
         var query = ref.document(chatId).collection("messages").orderBy("dtCreated", Query.Direction.DESCENDING)
         lastVisibleSnapshot?.let { query = query.startAfter(it) }
@@ -91,12 +97,21 @@ class ChatingViewModel : ViewModel() {
         query.get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 task.result.documents.forEach {
-                    messages.value?.add(it.toObject(Message::class.java))
+                    val meesage = it.toObject(Message::class.java)
+                    if(myEnteredTime < meesage.dtCreated) { // 들어온 시간보다 메세지시간이 미래인 경우에만 보여줌
+                        messages.value?.add(meesage)
+                    }else{
+                        lastVisibleSnapshot = it
+                        myEnteredTime = -1L
+                        messages.value = messages.value
+                        messagesLoading.value = false
+                        return@addOnCompleteListener
+                    }
                 }
 
                 if(task.result.documents.isNotEmpty()) {
                     val lastSnapshot = task.result.documents.last()
-                    if(lastVisibleSnapshot == null && myLastConnectedTime < lastSnapshot.getLong("dtCreated")) {
+                    if(lastVisibleSnapshot == null && myLastConnectedTime < lastSnapshot.getLong("dtCreated")) { // 마지막으로 로드한 메세지 캐싱
                         lastVisibleSnapshot = lastSnapshot
                         loadMessages(myLastConnectedTime.toDouble())
                         return@addOnCompleteListener
@@ -106,16 +121,13 @@ class ChatingViewModel : ViewModel() {
 
                 messages.value = messages.value
 
-                if(lastReadPosition.value == -1 && messages.value?.size!! > 0) {
+                if(lastReadPosition.value == -1 && messages.value?.size!! > 0) { // 마지막 읽은 메세지 처리
                     if(lastTime != null) {
                         lastReadPosition.value = messages.value?.size!! - 1
                     }else {
-                        log("myLastConnectedTime" + DateFormat.getDateTimeInstance().format(Date(myLastConnectedTime)))
                         messages.value?.firstOrNull { it.dtCreated < myLastConnectedTime }?.let {
-                            log(it.toString())
                             val pos = messages.value?.indexOf(it)
-                            log(""+pos)
-                            if(pos!! > 5) {
+                            if(pos!! > 5) { // 5개 이상의 메세지가 있을경우만 처리
                                 lastReadPosition.value = pos
                             }
                         }
@@ -161,6 +173,7 @@ class ChatingViewModel : ViewModel() {
                             members.value?.put(chatMember.userId, chatMember)
                             if(chatMember.userId == Me.value?.id) {
                                 myLastConnectedTime = chatMember.lastConnectedTime
+                                myEnteredTime = chatMember.dtEntered
                             }
                         }
                         it.type == DocumentChange.Type.REMOVED -> {

@@ -187,7 +187,7 @@
             android:id="@+id/progressBar"
             style="?android:attr/progressBarStyle"
             android:indeterminateTint="@color/colorPrimary"
-            android:layout_marginTop="@dimen/big_margin"
+            android:layout_marginTop="@dimen/extra_margin"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_gravity="bottom|center_horizontal"/>
@@ -196,7 +196,7 @@
             android:id="@+id/loginBtn"
             android:layout_height="50dp"
             android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/normal_margin"
+            android:layout_marginTop="@dimen/big_margin"
             android:foreground="?android:attr/selectableItemBackground"
             app:cardBackgroundColor="@color/colorPrimary"
             app:cardCornerRadius="25dp"

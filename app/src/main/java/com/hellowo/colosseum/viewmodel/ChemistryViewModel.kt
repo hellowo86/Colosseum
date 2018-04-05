@@ -10,19 +10,18 @@ import com.hellowo.colosseum.data.Me
 import com.hellowo.colosseum.model.Chat
 import com.hellowo.colosseum.model.Couple
 import com.hellowo.colosseum.model.Message
-import com.hellowo.colosseum.ui.activity.FavorabilityTestActivity
 import com.hellowo.colosseum.utils.log
 import com.hellowo.colosseum.utils.uploadFile
 import com.hellowo.colosseum.utils.uploadPhoto
 import java.util.*
 import kotlin.collections.HashMap
 
-class FavobalityTestViewModel : ViewModel() {
+class ChemistryViewModel : ViewModel() {
     val db = FirebaseFirestore.getInstance()
     var couple = MutableLiveData<Couple>()
     var loading = MutableLiveData<Boolean>()
     val isUploading = MutableLiveData<Boolean>()
-    var joinChat = MutableLiveData<Boolean>()
+    var joinChat = MutableLiveData<String>()
     var coupleId: String? = null
     private var coupleListenerRegistration: ListenerRegistration? = null
 
@@ -57,23 +56,28 @@ class FavobalityTestViewModel : ViewModel() {
                 val db = FirebaseFirestore.getInstance()
                 val batch = db.batch()
 
+                val chat = Chat(id = it.id!!, title = "", hostId = Me.value?.id,
+                        dtCreated = System.currentTimeMillis(), dtUpdated = System.currentTimeMillis(),
+                        maleId = couple.value?.maleId, maleName = couple.value?.maleName,
+                        femaleId = couple.value?.femaleId, femaleName = couple.value?.femaleName)
+                val chatMember = Me.value?.makeChatMember()!!
+                val message = Message("", Me.value?.nickName, Me.value?.id, chatMember.dtEntered, 1)
+
                 val chatRef = db.collection("chats").document(it.id!!)
-                val chat = Chat(id = it.id!!, title = "", hostId = Me.value?.id, dtCreated = System.currentTimeMillis(), dtUpdated = System.currentTimeMillis(),
-                        maleId = couple.value?.maleId, maleName = couple.value?.maleName, femaleId = couple.value?.femaleId, femaleName = couple.value?.femaleName)
                 batch.set(chatRef, chat)
 
-                val messageRef = db.collection("chats").document(chat.id!!).collection("messages").document(UUID.randomUUID().toString())
-                val message = Message("", Me.value?.nickName, Me.value?.id, System.currentTimeMillis(), 1)
-                batch.set(messageRef, message)
-
                 val memberRef = db.collection("chats").document(chat.id!!).collection("members").document(Me.value?.id!!)
-                batch.set(memberRef, Me.value?.makeChatMember()!!)
+                batch.set(memberRef, chatMember)
+
+                val messageRef = db.collection("chats").document(chat.id!!).collection("messages").document(UUID.randomUUID().toString())
+                batch.set(messageRef, message)
 
                 val userChatRef = db.collection("users").document(Me.value?.id!!).collection("chats").document(chat.id!!)
                 batch.set(userChatRef, HashMap<String, Any?>())
 
                 batch.commit().addOnCompleteListener({
                     isUploading.value = false
+                    joinChat.value = chat.id
                 })
             }
         }
