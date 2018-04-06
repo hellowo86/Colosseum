@@ -22,7 +22,8 @@
         <activity android:name=".ui.activity.ChemistryActivity"/>
         <activity android:name=".ui.activity.ChatingActivity"/>
         <activity android:name=".ui.activity.PhotoActivity"/>
-        <activity android:name=".ui.activity.UserActivity"/>
+        <activity android:name=".ui.activity.UserActivity"
+            android:theme="@style/AppTheme.FullScreen"/>
         <activity android:name=".ui.activity.NotiSettingActivity"/>
         <activity android:name=".ui.activity.SettingActivity"/>
 

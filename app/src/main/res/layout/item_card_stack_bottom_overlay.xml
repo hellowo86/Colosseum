@@ -8,7 +8,7 @@
     android:layout_marginBottom="45dp"
     android:layout_marginLeft="32dp"
     android:layout_marginRight="32dp"
-    card_view:cardBackgroundColor="@color/grey"
+    card_view:cardBackgroundColor="@color/green"
     card_view:cardCornerRadius="20dp">
 
     <LinearLayout
@@ -21,7 +21,7 @@
             android:id="@+id/heartImg"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/ic_sentiment_dissatisfied_black_48dp"
+            android:src="@drawable/ic_sentiment_neutral_black_48dp"
             android:tint="@color/white"
             android:layout_gravity="center" />
 
@@ -30,9 +30,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textColor="@color/white"
-            android:textSize="30dp"
+            android:textSize="40dp"
             android:fontFamily="@font/spoqa_sans_b"
-            android:text="@string/hate_it"/>
+            android:text="@string/pass"/>
 
     </LinearLayout>
 

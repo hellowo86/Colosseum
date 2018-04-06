@@ -76,20 +76,22 @@
 
                 <TextView
                     android:id="@+id/titleText"
-                    style="@style/TitleText"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:textSize="17dp"
+                    android:textColor="@color/primaryText"
                     android:fontFamily="@font/spoqa_sans_b"
                     android:maxLines="1"
                     android:text="name"/>
 
                 <TextView
                     android:id="@+id/lastTimeText"
-                    style="@style/SubText"
                     android:layout_gravity="right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/disableText"
+                    android:textSize="10dp"
                     android:fontFamily="@font/spoqa_sans_r"
                     android:text="time"/>
 
@@ -97,9 +99,10 @@
 
             <TextView
                 android:id="@+id/lastMessageText"
-                style="@style/NormalText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/secondaryText"
+                android:textSize="14dp"
                 android:fontFamily="@font/spoqa_sans_r"
                 android:maxLines="2"
                 android:text="message" />

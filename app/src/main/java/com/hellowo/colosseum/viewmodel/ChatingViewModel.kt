@@ -228,7 +228,7 @@ class ChatingViewModel : ViewModel() {
                             data.put("userId", message.userId)
                             data.put("userName", message.userName)
                             data.put("message", message.text)
-                            data.put("chatId", chatId)
+                            data.put("identifier", chatId)
 
                             val bodyBuilder = FormBody.Builder()
                             bodyBuilder.add("to", pushToken)
@@ -248,7 +248,6 @@ class ChatingViewModel : ViewModel() {
                 }
             }
         }.start()
-
     }
 
     fun typingText(text: CharSequence) {

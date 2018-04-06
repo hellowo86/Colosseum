@@ -65,7 +65,7 @@ class SplashActivity : AppCompatActivity() {
             return@setOnLongClickListener false
         }
         optionBtn.setOnLongClickListener {
-            viewModel.signIn(this, "sj@gmail.com", "aaaaaaaa")
+            viewModel.signIn(this, "shs@gmail.com", "aaaaaaaa")
             return@setOnLongClickListener false
         }
     }

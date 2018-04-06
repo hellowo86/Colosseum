@@ -4,30 +4,34 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
+import com.hellowo.colosseum.R
 import com.hellowo.colosseum.data.Me
+import com.hellowo.colosseum.fcm.MessagingService
+import com.hellowo.colosseum.model.BadgeData
 import com.hellowo.colosseum.model.Couple
 import com.hellowo.colosseum.model.SearchedUser
 import com.hellowo.colosseum.model.User
 import com.hellowo.colosseum.utils.distFrom
-import com.hellowo.colosseum.utils.log
 import com.pixplicity.easyprefs.library.Prefs
 import io.realm.Realm
-import java.util.logging.Handler
 
 
 class InterestViewModel : ViewModel() {
     val realm = Realm.getDefaultInstance()
     val db = FirebaseFirestore.getInstance()
-    var newList = MutableLiveData<ArrayList<User>>()
+    var choiceList = MutableLiveData<ArrayList<User>>()
     var interestMeList = MutableLiveData<ArrayList<User>>()
     var loading = MutableLiveData<Boolean>()
     var viewMode = MutableLiveData<Int>()
     var interestCompleted = MutableLiveData<User>()
 
     init {
-        newList.value = ArrayList()
+        choiceList.value = ArrayList()
         interestMeList.value = ArrayList()
         loading.value = false
+        viewMode.value = 0
+        loadInterestMeList()
     }
 
     fun loadInterestMeList() {
@@ -62,20 +66,17 @@ class InterestViewModel : ViewModel() {
                         interestMeList.value = interestMeList.value
                         loading.value = false
                     }
-
-                    if(viewMode.value == null) {
-                        viewMode.value = 0
-                    }
                 }
     }
 
     fun startNewSearch(lastVisible: DocumentSnapshot?) {
         var query = FirebaseFirestore.getInstance().collection("users")
                 .whereEqualTo("gender", if(Me.value?.gender == 0) 1 else 0)
+                .orderBy("dtConnected", Query.Direction.DESCENDING)
                 .limit(100)
 
         if(lastVisible == null) {
-            newList.value?.clear()
+            choiceList.value?.clear()
             viewMode.value = 1
         }else {
             query = query.startAfter(lastVisible)
@@ -103,21 +104,22 @@ class InterestViewModel : ViewModel() {
                                     val age = User.getAge(user.birth)
                                     val distance = distFrom(user.lat, user.lng, myLat, myLng).toInt()
 
-                                    if(newList.value?.size!! < maxResult && age in ageMin..ageMax && distance in distanceMin..distanceMax) {
+                                    if(choiceList.value?.size!! < maxResult && age in ageMin..ageMax && distance in distanceMin..distanceMax) {
                                         realm.executeTransaction { _ ->
                                             if(realm.where(SearchedUser::class.java).equalTo("id", user.id).count() == 0L) {
-                                                newList.value?.add(user)
+                                                choiceList.value?.add(user)
                                             }
                                         }
                                     }
                                 }
 
-                        if(task.result.size() > 0 && newList.value?.size!! < maxResult) {
+                        if(task.result.size() > 0 && choiceList.value?.size!! < maxResult) {
                             startNewSearch(task.result.last())
                         }else {
-                            newList.value = newList.value
                             viewMode.value = 2
                         }
+                    }else {
+                        viewMode.value = 2
                     }
                 }
     }
@@ -136,6 +138,17 @@ class InterestViewModel : ViewModel() {
                     data.put("level", 2)
                     interestCompleted.value = user
                     interestCompleted.value = null
+                    realm.executeTransaction { _ ->
+                        val badgeData = realm.where(BadgeData::class.java).equalTo("id", "chemistry$key").findFirst()
+                        if(badgeData != null) {
+                            badgeData.count = 1
+                        }else {
+                            val badgeData = realm.createObject(BadgeData::class.java, "chemistry$key")
+                            badgeData.type = "chemistry"
+                            badgeData.count = 1
+                        }
+                    }
+                    MessagingService.sendPushMessage(user.pushToken!!, 1, user.id!!, user.nickName!!, "", key)
                 }else if(interest == 0) {
                     data.put("level", 0)
                 }
@@ -153,7 +166,7 @@ class InterestViewModel : ViewModel() {
             }
 
             realm.executeTransaction { _ ->
-                if(realm.where(SearchedUser::class.java).equalTo("id", user.id).count() == 0L) {
+                if(realm.where(SearchedUser::class.java).equalTo("id", user.id).count() == 0L && interest == 0) {
                     realm.createObject(SearchedUser::class.java, user.id)
                 }
             }
@@ -162,14 +175,15 @@ class InterestViewModel : ViewModel() {
 
     fun stackEmpty() {
         viewMode.value = 0
-        loadInterestMeList()
+        interestMeList.value = interestMeList.value
     }
 
     fun response() {
-        newList.value?.clear()
-        newList.value?.addAll(interestMeList.value!!)
-        newList.value = newList.value
-        viewMode.value = 3
+        choiceList.value?.clear()
+        choiceList.value?.addAll(interestMeList.value!!)
+        interestMeList.value?.clear()
+        choiceList.value = choiceList.value
+        viewMode.value = 4
     }
 
     override fun onCleared() {

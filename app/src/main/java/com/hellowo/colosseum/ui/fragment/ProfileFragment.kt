@@ -20,6 +20,7 @@ import com.hellowo.colosseum.ui.activity.SettingActivity
 import com.hellowo.colosseum.ui.activity.SplashActivity
 import com.hellowo.colosseum.utils.getUserDeviceInfoText
 import com.hellowo.colosseum.utils.makePublicPhotoUrl
+import io.realm.Realm
 import jp.wasabeef.glide.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.fragment_profile.*
 
@@ -52,7 +53,6 @@ class ProfileFragment : Fragment() {
                 activity?.startActivity(Intent(Intent.ACTION_VIEW,
                         Uri.parse("http://play.google.com/store/apps/details?id=com.hellowo.colosseum")))
             }
-
         }
 
         contactBtn.setOnClickListener {
@@ -72,6 +72,9 @@ class ProfileFragment : Fragment() {
                 FirebaseAuth.getInstance().signOut()
                 startActivity(Intent(activity, SplashActivity::class.java))
                 activity?.finish()
+                Realm.getDefaultInstance().executeTransaction {
+                    it.deleteAll()
+                }
             }
             builder.setNegativeButton(R.string.cancel, null)
             builder.show()

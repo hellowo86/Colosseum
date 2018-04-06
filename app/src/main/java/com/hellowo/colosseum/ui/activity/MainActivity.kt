@@ -4,9 +4,12 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.hellowo.colosseum.R
+import com.hellowo.colosseum.data.ChatTabBadge
+import com.hellowo.colosseum.data.ChemistyTabBadge
 import com.hellowo.colosseum.data.Me
 import com.hellowo.colosseum.data.MyChatList
 import com.hellowo.colosseum.model.User
@@ -58,18 +61,40 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initObserve() {
-        Me.observe(this, Observer { updateUserUI(it) })
-        MyChatList.observe(this, Observer {  })
+        try{
+            Me.observe(this, Observer { updateUserUI(it) })
+            ChemistyTabBadge.observe(this, Observer {
+                if(it as Int > 0) {
+                    chemistryBadge.visibility = View.VISIBLE
+                    chemistryBadgeText.text = it.toString()
+                }else {
+                    chemistryBadge.visibility = View.GONE
+                }
+            })
+            ChatTabBadge.observe(this, Observer {
+                if(it as Int > 0) {
+                    chatBadge.visibility = View.VISIBLE
+                    chatBadgeText.text = it.toString()
+                }else {
+                    chatBadge.visibility = View.GONE
+                }
+            })
+        }catch (e: Exception){}
     }
 
     private fun checkIntentExtra() {
-        intent.extras?.let {
-            it.getString("chatId")?.let {
-                intent.removeExtra("chatId")
-                val chatIntent = Intent(this@MainActivity, ChatingActivity::class.java)
-                chatIntent.putExtra("chatId", it)
-                startActivity(chatIntent)
-                return
+        intent.extras?.let { extra ->
+            when {
+                !extra.getString("chatId").isNullOrEmpty() -> {
+                    val chatIntent = Intent(this@MainActivity, ChatingActivity::class.java)
+                    chatIntent.putExtra("chatId", extra.getString("chatId"))
+                    startActivity(chatIntent)
+                    intent.removeExtra("chatId")
+                }
+                extra.getBoolean("goChemistryTab", false) -> {
+                    clickTab(matchingTabImg)
+                    intent.removeExtra("goChemistryTab")
+                }
             }
         }
     }
@@ -84,5 +109,10 @@ class MainActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         checkIntentExtra()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Me.updateLastDtConnected()
     }
 }

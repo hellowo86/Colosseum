@@ -10,7 +10,58 @@
         android:id="@+id/choiceLy"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible">
+        android:visibility="invisible"
+        android:clipChildren="false">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal">
+
+            <ImageView
+                android:id="@+id/choiceEmptyImage"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_sentiment_very_satisfied_black_48dp"
+                android:tint="@color/iconTint" />
+
+            <TextView
+                android:id="@+id/choiceEmptyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/iconTint"
+                android:textSize="18dp"
+                android:fontFamily="@font/spoqa_sans_b"
+                android:text="@string/good_job"/>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/retryBtn"
+                android:layout_height="46dp"
+                android:layout_width="200dp"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:layout_marginLeft="@dimen/extra_margin"
+                android:layout_marginRight="@dimen/extra_margin"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/iconTint"
+                app:cardCornerRadius="23dp"
+                app:cardElevation="2dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/retry"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:fontFamily="@font/spoqa_sans_b"
+                    android:textSize="14dp"/>
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
 
         <com.yuyakaido.android.cardstackview.CardStackView
             android:id="@+id/swipeStack"
@@ -21,9 +72,11 @@
             app:stackFrom="bottom"
             app:visibleCount="3"
             app:translationDiff="16"
-            app:swipeDirection="horizontal"
+            app:swipeDirection="freedom"
             app:rightOverlay="@layout/item_card_stack_rignt_overlay"
-            app:leftOverlay="@layout/item_card_stack_left_overlay"/>
+            app:leftOverlay="@layout/item_card_stack_left_overlay"
+            app:bottomOverlay="@layout/item_card_stack_bottom_overlay"
+            app:topOverlay="@layout/item_card_stack_bottom_overlay"/>
 
     </FrameLayout>
 
@@ -50,6 +103,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_centerInParent="true"
+                android:padding="7dp"
                 android:id="@+id/centerImage"
                 android:src="@drawable/search_love"
                 android:tint="@color/white"/>
@@ -87,7 +141,7 @@
     <ScrollView
         android:id="@+id/optionLy"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:visibility="invisible">
 
         <LinearLayout
@@ -95,6 +149,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
             android:clipChildren="false">
 
             <TextView
@@ -164,6 +219,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/big_margin"
                 android:layout_marginLeft="@dimen/extra_margin">
+
+                <ImageView
+                    android:id="@+id/emptyImg"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_sentiment_dissatisfied_black_48dp"
+                    android:tint="@color/iconTint"/>
 
                 <android.support.v7.widget.CardView
                     android:id="@+id/people1Ly"
@@ -271,8 +333,7 @@
                 android:layout_marginLeft="@dimen/extra_margin"
                 android:layout_marginRight="@dimen/extra_margin"
                 android:fontFamily="@font/spoqa_sans_r"
-                android:textSize="13dp"
-                android:text="@string/people_interest_me"/>
+                android:textSize="13dp"/>
 
             <android.support.v7.widget.CardView
                 android:id="@+id/responseBtn"

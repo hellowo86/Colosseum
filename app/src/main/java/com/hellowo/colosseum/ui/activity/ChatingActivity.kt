@@ -78,7 +78,10 @@ class ChatingActivity : BaseActivity() {
         backBtn.setOnClickListener{ finish() }
         outBtn.setOnClickListener{ showOutChatAlert() }
         sendImageBtn.setOnClickListener { checkExternalStoragePermission() }
-        bottomScrolledLayout.setOnClickListener{ recyclerView.scrollToPosition(0) }
+        bottomScrolledLayout.setOnClickListener{
+            recyclerView.scrollToPosition(0)
+            bottomScrollMessageView.visibility = View.GONE
+        }
 
         swipeRefreshView.setColorSchemeColors(resources.getColor(R.color.colorPrimary))
         swipeRefreshView.setOnRefreshListener { viewModel.loadMoreMessages() }

@@ -18,10 +18,12 @@
             android:clipChildren="false">
 
             <LinearLayout
+                android:id="@+id/contentLy"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clipChildren="false">
+                android:clipChildren="false"
+                android:animateLayoutChanges="true">
 
                 <TextView
                     android:layout_width="wrap_content"

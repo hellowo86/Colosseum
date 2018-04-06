@@ -4,12 +4,8 @@ import android.animation.LayoutTransition
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.os.Handler
-import android.support.transition.Slide
 import android.support.transition.TransitionManager
 import android.support.v4.app.Fragment
-import android.support.v4.view.animation.FastOutSlowInInterpolator
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +13,6 @@ import android.view.animation.Animation
 import android.view.animation.TranslateAnimation
 import com.bumptech.glide.Glide
 import com.hellowo.colosseum.R
-import com.hellowo.colosseum.model.User
 import com.hellowo.colosseum.ui.adapter.SwipeStackAdapter
 import com.hellowo.colosseum.ui.dialog.InterestCompletedDialog
 import com.hellowo.colosseum.ui.dialog.SearchFilterDialog
@@ -37,7 +32,7 @@ class InterestFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(activity!!).get(InterestViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(InterestViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -48,7 +43,6 @@ class InterestFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setLayout()
         setObserver()
-        viewModel.loadInterestMeList()
     }
 
     private fun setLayout() {
@@ -61,8 +55,9 @@ class InterestFragment : Fragment() {
                 when(direction) {
                     SwipeDirection.Right -> { viewModel.interest(user, 1) }
                     SwipeDirection.Left ->{ viewModel.interest(user, 0) }
-                    else -> {}
+                    else -> { viewModel.interest(user, -1) }
                 }
+
                 if(swipeStack.topIndex == adapter.count) {
                     swipeStack.visibility = View.INVISIBLE
                     viewModel.stackEmpty()
@@ -83,13 +78,15 @@ class InterestFragment : Fragment() {
             tutorialLy.visibility = View.GONE
             Prefs.putBoolean("interest_tutorial", true)
         }
+        optionRootLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
     }
 
     private fun setObserver() {
         viewModel.interestMeList.observe(this, Observer { list ->
+            peopleLy.visibility = View.VISIBLE
             if(list != null && list.isNotEmpty()) {
                 responseBtn.visibility = View.VISIBLE
-                peopleLy.visibility = View.VISIBLE
+                emptyImg.visibility = View.GONE
 
                 val user = list[0]
                 people1Ly.visibility = View.VISIBLE
@@ -127,19 +124,45 @@ class InterestFragment : Fragment() {
                 }
             }else {
                 responseBtn.visibility = View.GONE
-                peopleLy.visibility = View.GONE
+                emptyImg.visibility = View.VISIBLE
+                people1Ly.visibility = View.GONE
+                people2Ly.visibility = View.GONE
+                people3Ly.visibility = View.GONE
                 interestMeText.text = getString(R.string.response_empty)
             }
         })
-        viewModel.newList.observe(this, Observer { it?.let { if(it.size > 0){
-            adapter.clear()
-            adapter.addAll(it)
-            adapter.notifyDataSetChanged()
-        }}})
-        viewModel.loading.observe(this, Observer { progressBar.visibility = if(it as Boolean) View.VISIBLE else View.GONE })
+        viewModel.choiceList.observe(this, Observer { it?.let {
+            if(it.size > 0){
+                choiceEmptyImage.setImageResource(R.drawable.ic_sentiment_very_satisfied_black_48dp)
+                choiceEmptyText.text = getString(R.string.good_job)
+                retryBtn.visibility = View.GONE
+                adapter.clear()
+                adapter.addAll(it)
+                adapter.notifyDataSetChanged()
+            }else {
+                choiceEmptyImage.setImageResource(R.drawable.ic_sentiment_dissatisfied_black_48dp)
+                choiceEmptyText.text = getString(R.string.sorry_data_load_failed)
+                retryBtn.visibility = View.VISIBLE
+                retryBtn.setOnClickListener {
+                    viewModel.viewMode.value = 0
+                }
+            }
+        }})
+        viewModel.loading.observe(this, Observer {
+            if(it as Boolean) {
+                responseBtn.visibility = View.GONE
+                peopleLy.visibility = View.GONE
+                emptyImg.visibility = View.GONE
+                interestMeText.visibility = View.GONE
+                progressBar.visibility = View.VISIBLE
+            }else {
+                interestMeText.visibility = View.VISIBLE
+                progressBar.visibility = View.GONE
+            } }
+        )
         viewModel.viewMode.observe(this, Observer { updateUI(it) })
         viewModel.interestCompleted.observe(this, Observer { it?.let {
-            InterestCompletedDialog(activity!!, it).showDialog(true, true, true, false)
+            InterestCompletedDialog(activity!!, it).showDialog(true, false, true, true)
         }})
     }
 
@@ -171,8 +194,13 @@ class InterestFragment : Fragment() {
                 anim.repeatMode = Animation.REVERSE
                 centerImage.startAnimation(anim)
             }
-            2 -> { rootLy.postDelayed({ viewModel.viewMode.value = 3 }, 2000) }
+            2 -> { rootLy.postDelayed({
+                viewModel.choiceList.value = viewModel.choiceList.value
+                viewModel.viewMode.value = 3
+            }, 2000)
+            }
             3 -> { showChoiceLayout() }
+            4 -> { showChoiceLayout() }
         }
     }
 

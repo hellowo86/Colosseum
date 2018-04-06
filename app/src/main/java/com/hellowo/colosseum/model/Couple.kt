@@ -33,7 +33,8 @@ data class Couple(
         val maleAnswerLike: Int = -1,
         val femaleAnswerLike: Int = -1,
         val maleOx: String? = null,
-        val femaleOx: String? = null): Serializable {
+        val femaleOx: String? = null,
+        val dtUpdated: Long = 0): Serializable {
     companion object {
         fun makeCoupleKey(me: User, you: User) : String {
             return if(me.gender == 0) {

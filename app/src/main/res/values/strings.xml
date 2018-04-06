@@ -59,12 +59,12 @@
     <string name="find_new_lover_sub">마음에 드는 이성을 찾고,\n<font fgcolor='#f77f77'>관심을 표현</font> 해보세요.\n서로가 모두 관심을 표현하면\n<font fgcolor='#f77f77'>호감도 테스트</font> 단계로\n넘어갈 수 있습니다!</string>
     <string name="search_btn_text">탐색 시작하기. 행운을 빕니다!</string>
     <string name="distance_of_me">거리</string>
-    <string name="favorability_test">호감도 테스트</string>
+    <string name="favorability_test">궁합 테스트</string>
     <string name="response_empty">아직 나에게 관심을 표현한 사람이 없습니다.</string>
     <string name="tab_to_close">[탭하고 다시보지않기]</string>
     <string name="favorability_tutorial_text">이 사람이 나와 잘 맞는 사람일까?\n<font fgcolor='#f77f77'>호감도 테스트</font>를 통하여 확인 해보세요.\n테스트를 모두 통과하면\n<font fgcolor='#f77f77'>커플 채팅방</font>에 입장하실 수 있습니다!</string>
-    <string name="interest_completed">서로에게 관심 확인</string>
-    <string name="interest_completed_sub">이제 <font fgcolor='#f77f77'>호감도 테스트</font>를 할 수 있습니다</string>
+    <string name="interest_completed">%1$s님과 서로에게 관심주기 성공!</string>
+    <string name="interest_completed_sub">이제 궁합 테스트가 가능합니다.</string>
     <string name="couple_test_item_title">%1$s님 과의 테스트</string>
     <string name="ing">진행중..</string>
     <string name="show_another_photo">1단계 : 사진 교환</string>
@@ -100,8 +100,8 @@
     <string name="me">나</string>
     <string name="me_photo_check">사진 도착\n사진을 보고\n평가버튼을\n눌러주세요</string>
     <string name="me_voice_check">목소리 도착\n소리를 듣고\n평가버튼을\n눌러주세요</string>
-    <string name="like_it">마음에 들어요!</string>
-    <string name="hate_it">별로에요 :(</string>
+    <string name="like_it">좋아요:)</string>
+    <string name="hate_it">별로에요:(</string>
     <string name="voice_record">목소리 녹음하기</string>
     <string name="voice_record_sub">녹음버튼을 누르고 5초간 음성을 녹음하세요</string>
     <string name="send">전송하기</string>
@@ -151,4 +151,8 @@
     <string name="remove_interest_list">관심목록 지우기</string>
     <string name="version">버전</string>
     <string name="delete_account">탈퇴하기</string>
+    <string name="pass">패스</string>
+    <string name="good_job">수고하셨습니다:)</string>
+    <string name="retry">확인</string>
+    <string name="sorry_data_load_failed">죄송합니다:(\n정보를 찾지 못했습니다.</string>
 </resources>

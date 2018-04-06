@@ -87,6 +87,7 @@ class ChemistryViewModel : ViewModel() {
         loading.value = true
         val data = HashMap<String, Any?>()
         data.put(likeKey, myLike)
+        data.put("dtUpdated", System.currentTimeMillis())
         FirebaseFirestore.getInstance().collection("couples").document(couple.value?.id!!).update(data).addOnCompleteListener { task ->
             if (task.isSuccessful) {}
             isUploading.value = false
@@ -97,6 +98,7 @@ class ChemistryViewModel : ViewModel() {
         loading.value = true
         val data = HashMap<String, Any?>()
         data.put(checkListKey, oxString)
+        data.put("dtUpdated", System.currentTimeMillis())
         FirebaseFirestore.getInstance().collection("couples").document(couple.value?.id!!).update(data).addOnCompleteListener { task ->
             if (task.isSuccessful) {}
             isUploading.value = false
@@ -113,8 +115,11 @@ class ChemistryViewModel : ViewModel() {
                     { snapshot, bitmap ->
                         snapshot.downloadUrl?.let{
                             val photoUrl = it.toString()
+                            val data = HashMap<String, Any?>()
+                            data.put("${Couple.getGenderKey(myGender)}PhotoUrl", photoUrl)
+                            data.put("dtUpdated", System.currentTimeMillis())
                             FirebaseFirestore.getInstance().collection("couples").document(couple.value?.id!!)
-                                    .update("${Couple.getGenderKey(myGender)}PhotoUrl", photoUrl).addOnCompleteListener { task ->
+                                    .update(data).addOnCompleteListener { task ->
                                 if (task.isSuccessful) {}
                                 isUploading.value = false
                             }
@@ -135,8 +140,11 @@ class ChemistryViewModel : ViewModel() {
                 { snapshot ->
                     snapshot.downloadUrl?.let{
                         val voiceUrl = it.toString()
+                        val data = HashMap<String, Any?>()
+                        data.put("${Couple.getGenderKey(myGender)}VoiceUrl", voiceUrl)
+                        data.put("dtUpdated", System.currentTimeMillis())
                         FirebaseFirestore.getInstance().collection("couples").document(couple.value?.id!!)
-                                .update("${Couple.getGenderKey(myGender)}VoiceUrl", voiceUrl).addOnCompleteListener { task ->
+                                .update(data).addOnCompleteListener { task ->
                             if (task.isSuccessful) {}
                             isUploading.value = false
                         }

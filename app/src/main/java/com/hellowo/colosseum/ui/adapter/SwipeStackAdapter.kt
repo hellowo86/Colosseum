@@ -56,5 +56,4 @@ class SwipeStackAdapter(private val activity: Activity) : ArrayAdapter<User>(act
         val locText: TextView = v.findViewById(R.id.locText)
         val detailBtn: LinearLayout = v.findViewById(R.id.detailBtn)
     }
-
 }

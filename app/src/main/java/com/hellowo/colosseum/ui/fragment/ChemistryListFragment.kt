@@ -1,5 +1,6 @@
 package com.hellowo.colosseum.ui.fragment
 
+import android.animation.LayoutTransition
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
@@ -57,6 +58,7 @@ class ChemistryListFragment : Fragment() {
             tutorialLy.visibility = View.GONE
             Prefs.putBoolean("favorability_tutorial", true)
         }
+        contentLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
     }
 
     private fun setObserver() {
