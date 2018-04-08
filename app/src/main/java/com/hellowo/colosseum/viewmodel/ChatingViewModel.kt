@@ -28,7 +28,9 @@ import com.google.firebase.firestore.DocumentReference
 import android.provider.SyncStateContract.Helpers.update
 import com.google.firebase.firestore.WriteBatch
 import com.google.firebase.iid.FirebaseInstanceId
+import com.hellowo.colosseum.model.BadgeData
 import com.hellowo.colosseum.utils.log
+import io.realm.Realm
 import java.text.DateFormat
 
 
@@ -36,6 +38,7 @@ class ChatingViewModel : ViewModel() {
     val chat = MutableLiveData<Chat>()
     val messages = MutableLiveData<ArrayList<Message>>()
     val newMessage = MutableLiveData<Message>()
+    val savedMessage = MutableLiveData<Message>()
     val typings = MutableLiveData<ArrayList<String>>()
     val members = MutableLiveData<ArrayMap<String, ChatMember>>()
     val isUploading = MutableLiveData<Boolean>()
@@ -53,6 +56,7 @@ class ChatingViewModel : ViewModel() {
     var chatId: String = ""
     var myLastConnectedTime: Long = Long.MAX_VALUE
     var myEnteredTime: Long = 0
+    var enteredMessageMap = HashMap<String, Message>()
 
     private var messageListenerRegistration: ListenerRegistration? = null
     private var typingListenerRegistration: ListenerRegistration? = null
@@ -66,6 +70,13 @@ class ChatingViewModel : ViewModel() {
         typings.value = ArrayList()
         members.value = ArrayMap()
         loadChat()
+
+        Realm.getDefaultInstance().executeTransaction { realm ->
+            val badgeData = realm.where(BadgeData::class.java).equalTo("id", "chat$chatId").findFirst()
+            if(badgeData != null) {
+                badgeData.count = 0
+            }
+        }
     }
 
     private fun loadChat() {
@@ -98,7 +109,7 @@ class ChatingViewModel : ViewModel() {
             if (task.isSuccessful) {
                 task.result.documents.forEach {
                     val meesage = it.toObject(Message::class.java)
-                    if(myEnteredTime < meesage.dtCreated) { // 들어온 시간보다 메세지시간이 미래인 경우에만 보여줌
+                    if(myEnteredTime < meesage.dtCreated.time) { // 들어온 시간보다 메세지시간이 미래인 경우에만 보여줌
                         messages.value?.add(meesage)
                     }else{
                         lastVisibleSnapshot = it
@@ -111,7 +122,7 @@ class ChatingViewModel : ViewModel() {
 
                 if(task.result.documents.isNotEmpty()) {
                     val lastSnapshot = task.result.documents.last()
-                    if(lastVisibleSnapshot == null && myLastConnectedTime < lastSnapshot.getLong("dtCreated")) { // 마지막으로 로드한 메세지 캐싱
+                    if(lastVisibleSnapshot == null && myLastConnectedTime < lastSnapshot.getDate("dtCreated").time) { // 마지막으로 로드한 메세지 캐싱
                         lastVisibleSnapshot = lastSnapshot
                         loadMessages(myLastConnectedTime.toDouble())
                         return@addOnCompleteListener
@@ -125,7 +136,7 @@ class ChatingViewModel : ViewModel() {
                     if(lastTime != null) {
                         lastReadPosition.value = messages.value?.size!! - 1
                     }else {
-                        messages.value?.firstOrNull { it.dtCreated < myLastConnectedTime }?.let {
+                        messages.value?.firstOrNull { it.dtCreated.time < myLastConnectedTime }?.let {
                             val pos = messages.value?.indexOf(it)
                             if(pos!! > 5) { // 5개 이상의 메세지가 있을경우만 처리
                                 lastReadPosition.value = pos
@@ -141,15 +152,25 @@ class ChatingViewModel : ViewModel() {
     private fun setMessageListListener() {
         messageListenerRegistration?.remove()
         messageListenerRegistration = ref.document(chatId).collection("messages")
-                .whereGreaterThan("dtCreated", System.currentTimeMillis())
+                .whereGreaterThan("dtCreated", Date())
                 .orderBy("dtCreated").addSnapshotListener { snapshots, e ->
                     if (e == null) {
                         snapshots.documentChanges.forEach {
-                            val message = it.document.toObject(Message::class.java)
                             when{
                                 it.type == DocumentChange.Type.ADDED -> {
-                                    messages.value?.add(0, message)
-                                    newMessage.value = message
+                                    try{
+                                        val message = it.document.toObject(Message::class.java)
+                                        messages.value?.add(0, message)
+                                        newMessage.value = message
+                                    }catch (e: Exception){}
+                                }
+                                it.type == DocumentChange.Type.MODIFIED -> {
+                                    if(enteredMessageMap.containsKey(it.document.id)) {
+                                        enteredMessageMap.remove(it.document.id)?.let {
+                                            it.serverSaved = true
+                                            savedMessage.value = it
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -167,20 +188,24 @@ class ChatingViewModel : ViewModel() {
         membersListenerRegistration = ref.document(chatId).collection("members").addSnapshotListener { snapshots, e ->
             if (e == null) {
                 snapshots.documentChanges.forEach {
-                    val chatMember = it.document.toObject(ChatMember::class.java)
                     when{
                         it.type == DocumentChange.Type.ADDED -> {
+                            val chatMember = it.document.toObject(ChatMember::class.java)
                             members.value?.put(chatMember.userId, chatMember)
                             if(chatMember.userId == Me.value?.id) {
-                                myLastConnectedTime = chatMember.lastConnectedTime
-                                myEnteredTime = chatMember.dtEntered
+                                myLastConnectedTime = chatMember.lastConnectedTime.time
+                                myEnteredTime = chatMember.dtEntered.time
                             }
                         }
                         it.type == DocumentChange.Type.REMOVED -> {
+                            val chatMember = it.document.toObject(ChatMember::class.java)
                             members.value?.remove(chatMember.userId)
                         }
                         it.type == DocumentChange.Type.MODIFIED -> {
-                            members.value?.put(chatMember.userId, chatMember)
+                            try{
+                                val chatMember = it.document.toObject(ChatMember::class.java)
+                                members.value?.put(chatMember.userId, chatMember)
+                            }catch (e: Exception){}
                         }
                     }
                 }
@@ -204,12 +229,15 @@ class ChatingViewModel : ViewModel() {
         loadMessages(null)
     }
 
-    fun postMessage(text: String, type: Int, dataUri: String?, onSuccess: Runnable?) {
+    fun postMessage(text: String, type: Int, dataUri: String?, width: Int, height: Int, onSuccess: Runnable?) {
         chat.value?.let {
-            val message = Message(text, Me.value?.nickName, Me.value?.id, System.currentTimeMillis(), type, dataUri)
-            log(message.toString())
-            ref.document(chatId).collection("messages").document(UUID.randomUUID().toString()).set(message).addOnCompleteListener { task ->
+            val id = UUID.randomUUID().toString()
+            val message = Message(text, Me.value?.nickName, Me.value?.id, Date(), type, dataUri, width, height, false)
+            ref.document(chatId).collection("messages").document(id).set(message.makeMap()).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
+                    enteredMessageMap.put(id, message)
+                    messages.value?.add(0, message)
+                    newMessage.value = message
                     sendPushMessage(message)
                     onSuccess?.run()
                 }
@@ -263,9 +291,9 @@ class ChatingViewModel : ViewModel() {
         val data = HashMap<String, Any?>()
         data.put("live", true)
         ref.document(chatId).collection("members").document(Me.value?.id!!).update(data).addOnCompleteListener {
+            setMembersListListener()
             setMessageListListener()
             setTypingListListener()
-            setMembersListListener()
         }
     }
 
@@ -274,7 +302,7 @@ class ChatingViewModel : ViewModel() {
             isTyping = false
             val data = HashMap<String, Any?>()
             data.put("live", false)
-            data.put("lastConnectedTime", System.currentTimeMillis())
+            data.put("lastConnectedTime", FieldValue.serverTimestamp())
             data.put("pushToken", Me.value?.pushToken)
             ref.document(chatId).collection("members").document(Me.value?.id!!).update(data)
         }
@@ -285,8 +313,8 @@ class ChatingViewModel : ViewModel() {
         val batch = db.batch()
 
         val messageRef = ref.document(chatId).collection("messages").document(UUID.randomUUID().toString())
-        val message = Message("", Me.value?.nickName, Me.value?.id, System.currentTimeMillis(), 2)
-        batch.set(messageRef, message)
+        val message = Message("", Me.value?.nickName, Me.value?.id, Date(), 2)
+        batch.set(messageRef, message.makeMap())
 
         val memberRef = ref.document(chatId).collection("members").document(Me.value?.id!!)
         batch.delete(memberRef)
@@ -305,12 +333,8 @@ class ChatingViewModel : ViewModel() {
             isUploading.value = true
             uploadPhoto(context, uri, "chatPhoto/$chatId/${System.currentTimeMillis()}",
                     { taskSnapshot, bitmap ->
-                        val json = JSONObject()
-                        json.put("w", bitmap?.width)
-                        json.put("h", bitmap?.height)
                         taskSnapshot.downloadUrl?.let{
-                            json.put("url", it.toString())
-                            postMessage(context.getString(R.string.photo), 3, json.toString(), Runnable{ isUploading.value = false })
+                            postMessage(context.getString(R.string.photo), 3, it.toString(), bitmap?.width!!, bitmap.height, Runnable{ isUploading.value = false })
                         }
                     },
                     { e ->

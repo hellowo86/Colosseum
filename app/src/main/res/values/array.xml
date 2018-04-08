@@ -12,4 +12,52 @@
         <item>나는 상대방의 경제력이 중요하다</item>
         <item>나는 나의 연애를 공개할 수 있다</item>
     </array>
+
+    <array name="step_1_quest_title">
+        <item>나의 눈, 코, 입</item>
+        <item>부끄러운 증명사진</item>
+        <item>여행지 사진</item>
+        <item>남이 찍어준 내 사진</item>
+        <item>스마일</item>
+        <item>즉석 셀카</item>
+    </array>
+
+    <array name="step_1_quest_sub">
+        <item>이 부분 만큼은 자신 있다구요!\n내 얼굴 중 가장 자신있는 부분의 사진을 찍어보세요.</item>
+        <item>프로필 사진과 많이 다르죠?\n부끄럽지만 우리 증명사진 공개해볼까요?</item>
+        <item>상대방이 한 눈에 반할만한, 여행지에서의 행복한 내 모습을 보여주세요.</item>
+        <item>지켜운 셀카는 그만!\n남이 찍어준 내 모습은 어떤지 상대방에게 공개해주세요.</item>
+        <item>미소는 상대방의 호감을 얻는 가장 쉬운 방법이라고 합니다. 활짝 웃는 내 모습을 찍어보세요.</item>
+        <item>지금 당장 롸잇 나우!\n자연 그대로의 모습을 찍어보세요.</item>
+    </array>
+
+    <array name="step_2_quest_title">
+        <item>목소리 들어보기</item>
+        <item>세레나데</item>
+    </array>
+
+    <array name="step_2_quest_sub">
+        <item>상대방과 가벼운 인사말로 목소리를 확인해보세요.</item>
+        <item>좋아하는 노래가 있나요?\n상대방에게 한 소절 불러줘보세요.</item>
+    </array>
+
+    <array name="step_3_quest_title">
+        <item>연인</item>
+        <item>기념일</item>
+        <item>음악</item>
+        <item>오르막길</item>
+        <item>외로움</item>
+        <item>화</item>
+        <item>인터넷 커뮤니티</item>
+    </array>
+
+    <array name="step_3_quest_sub">
+        <item>연인이란 무엇일까요? 당신의 생각을 적어주세요.</item>
+        <item>기념일에 받고싶은선물이 있나요? 어떤 선물을 받고 싶은지 알려주세요.</item>
+        <item>당신의 음악 취향이 궁금해요. 요새는 어떤 음악을 듣고계신가요?</item>
+        <item>연애에 있어서 마냥 좋은 순간만 있지는 않죠. 관계에 어려움이 생긴다면 어떤식으로 극복하는게 좋을까요?</item>
+        <item>당신이 외로움을 극복하는 방법을 알려주세요.</item>
+        <item>스트레스를 푸는 당신만의 방법이 있나요?</item>
+        <item>당신이 주로 활동하는 인터넷 커뮤니티가 있나요?. 만약 있다면 어떤곳이고 어떤 목적으로 활동하는지 알려주세요.</item>
+    </array>
 </resources>

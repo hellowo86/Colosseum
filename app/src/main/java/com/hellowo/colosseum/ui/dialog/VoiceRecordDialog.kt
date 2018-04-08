@@ -3,6 +3,7 @@ package com.hellowo.colosseum.ui.dialog
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.Context
 import android.content.DialogInterface
 import android.media.*
 import android.support.design.widget.BottomSheetBehavior
@@ -16,6 +17,10 @@ import com.hellowo.colosseum.R
 import com.skyfishjy.library.RippleBackground
 import java.io.*
 import java.util.*
+import android.content.Context.VIBRATOR_SERVICE
+import android.os.Vibrator
+
+
 
 @SuppressLint("ValidFragment")
 class VoiceRecordDialog(private val voiceUrl: String?, private val evalutaion : Boolean,
@@ -122,6 +127,8 @@ class VoiceRecordDialog(private val voiceUrl: String?, private val evalutaion : 
     }
 
     private fun startRecording() {
+        val vibrator = context?.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        vibrator.vibrate(500)
         var isRecording = false
         rippleView.startRippleAnimation()
         centerImage.visibility = View.INVISIBLE

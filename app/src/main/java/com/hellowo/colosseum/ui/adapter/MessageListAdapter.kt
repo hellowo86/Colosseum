@@ -6,17 +6,15 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import com.bumptech.glide.Glide
 import com.hellowo.colosseum.R
 import com.hellowo.colosseum.data.Me
-import com.hellowo.colosseum.model.Chat
 import com.hellowo.colosseum.model.ChatMember
 import com.hellowo.colosseum.model.Message
 import com.hellowo.colosseum.utils.makePublicPhotoUrl
 import com.hellowo.colosseum.utils.setClipBoardLink
 import jp.wasabeef.glide.transformations.CropCircleTransformation
-import kotlinx.android.synthetic.main.list_item_message.view.*
+import kotlinx.android.synthetic.main.list_item_message_me.view.*
 import org.json.JSONObject
 import java.text.DateFormat
 import java.util.*
@@ -36,6 +34,7 @@ class MessageListAdapter(val context: Context,
     private val nextCal: Calendar = Calendar.getInstance()
     private val myId = Me.value?.id
     private var lastReadPosition = -1
+    private val timeDf = DateFormat.getTimeInstance(DateFormat.SHORT)
 
     inner class ViewHolder(container: View) : RecyclerView.ViewHolder(container)
 
@@ -53,8 +52,8 @@ class MessageListAdapter(val context: Context,
         val nextMessage = getItem(position + 1)
         val prevMessage = getItem(position - 1)
         message?.let {
-            currentCal.timeInMillis = message.dtCreated
-            nextCal.timeInMillis = nextMessage?.dtCreated ?: 0
+            currentCal.timeInMillis = message.dtCreated.time
+            nextCal.timeInMillis = nextMessage?.dtCreated?.time ?: 0
 
             if(viewType == VIEW_TYPE_NOTICE) {
                 setNoticeView(v, message)
@@ -62,25 +61,30 @@ class MessageListAdapter(val context: Context,
                 val isContinueMessage = nextMessage != null
                         && nextMessage.type == 0
                         && message.userId.equals(nextMessage.userId)
-                        && message.dtCreated - nextMessage.dtCreated < 1000 * 60
+                        && message.dtCreated.time - nextMessage.dtCreated.time < 1000 * 60
 
                 val isEndOfContext = prevMessage == null
                         || prevMessage.type != 0
                         || !message.userId.equals(prevMessage.userId)
-                        || prevMessage.dtCreated - message.dtCreated > 1000 * 30
+                        || prevMessage.dtCreated.time - message.dtCreated.time > 1000 * 30
 
                 var uncheckCount = 0
                 memberMap.forEach { if(!it.value.live && it.value.lastConnectedTime < message.dtCreated) uncheckCount++ }
 
                 v.topMargin.visibility = if(isContinueMessage) View.GONE else View.VISIBLE
-                v.timeText.text = if(isEndOfContext) DateFormat.getTimeInstance(DateFormat.SHORT).format(currentCal.time) else ""
+                if(isEndOfContext) {
+                    v.timeText.visibility = View.VISIBLE
+                    v.timeText.text = timeDf.format(message.dtCreated)
+                }else {
+                    v.timeText.visibility = View.GONE
+                }
                 v.uncheckText.text = if(uncheckCount == 0) "" else uncheckCount.toString()
 
                 setContents(v, message)
 
                 when (viewType) {
                     VIEW_TYPE_YOU, VIEW_TYPE_PHOTO_YOU -> setYouView(v, message, isContinueMessage)
-                    VIEW_TYPE_ME, VIEW_TYPE_PHOTO_ME -> setMeView(v, message)
+                    VIEW_TYPE_ME, VIEW_TYPE_PHOTO_ME -> setMeView(v, message, isContinueMessage)
                 }
             }
 
@@ -92,7 +96,7 @@ class MessageListAdapter(val context: Context,
                 v.dateDivider.visibility = View.GONE
             }else {
                 v.dateDivider.visibility = View.VISIBLE
-                v.dateDividerText.text = DateFormat.getDateInstance(DateFormat.FULL).format(Date(message.dtCreated))
+                v.dateDividerText.text = DateFormat.getDateInstance(DateFormat.FULL).format(message.dtCreated)
             }
         }
     }
@@ -104,8 +108,8 @@ class MessageListAdapter(val context: Context,
                 v.messageText.visibility = View.VISIBLE
                 v.photoImg.visibility = View.GONE
                 v.photoImg.setImageDrawable(null)
-                v.setOnClickListener { adapterInterface.onMessageClicked(message) }
-                v.setOnLongClickListener {
+                v.messageView.setOnClickListener { adapterInterface.onMessageClicked(message) }
+                v.messageView.setOnLongClickListener {
                     message.text?.let { setClipBoardLink(context, it) }
                     return@setOnLongClickListener false
                 }
@@ -113,13 +117,12 @@ class MessageListAdapter(val context: Context,
             3 -> {
                 v.messageText.visibility = View.GONE
                 v.photoImg.visibility = View.VISIBLE
-                val json = JSONObject(message.dataUri)
-                val photoUrl = json.getString("url")
-                val w = json.getInt("w")
-                val h = json.getInt("h")
-                v.photoImg.layoutParams = FrameLayout.LayoutParams(w, h)
-                Glide.with(context).load(photoUrl).into(v.photoImg)
-                v.setOnClickListener { adapterInterface.onPhotoClicked(photoUrl) }
+                v.photoImg.layout(0, 0, message.width, message.height)
+                Glide.with(context).load(message.dataUri).into(v.photoImg)
+                v.messageView.setOnClickListener { adapterInterface.onPhotoClicked(message.dataUri!!) }
+                v.messageView.setOnLongClickListener {
+                    return@setOnLongClickListener false
+                }
             }
         }
     }
@@ -142,7 +145,31 @@ class MessageListAdapter(val context: Context,
         }
     }
 
-    private fun setMeView(v: View, message: Message) {}
+    private fun setMeView(v: View, message: Message, isContinueMessage: Boolean) {
+        if(isContinueMessage) {
+            v.profileImage.visibility = View.INVISIBLE
+            v.nameLy.visibility = View.GONE
+        }else {
+            v.profileImage.visibility = View.VISIBLE
+            v.nameLy.visibility = View.VISIBLE
+            v.nameText.text = message.userName
+
+            Glide.with(context)
+                    .load(makePublicPhotoUrl(message.userId))
+                    .bitmapTransform(CropCircleTransformation(context))
+                    .placeholder(R.drawable.default_profile)
+                    .into(v.profileImage)
+            v.profileImage.setOnClickListener{ adapterInterface.onProfileClicked(message.userId!!) }
+        }
+
+        if(message.serverSaved) {
+            v.progressBar.visibility = View.GONE
+            v.uncheckText.visibility = View.VISIBLE
+        }else {
+            v.progressBar.visibility = View.VISIBLE
+            v.uncheckText.visibility = View.GONE
+        }
+    }
 
     private fun setNoticeView(v: View, message: Message) {
         when (message.type) {

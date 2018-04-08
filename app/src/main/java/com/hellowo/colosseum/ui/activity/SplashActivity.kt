@@ -7,9 +7,12 @@ import android.support.v7.app.AppCompatActivity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
@@ -24,13 +27,14 @@ import com.hellowo.colosseum.R
 import com.hellowo.colosseum.data.Me
 import com.hellowo.colosseum.model.User
 import com.hellowo.colosseum.ui.activity.MainActivity
-import com.hellowo.colosseum.utils.isEmailValid
-import com.hellowo.colosseum.utils.log
-import com.hellowo.colosseum.utils.toast
+import com.hellowo.colosseum.utils.*
 import com.hellowo.colosseum.viewmodel.SplashViewModel
 import gun0912.tedbottompicker.TedBottomPicker
+import gun0912.tedbottompicker.util.RealPathUtil
 import jp.wasabeef.glide.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.activity_splash.*
+import java.io.ByteArrayOutputStream
+import java.io.File
 import java.util.*
 
 class SplashActivity : AppCompatActivity() {
@@ -40,6 +44,7 @@ class SplashActivity : AppCompatActivity() {
     private var lng: Double = 0.0
     private var gender = -1
     private var uri: Uri? = null
+    private var photoPicker: TedBottomPicker? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,11 +66,11 @@ class SplashActivity : AppCompatActivity() {
         rootLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
         loginBtn.setOnClickListener { login() }
         loginBtn.setOnLongClickListener {
-            viewModel.signIn(this, "admin@gmail.com", "aaaaaaaa")
+            viewModel.signIn(this, "gu@gmail.com", "aaaaaaaa")
             return@setOnLongClickListener false
         }
         optionBtn.setOnLongClickListener {
-            viewModel.signIn(this, "shs@gmail.com", "aaaaaaaa")
+            viewModel.signIn(this, "ajy@gmail.com", "aaaaaaaa")
             return@setOnLongClickListener false
         }
     }
@@ -75,7 +80,22 @@ class SplashActivity : AppCompatActivity() {
             if (user != null) {
                 Me.removeObservers(this)
                 val mainIntent = Intent(this, MainActivity::class.java)
-                intent.extras?.let { mainIntent.putExtras(it) }
+                intent.extras?.let { extra ->
+                    if(MainActivity.isCreated) {
+                        when {
+                            !extra.getString("chatId").isNullOrEmpty() -> {
+                                startChatingActivity(this, extra.getString("chatId"))
+                                intent.removeExtra("chatId")
+                            }
+                            extra.getBoolean("goChemistryTab", false) -> {
+                                MainActivity.instance?.goChemistryTab()
+                            }
+                        }
+                        finish()
+                        return@Observer
+                    }
+                    mainIntent.putExtras(extra)
+                }
                 startActivity(mainIntent)
                 finish()
             } else {
@@ -93,7 +113,6 @@ class SplashActivity : AppCompatActivity() {
     private fun updateUI() {
         progressBar.visibility = View.GONE
         if(mode == 1) {
-            logoImg.visibility = View.VISIBLE
             profileLy.visibility = View.GONE
             emailEdit.visibility = View.VISIBLE
             passwordEdit.visibility = View.VISIBLE
@@ -117,7 +136,6 @@ class SplashActivity : AppCompatActivity() {
                 return@setOnEditorActionListener true
             }
         }else if(mode == 2) {
-            logoImg.visibility = View.GONE
             profileLy.visibility = View.VISIBLE
             emailEdit.visibility = View.VISIBLE
             passwordEdit.visibility = View.VISIBLE
@@ -132,12 +150,22 @@ class SplashActivity : AppCompatActivity() {
             }
             optionBtn.text = getString(R.string.do_login)
             profileImage.setOnClickListener {
-                com.hellowo.colosseum.utils.showPhotoPicker(this) { uri ->
-                    this.uri = uri
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) { profileImage.imageTintList = null }
-                    Glide.with(this).load(uri).placeholder(R.drawable.default_profile)
-                            .bitmapTransform(CropCircleTransformation(this)).into(profileImage)
-                }
+                TedPermission(this)
+                        .setPermissionListener(object : PermissionListener {
+                            override fun onPermissionGranted() {
+                                photoPicker = TedBottomPicker.Builder(this@SplashActivity)
+                                        .setOnImageSelectedListener { uri ->
+                                            this@SplashActivity.uri = uri
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) { profileImage.imageTintList = null }
+                                            Glide.with(this@SplashActivity).load(uri).placeholder(R.drawable.default_profile)
+                                                    .bitmapTransform(CropCircleTransformation(this@SplashActivity)).into(profileImage) }
+                                        .create()
+                                photoPicker?.show(supportFragmentManager)
+                            }
+                            override fun onPermissionDenied(deniedPermissions: ArrayList<String>) {}
+                        })
+                        .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        .check()
             }
             maleBtn.setOnClickListener {
                 gender = 0
@@ -157,8 +185,6 @@ class SplashActivity : AppCompatActivity() {
             ageEdit.imeOptions = EditorInfo.IME_ACTION_DONE
             ageEdit.setOnEditorActionListener{ v, actionId, event ->
                 if(actionId == EditorInfo.IME_ACTION_DONE){
-                    val builder = PlacePicker.IntentBuilder()
-                    startActivityForResult(builder.build(this), 1)
                     return@setOnEditorActionListener false
                 }
                 return@setOnEditorActionListener true
@@ -204,15 +230,40 @@ class SplashActivity : AppCompatActivity() {
                     lat = lat,
                     lng = lng,
                     location = locationText.text.toString(),
-                    dtConnected = cal.timeInMillis,
-                    dtCreated = cal.timeInMillis,
                     pushToken = FirebaseInstanceId.getInstance().token)
             viewModel.signUp(this, user, passwordEdit.text.toString(), uri!!)
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+        try{
+            super.onActivityResult(requestCode, resultCode, data)
+        }catch (e: Exception){
+            data?.data?.let {
+                if (it.toString().startsWith("content://com.google.android.apps.photos.content")){
+                    try {
+                        val inputSteam = contentResolver.openInputStream(it)
+                        if (inputSteam != null) {
+                            val pictureBitmap = BitmapFactory.decodeStream(inputSteam)
+                            val baos = ByteArrayOutputStream()
+                            pictureBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+                            val path = MediaStore.Images.Media.insertImage(contentResolver, pictureBitmap, "img", null)
+
+                            val realPath = RealPathUtil.getRealPath(this, Uri.parse(path))
+                            val selectedImageUri = Uri.fromFile(File(realPath))
+                            this.uri = selectedImageUri
+
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) { profileImage.imageTintList = null }
+                            Glide.with(this).load(uri).placeholder(R.drawable.default_profile)
+                                    .bitmapTransform(CropCircleTransformation(this)).into(profileImage)
+                            photoPicker?.dismiss()
+                            return
+                        }
+                    } catch (e: Exception) { e.printStackTrace() }
+                }
+            }
+        }
+
         if(requestCode == 1 && resultCode == Activity.RESULT_OK) {
             val place = PlacePicker.getPlace(this, data)
             lat = place.latLng.latitude

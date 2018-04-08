@@ -10,23 +10,30 @@ import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.anjlab.android.iab.v3.BillingProcessor
+import com.anjlab.android.iab.v3.TransactionDetails
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.hellowo.colosseum.R
 import com.hellowo.colosseum.data.Me
+import com.hellowo.colosseum.inAppKey
 import com.hellowo.colosseum.model.User
 import com.hellowo.colosseum.ui.activity.NotiSettingActivity
 import com.hellowo.colosseum.ui.activity.SettingActivity
 import com.hellowo.colosseum.ui.activity.SplashActivity
 import com.hellowo.colosseum.utils.getUserDeviceInfoText
+import com.hellowo.colosseum.utils.log
 import com.hellowo.colosseum.utils.makePublicPhotoUrl
 import io.realm.Realm
 import jp.wasabeef.glide.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.fragment_profile.*
 
-class ProfileFragment : Fragment() {
+class ProfileFragment : Fragment(), BillingProcessor.IBillingHandler {
+    var bp: BillingProcessor? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        bp = BillingProcessor(context, inAppKey, this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -42,6 +49,10 @@ class ProfileFragment : Fragment() {
 
         settingBtn.setOnClickListener {
             activity?.startActivity(Intent(activity!!, SettingActivity::class.java))
+        }
+
+        inviteBtn.setOnClickListener {
+            bp?.purchase(activity!!, "coin_10")
         }
 
         evaluationBtn.setOnClickListener {
@@ -90,5 +101,23 @@ class ProfileFragment : Fragment() {
             nameText.text = it.nickName
             profileSettingText.text = context?.getString(R.string.profile_setting_sub)
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (!bp?.handleActivityResult(requestCode, resultCode, data)!!) {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
+    }
+
+    override fun onBillingInitialized() {
+
+    }
+
+    override fun onPurchaseHistoryRestored() {}
+
+    override fun onProductPurchased(productId: String, details: TransactionDetails?) {}
+
+    override fun onBillingError(errorCode: Int, error: Throwable?) {
+        log(error.toString())
     }
 }

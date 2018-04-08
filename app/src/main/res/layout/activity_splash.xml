@@ -22,15 +22,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/chocolate_milky"
-            android:textSize="35dp"
-            android:textColor="@color/primaryText"
+            android:textSize="30dp"
+            android:textColor="@color/colorPrimary"
+            android:visibility="gone"
             android:text="Couple Inside"/>
 
         <ImageView
             android:id="@+id/logoImg"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:src="@drawable/logo_normal"
+
+
             android:layout_marginTop="@dimen/normal_margin"
             android:layout_marginBottom="@dimen/normal_margin"/>
 
@@ -38,6 +41,7 @@
             android:id="@+id/profileLy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/normal_margin"
             android:layout_marginBottom="@dimen/normal_margin">
 
             <ImageView
@@ -46,7 +50,7 @@
                 android:layout_height="80dp"
                 android:layout_gravity="center"
                 android:src="@drawable/add_profile"
-                android:tint="@color/grey"/>
+                android:tint="@color/iconTint"/>
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -59,7 +63,7 @@
                     android:id="@+id/maleBtn"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:textColor="@color/secondaryText"
+                    android:textColor="@color/disableText"
                     android:text="@string/male"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:textSize="15dp"
@@ -70,7 +74,7 @@
                     android:id="@+id/femaleBtn"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:textColor="@color/secondaryText"
+                    android:textColor="@color/disableText"
                     android:text="@string/female"
                     android:foreground="?android:attr/selectableItemBackground"
                     android:textSize="15dp"

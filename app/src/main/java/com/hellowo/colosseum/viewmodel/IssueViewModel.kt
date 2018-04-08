@@ -96,10 +96,9 @@ class IssueViewModel : ViewModel() {
                     text = text,
                     userId = Me.value?.id,
                     userName = Me.value?.nickName,
-                    userPushId = FirebaseInstanceId.getInstance().token,
-                    dtCreated = System.currentTimeMillis())
+                    userPushId = FirebaseInstanceId.getInstance().token)
             db.collection("issues").document(issueId!!).collection("comments").document(comment.id!!)
-                    .set(comment).addOnCompleteListener { task ->
+                    .set(comment.makeMap()).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     loadComments()
                 }

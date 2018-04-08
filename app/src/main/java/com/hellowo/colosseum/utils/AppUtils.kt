@@ -1,41 +1,19 @@
 package com.hellowo.colosseum.utils
 
-import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
-import android.support.v7.app.AppCompatActivity
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
-import com.gun0912.tedpermission.PermissionListener
-import com.gun0912.tedpermission.TedPermission
 import com.hellowo.colosseum.storageUrl
+import com.hellowo.colosseum.ui.activity.ChatingActivity
 import com.hellowo.colosseum.ui.activity.PhotoActivity
 import com.hellowo.colosseum.ui.activity.UserActivity
-import gun0912.tedbottompicker.TedBottomPicker
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.File
-import java.util.ArrayList
-
-
-fun showPhotoPicker(activity: AppCompatActivity, onComplete: (Uri) -> Unit) {
-    TedPermission(activity)
-            .setPermissionListener(object : PermissionListener {
-                override fun onPermissionGranted() {
-                    val bottomSheetDialogFragment = TedBottomPicker.Builder(activity)
-                            .setOnImageSelectedListener { onComplete.invoke(it) }
-                            .setPreviewMaxCount(100)
-                            .create()
-                    bottomSheetDialogFragment.show(activity.supportFragmentManager)
-                }
-                override fun onPermissionDenied(deniedPermissions: ArrayList<String>) {}
-            })
-            .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            .check()
-}
 
 fun uploadPhoto(context: Context, uri: Uri, fileName: String, onSuccess: (UploadTask.TaskSnapshot, Bitmap?) -> Unit, onFailed: (Exception) -> Unit) {
     try {
@@ -87,5 +65,11 @@ fun startUserActivity(activity: Activity, userId: String) {
 fun startPhotoActivity(activity: Activity, photoUrl: String) {
     val intent = Intent(activity, PhotoActivity::class.java)
     intent.putExtra("photoUrl", photoUrl)
+    activity.startActivity(intent)
+}
+
+fun startChatingActivity(activity: Activity, chatId: String) {
+    val intent = Intent(activity, ChatingActivity::class.java)
+    intent.putExtra("chatId", chatId)
     activity.startActivity(intent)
 }

@@ -2,6 +2,7 @@ package com.hellowo.colosseum.data
 
 import android.arch.lifecycle.LiveData
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.iid.FirebaseInstanceId
 import com.hellowo.colosseum.fcm.FirebaseInstanceIDService
@@ -30,7 +31,9 @@ object Me : LiveData<User>() {
             if (task.isSuccessful) {
                 val document = task.result
                 if (document != null && document.exists()) {
-                    value = document.toObject(User::class.java)
+                    try{
+                        value = document.toObject(User::class.java)
+                    }catch (e: Exception){}
                     if(value?.pushToken != FirebaseInstanceId.getInstance().token) {
                         FirebaseInstanceIDService.sendRegistrationToServer()
                     }
@@ -44,7 +47,7 @@ object Me : LiveData<User>() {
 
     fun updateLastDtConnected() {
         value?.id?.let {
-            FirebaseFirestore.getInstance().collection("users").document(it).update("dtConnected", System.currentTimeMillis())
+            FirebaseFirestore.getInstance().collection("users").document(it).update("dtConnected", FieldValue.serverTimestamp())
         }
     }
 }

@@ -2,6 +2,7 @@ package com.hellowo.colosseum
 
 import android.app.Application
 import android.content.ContextWrapper
+import com.hellowo.colosseum.data.ChemistryQuest
 import com.pixplicity.easyprefs.library.Prefs
 import io.realm.Realm
 import io.realm.RealmConfiguration
@@ -12,6 +13,7 @@ class App : Application() {
         super.onCreate()
         initPrefs()
         initRealm()
+        ChemistryQuest.init(this)
     }
 
     private fun initPrefs() {

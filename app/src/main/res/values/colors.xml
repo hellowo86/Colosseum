@@ -3,6 +3,7 @@
     <color name="colorPrimary">#ff5a5f</color>
     <color name="colorPrimaryDark">#fc642d</color>
     <color name="colorAccent">#fc642d</color>
+    <color name="colorPrimaryAlpha">#60ff5a5f</color>
 
 <!--
     <color name="colorPrimary">#0080ff</color>
@@ -38,13 +39,13 @@
     <color name="disableWhiteText">#80FFFFFF</color>
      -->
     <color name="black">#000000</color>
-    <color name="blackAlpha">#b3000000</color>
+    <color name="blackAlpha">#60000000</color>
     <color name="white">#FFFFFF</color>
-    <color name="whiteAlpha">#b3FFFFFF</color>
+    <color name="whiteAlpha">#40FFFFFF</color>
     <color name="almostWhite">#fff7f7</color>
     <color name="grey">#434957</color>
-    <color name="greyAlpha">#b3434957</color>
-    <color name="red">#F74444</color>
+    <color name="greyAlpha">#60434957</color>
+    <color name="red">#EE7785</color>
     <color name="green">#67D5B5</color>
     <color name="yellow">#FDD692</color>
     <color name="blue">#84B1ED</color>

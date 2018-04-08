@@ -3,9 +3,9 @@ package com.hellowo.colosseum.viewmodel
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import com.hellowo.colosseum.R
 import com.hellowo.colosseum.data.Me
 import com.hellowo.colosseum.fcm.MessagingService
 import com.hellowo.colosseum.model.BadgeData
@@ -38,7 +38,7 @@ class InterestViewModel : ViewModel() {
         loading.value = true
         interestMeList.value?.clear()
         val myPrefix = Couple.getGenderKey(Me.value?.gender as Int)
-        val yourPrefix = Couple.getGenderKey(Me.value?.getYourGender() as Int)
+        val yourPrefix = Couple.getGenderKey(Me.value?.yourGender() as Int)
         db.collection("couples").whereEqualTo("level", 1).whereEqualTo("${myPrefix}Id", Me.value?.id)
                 .whereEqualTo("${yourPrefix}Interest", 1).get()
                 .addOnCompleteListener { task ->
@@ -133,6 +133,7 @@ class InterestViewModel : ViewModel() {
             val yourPrefix = Couple.getGenderKey(user.gender)
             val myPrefix = Couple.getGenderKey(Me.value?.gender!!)
             data.put("${myPrefix}Interest", interest)
+            data.put("dtUpdated", FieldValue.serverTimestamp())
             if (doc.exists()) {
                 if(interest == 1 && doc.get("${yourPrefix}Interest").toString() == "1") {
                     data.put("level", 2)

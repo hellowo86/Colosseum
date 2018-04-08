@@ -5,6 +5,9 @@ import android.os.Bundle
 import com.hellowo.colosseum.R
 import com.hellowo.colosseum.viewmodel.BasicViewModel
 import kotlinx.android.synthetic.main.activity_setting.*
+import android.content.Intent
+import android.net.Uri
+
 
 class SettingActivity : BaseActivity() {
     private lateinit var viewModel: BasicViewModel
@@ -19,6 +22,12 @@ class SettingActivity : BaseActivity() {
 
     private fun initLayout() {
         backBtn.setOnClickListener { finish() }
+        privacyBtn.setOnClickListener {
+            val url = "https://colosseum-eb02c.firebaseapp.com/privacy.html"
+            val i = Intent(Intent.ACTION_VIEW)
+            i.data = Uri.parse(url)
+            startActivity(i)
+        }
     }
 
     private fun initObserve() {

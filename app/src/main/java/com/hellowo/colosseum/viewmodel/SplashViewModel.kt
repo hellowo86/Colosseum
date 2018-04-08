@@ -60,7 +60,9 @@ class SplashViewModel : ViewModel() {
         user.id = auth.uid
         uploadPhoto(context, uri, "profileImg/${user.id}",
                 { snapshot, bitmap ->
-                    FirebaseFirestore.getInstance().collection("users").document(user.id!!).set(user).addOnCompleteListener { task ->
+                    val data = user.makeMap()
+                    data.put("coin", 30)
+                    FirebaseFirestore.getInstance().collection("users").document(user.id!!).set(data).addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             loading.value = false
                             Me.push(user)

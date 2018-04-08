@@ -35,7 +35,7 @@ class MyChatListAdapter(val context: Context,
 
         v.titleText.text = chat.title
         v.lastMessageText.text = chat.lastMessage ?: ""
-        v.lastTimeText.text = if(chat.lastMessageTime > 0) makeMessageLastTimeText(context, chat.lastMessageTime) else ""
+        v.lastTimeText.text = if(chat.lastMessageTime.time > 0) makeMessageLastTimeText(context, chat.lastMessageTime.time) else ""
 
         realm.executeTransaction { _ ->
             val badgeData = realm.where(BadgeData::class.java).equalTo("id", "chat${chat.id}").findFirst()
@@ -54,12 +54,6 @@ class MyChatListAdapter(val context: Context,
                 .into(v.chatImage)
 
         v.setOnClickListener {
-            realm.executeTransaction { _ ->
-                val badgeData = realm.where(BadgeData::class.java).equalTo("id", "chat${chat.id}").findFirst()
-                if(badgeData != null) {
-                    badgeData.count = 0
-                }
-            }
             v.badgeView.visibility = View.GONE
             adapterInterface.invoke(chat)
         }

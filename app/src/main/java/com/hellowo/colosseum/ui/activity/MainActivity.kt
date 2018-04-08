@@ -6,6 +6,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import com.anjlab.android.iab.v3.BillingProcessor
+import com.anjlab.android.iab.v3.TransactionDetails
 import com.bumptech.glide.Glide
 import com.hellowo.colosseum.R
 import com.hellowo.colosseum.data.ChatTabBadge
@@ -15,11 +17,17 @@ import com.hellowo.colosseum.data.MyChatList
 import com.hellowo.colosseum.model.User
 import com.hellowo.colosseum.ui.fragment.*
 import com.hellowo.colosseum.utils.makePublicPhotoUrl
+import com.hellowo.colosseum.utils.startChatingActivity
 import com.hellowo.colosseum.viewmodel.MainViewModel
 import jp.wasabeef.glide.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
+    companion object {
+        var isCreated = false
+        var instance : MainActivity? = null
+    }
+
     lateinit var viewModel: MainViewModel
     private var clickedTab: ImageView? = null
 
@@ -29,6 +37,8 @@ class MainActivity : BaseActivity() {
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         initLayout()
         initObserve()
+        isCreated = true
+        instance = this
     }
 
     private fun initLayout() {
@@ -40,7 +50,7 @@ class MainActivity : BaseActivity() {
         clickTab(homeTabImg)
     }
 
-    private fun clickTab(item: ImageView) {
+    fun clickTab(item: ImageView) {
         if(item != clickedTab) {
             if(clickedTab != profileImg) clickedTab?.setColorFilter(resources.getColor(R.color.iconTint))
             if(item != profileImg) item.setColorFilter(resources.getColor(R.color.colorPrimary))
@@ -86,17 +96,19 @@ class MainActivity : BaseActivity() {
         intent.extras?.let { extra ->
             when {
                 !extra.getString("chatId").isNullOrEmpty() -> {
-                    val chatIntent = Intent(this@MainActivity, ChatingActivity::class.java)
-                    chatIntent.putExtra("chatId", extra.getString("chatId"))
-                    startActivity(chatIntent)
+                    startChatingActivity(this, extra.getString("chatId"))
                     intent.removeExtra("chatId")
                 }
                 extra.getBoolean("goChemistryTab", false) -> {
-                    clickTab(matchingTabImg)
+                    goChemistryTab()
                     intent.removeExtra("goChemistryTab")
                 }
             }
         }
+    }
+
+    fun goChemistryTab() {
+        clickTab(matchingTabImg)
     }
 
     private fun updateUserUI(user: User?) {
@@ -114,5 +126,7 @@ class MainActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         Me.updateLastDtConnected()
+        isCreated = false
+        instance = null
     }
 }

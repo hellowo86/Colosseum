@@ -6,15 +6,11 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.media.RingtoneManager
-import android.service.carrier.CarrierIdentifier
 import android.support.v4.app.NotificationCompat
 import com.bumptech.glide.Glide
-import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.RemoteMessage
 import com.hellowo.colosseum.R
-import com.hellowo.colosseum.data.Me
 import com.hellowo.colosseum.model.BadgeData
-import com.hellowo.colosseum.model.Message
 import com.hellowo.colosseum.pushServerKey
 import com.hellowo.colosseum.utils.log
 import com.hellowo.colosseum.utils.makePublicPhotoUrl
@@ -78,7 +74,7 @@ class MessagingService : com.google.firebase.messaging.FirebaseMessagingService(
             val intent = manager.getLaunchIntentForPackage(packageName)
             intent.addCategory(Intent.CATEGORY_LAUNCHER)
             intent.putExtra("chatId", chatId)
-            val pendingIntent = PendingIntent.getActivity(this,0, intent, PendingIntent.FLAG_ONE_SHOT)
+            val pendingIntent = PendingIntent.getActivity(this,0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
             sendNotification(userName, message, resource, pendingIntent)
         }
     }
@@ -113,7 +109,7 @@ class MessagingService : com.google.firebase.messaging.FirebaseMessagingService(
             val intent = manager.getLaunchIntentForPackage(packageName)
             intent.addCategory(Intent.CATEGORY_LAUNCHER)
             intent.putExtra("goChemistryTab", true)
-            val pendingIntent = PendingIntent.getActivity(this,0, intent, PendingIntent.FLAG_ONE_SHOT)
+            val pendingIntent = PendingIntent.getActivity(this,0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
             sendNotification(userName, message, resource, pendingIntent)
         }
     }
@@ -132,7 +128,7 @@ class MessagingService : com.google.firebase.messaging.FirebaseMessagingService(
             val manager = packageManager
             val intent = manager.getLaunchIntentForPackage(packageName)
             intent.addCategory(Intent.CATEGORY_LAUNCHER)
-            val pendingIntent = PendingIntent.getActivity(this,0, intent, PendingIntent.FLAG_ONE_SHOT)
+            val pendingIntent = PendingIntent.getActivity(this,0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
             sendNotification(userName, message, resource, pendingIntent)
         }
     }
@@ -151,7 +147,7 @@ class MessagingService : com.google.firebase.messaging.FirebaseMessagingService(
             val manager = packageManager
             val intent = manager.getLaunchIntentForPackage(packageName)
             intent.addCategory(Intent.CATEGORY_LAUNCHER)
-            val pendingIntent = PendingIntent.getActivity(this,0, intent, PendingIntent.FLAG_ONE_SHOT)
+            val pendingIntent = PendingIntent.getActivity(this,0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
             sendNotification(userName, message, resource, pendingIntent)
         }
     }

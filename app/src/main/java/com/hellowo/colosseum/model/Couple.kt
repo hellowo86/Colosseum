@@ -1,9 +1,11 @@
 package com.hellowo.colosseum.model
 
 import android.content.Context
+import com.google.firebase.firestore.FieldValue
 import com.hellowo.colosseum.R
 import com.hellowo.colosseum.split
 import java.io.Serializable
+import java.util.*
 
 data class Couple(
         var id: String ?= null,
@@ -26,15 +28,48 @@ data class Couple(
         var femaleVoiceUrl: String ?= null,
         var maleVoiceLike: Int = -1,
         var femaleVoiceLike: Int = -1,
-        val maleQuestion: Array<String?> = arrayOfNulls(3),
-        val femaleQuestion: Array<String?> = arrayOfNulls(3),
-        val maleAnswer: Array<String?> = arrayOfNulls(3),
-        val femaleAnswer: Array<String?> = arrayOfNulls(3),
+        val maleQuestion: String ?= null,
+        val femaleQuestion: String ?= null,
+        val maleAnswer: String ?= null,
+        val femaleAnswer: String ?= null,
         val maleAnswerLike: Int = -1,
         val femaleAnswerLike: Int = -1,
         val maleOx: String? = null,
         val femaleOx: String? = null,
-        val dtUpdated: Long = 0): Serializable {
+        val dtUpdated: Date = Date()): Serializable {
+
+    fun makeMap() : HashMap<String, Any?>{
+        val result = HashMap<String, Any?>()
+        result.put("id", id)
+        result.put("maleId", maleId)
+        result.put("maleName", maleName)
+        result.put("malePushToken", malePushToken)
+        result.put("maleInterest", maleInterest)
+        result.put("femaleId", femaleId)
+        result.put("femaleName", femaleName)
+        result.put("femalePushToken", femalePushToken)
+        result.put("femaleInterest", femaleInterest)
+        result.put("level", level)
+        result.put("step", step)
+        result.put("status", status)
+        result.put("malePhotoUrl", malePhotoUrl)
+        result.put("femalePhotoUrl", femalePhotoUrl)
+        result.put("malePhotoLike", malePhotoLike)
+        result.put("femalePhotoLike", femalePhotoLike)
+        result.put("maleVoiceUrl", maleVoiceUrl)
+        result.put("femaleVoiceUrl", femaleVoiceUrl)
+        result.put("maleQuestion", maleQuestion)
+        result.put("femaleQuestion", femaleQuestion)
+        result.put("maleAnswer", maleAnswer)
+        result.put("femaleAnswer", femaleAnswer)
+        result.put("maleAnswerLike", maleAnswerLike)
+        result.put("femaleAnswerLike", femaleAnswerLike)
+        result.put("maleOx", maleOx)
+        result.put("femaleOx", femaleOx)
+        result.put("dtUpdated", FieldValue.serverTimestamp())
+        return result
+    }
+
     companion object {
         fun makeCoupleKey(me: User, you: User) : String {
             return if(me.gender == 0) {
@@ -65,17 +100,16 @@ data class Couple(
     fun getPhotoLikeByGender(gender: Int): Int = if(gender == 0) malePhotoLike else femalePhotoLike
     fun getVoiceUrlByGender(gender: Int): String? = if(gender == 0) maleVoiceUrl else femaleVoiceUrl
     fun getVoiceLikeByGender(gender: Int): Int = if(gender == 0) maleVoiceLike else femaleVoiceLike
-    fun getQuestionByGender(gender: Int): Array<String?> = if(gender == 0) maleQuestion else femaleQuestion
-    fun getAnswerByGender(gender: Int): Array<String?> = if(gender == 0) maleAnswer else femaleAnswer
+    fun getAnswerByGender(gender: Int): String? = if(gender == 0) maleAnswer else femaleAnswer
     fun getAnswerLikeByGender(gender: Int): Int = if(gender == 0) maleAnswerLike else femaleAnswerLike
     fun getOxByGender(gender: Int): String? = if(gender == 0) maleOx else femaleOx
 
     fun getStepText(context: Context): String? {
         return when(step) {
-            0 -> context.getString(R.string.show_another_photo)
-            1 -> context.getString(R.string.check_voice)
-            2 -> context.getString(R.string.qna)
-            3 -> context.getString(R.string.blind_test)
+            0 -> context.getString(R.string.step_1_title)
+            1 -> context.getString(R.string.step_2_title)
+            2 -> context.getString(R.string.step_3_title)
+            3 -> context.getString(R.string.step_4_title)
             else -> null
         }
     }
@@ -92,20 +126,21 @@ data class Couple(
 
     fun getStatusText(context: Context): String? {
         return when {
-            isSuccess() -> context.getString(R.string.success)
-            isIng() -> context.getString(R.string.ing)
+            status == 1 -> context.getString(R.string.success)
+            status == 0 -> context.getString(R.string.ing)
             else -> context.getString(R.string.failed)
         }
     }
 
     fun getStatusColor(context: Context): Int? {
         return when {
-            isSuccess() -> context.resources.getColor(R.color.colorPrimary)
-            isIng() -> context.resources.getColor(R.color.colorAccent)
-            else -> context.resources.getColor(R.color.grey)
+            status == 1 -> context.resources.getColor(R.color.blue)
+            status == 0 -> context.resources.getColor(R.color.colorPrimary)
+            else -> context.resources.getColor(R.color.iconTint)
         }
     }
 
-    fun isSuccess() : Boolean = malePhotoLike == 1 && femalePhotoLike == 1 && maleVoiceLike == 1 && femaleVoiceLike == 1 && evaluateCheckList(maleOx, femaleOx)
-    fun isIng() : Boolean = malePhotoLike == -1 || femalePhotoLike == -1 || maleVoiceLike == -1 || femaleVoiceLike == -1 || maleOx.isNullOrEmpty() || femaleOx.isNullOrEmpty()
+    fun questId(): Int {
+        return maleName!![0].toInt() + femaleName!![1].toInt()
+    }
 }

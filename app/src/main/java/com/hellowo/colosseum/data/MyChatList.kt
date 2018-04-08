@@ -2,17 +2,12 @@ package com.hellowo.colosseum.data
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import android.support.v7.util.SortedList
-import android.util.ArrayMap
-import android.view.ViewAnimationUtils
 import com.google.firebase.firestore.*
-import com.hellowo.colosseum.model.Chat
 import com.hellowo.colosseum.model.Couple
 import com.hellowo.colosseum.model.Message
 import com.hellowo.colosseum.model.MyChat
 import com.hellowo.colosseum.utils.log
 import java.util.*
-import kotlin.Comparator
 import kotlin.collections.HashSet
 
 object MyChatList : LiveData<ArrayList<MyChat>>() {
@@ -52,7 +47,7 @@ object MyChatList : LiveData<ArrayList<MyChat>>() {
                         db.collection("chats").document(chatId).get().addOnCompleteListener { task ->
                             count++
                             if(task.isSuccessful) {
-                                val yourGenderKey = Couple.getGenderKey(Me.value?.getYourGender()!!)
+                                val yourGenderKey = Couple.getGenderKey(Me.value?.yourGender()!!)
                                 val myChat: MyChat
                                 val title = task.result.getString("${yourGenderKey}Name")
                                 val hostId = task.result.getString("${yourGenderKey}Id")

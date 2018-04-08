@@ -18,7 +18,7 @@ import com.hellowo.colosseum.utils.dpToPx
 import com.hellowo.colosseum.utils.makeSlideFromBottomTransition
 import com.hellowo.colosseum.viewmodel.ChemistryListViewModel
 import com.pixplicity.easyprefs.library.Prefs
-import kotlinx.android.synthetic.main.fragment_favorabiliy_test.*
+import kotlinx.android.synthetic.main.fragment_chemistry.*
 
 class ChemistryListFragment : Fragment() {
     private lateinit var listViewModel: ChemistryListViewModel
@@ -30,7 +30,7 @@ class ChemistryListFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_favorabiliy_test, container, false)
+        return inflater.inflate(R.layout.fragment_chemistry, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

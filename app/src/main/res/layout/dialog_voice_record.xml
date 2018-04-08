@@ -127,7 +127,7 @@
                         android:layout_height="match_parent"
                         android:scaleType="centerInside"
                         android:padding="@dimen/big_margin"
-                        android:src="@drawable/broken_heart"
+                        android:src="@drawable/ic_sentiment_dissatisfied_black_48dp"
                         android:tint="@color/white"/>
 
                 </FrameLayout>
@@ -145,7 +145,7 @@
                         android:layout_height="match_parent"
                         android:scaleType="centerInside"
                         android:padding="@dimen/big_margin"
-                        android:src="@drawable/heart"
+                        android:src="@drawable/ic_sentiment_very_satisfied_black_48dp"
                         android:tint="@color/white"/>
 
                 </FrameLayout>

@@ -62,7 +62,7 @@ class CommentReplyListDialog(private val issueId: String, private val comment : 
 
             nameText.text = comment.userName
             messageText.text = comment.text
-            activeTimeText.text = makeMessageLastTimeText(context!!, comment.dtCreated)
+            activeTimeText.text = makeMessageLastTimeText(context!!, comment.dtCreated.time)
 
             Glide.with(context)
                     .load(makePublicPhotoUrl(comment.userId))
@@ -105,10 +105,9 @@ class CommentReplyListDialog(private val issueId: String, private val comment : 
                     text = text,
                     userId = Me.value?.id,
                     userName = Me.value?.nickName,
-                    userPushId = FirebaseInstanceId.getInstance().token,
-                    dtCreated = System.currentTimeMillis())
+                    userPushId = FirebaseInstanceId.getInstance().token)
 
-            ref.document(reply.id!!).set(reply).addOnCompleteListener { task ->
+            ref.document(reply.id!!).set(reply.makeMap()).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     viewModel.addedReply(comment)
                     loadComments()

@@ -79,6 +79,7 @@ class InterestFragment : Fragment() {
             Prefs.putBoolean("interest_tutorial", true)
         }
         optionRootLy.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+        optionLy.visibility = View.INVISIBLE
     }
 
     private fun setObserver() {

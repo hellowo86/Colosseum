@@ -1,8 +1,7 @@
 package com.hellowo.colosseum.model
 
-import com.google.firebase.firestore.Exclude
+import com.google.firebase.firestore.FieldValue
 import com.hellowo.colosseum.R
-import com.hellowo.colosseum.split
 import java.io.Serializable
 import java.util.*
 
@@ -16,9 +15,28 @@ data class User (
         var lng: Double = 0.0,
         var location: String? = null,
         var moreInfo: String? = null,
-        var dtConnected: Long = 0,
-        var dtCreated: Long = 0,
-        var pushToken: String? = null): Serializable {
+        var dtConnected: Date = Date(),
+        var dtCreated: Date = Date(),
+        var pushToken: String? = null,
+        var coin: Int = 0): Serializable {
+
+    fun makeMap() : HashMap<String, Any?>{
+        val result = HashMap<String, Any?>()
+        result.put("id", id)
+        result.put("nickName", nickName)
+        result.put("email", email)
+        result.put("gender", gender)
+        result.put("birth", birth)
+        result.put("lat", lat)
+        result.put("lng", lng)
+        result.put("location", location)
+        result.put("moreInfo", moreInfo)
+        result.put("dtConnected", FieldValue.serverTimestamp())
+        result.put("dtCreated", FieldValue.serverTimestamp())
+        result.put("pushToken", pushToken)
+        result.put("coin", coin)
+        return result
+    }
 
     companion object {
         private val cal = Calendar.getInstance()
@@ -27,9 +45,9 @@ data class User (
     }
 
     fun makeChatMember(): ChatMember {
-        val time = System.currentTimeMillis()
+        val time = Date()
         return ChatMember(id, nickName, time, time, true, pushToken)
     }
 
-    @Exclude fun getYourGender(): Int = if(gender == 0) 1 else 0
+    fun yourGender(): Int = if(gender == 0) 1 else 0
 }

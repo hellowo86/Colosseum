@@ -36,7 +36,7 @@ class CommentListAdapter(val context: Context,
 
         v.nameText.text = comment.userName
         v.messageText.text = comment.text
-        v.activeTimeText.text = makeMessageLastTimeText(context, comment.dtCreated)
+        v.activeTimeText.text = makeMessageLastTimeText(context, comment.dtCreated.time)
 
         Glide.with(context)
                 .load(makePublicPhotoUrl(comment.userId))
