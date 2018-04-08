@@ -47,16 +47,45 @@ class ChemistryListAdapter(private val context: Context, private val mItems: Arr
                 val questId = couple.questId()
                 Glide.with(context).load(ChemistryQuest.questImgResource(couple.step, questId)).into(v.questImg)
                 v.questText.text = ChemistryQuest.questTitle(couple.step, questId)
+                when(couple.step){
+                    0 -> {
+                        val myPhotoUrl = couple.getPhotoUrlByGender(myGender)
+                        val yourPhotoUrl = couple.getPhotoUrlByGender(yourGender)
+                        val myPhotoLike = couple.getPhotoLikeByGender(myGender)
+                        if(myPhotoUrl.isNullOrEmpty()) {
+                            v.questSubText.text = context.getString(R.string.reg_photo)
+                        }else {
+                            if(yourPhotoUrl.isNullOrEmpty()) {
+                                v.questSubText.text = context.getString(R.string.you_reg_photo)
+                            }else {
+                                if(myPhotoLike == -1) {
+                                    v.questSubText.text = context.getString(R.string.me_photo_check)
+                                }else {
+                                    v.questSubText.text = context.getString(R.string.me_photo_waiting)
+                                }
+                            }
+                        }
+                    }
+                    1 -> {
+                    }
+                    2 -> {
+                    }
+                }
+                v.questSubText.visibility = View.GONE
             }
             couple.status == 1 -> {
                 v.questIcon.setImageResource(R.drawable.logo_normal)
                 Glide.with(context).load(R.drawable.c_1).into(v.questImg)
                 v.questText.text = context.getString(R.string.congratulation)
+                v.questSubText.text = context.getString(R.string.join_chat)
+                v.questSubText.visibility = View.VISIBLE
             }
             couple.status == -1 -> {
                 v.questIcon.setImageResource(R.drawable.broken_heart)
                 Glide.with(context).load(R.drawable.f_1).into(v.questImg)
                 v.questText.text = context.getString(R.string.sorry)
+                v.questSubText.text = context.getString(R.string.retry)
+                v.questSubText.visibility = View.VISIBLE
             }
         }
 

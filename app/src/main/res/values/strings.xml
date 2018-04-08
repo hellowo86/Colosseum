@@ -139,14 +139,14 @@
     <string name="no_limit">제한없음</string>
     <string name="notification">알림</string>
     <string name="setting">환경설정</string>
-    <string name="invite_friends">친구 초대하기</string>
+    <string name="invite_friends">친구초대</string>
     <string name="copyright">Copyright 2018 CoupleInside, Inc.\nContact us at dayfly86@gmail.com</string>
     <string name="contact_us">문의하기</string>
     <string name="logout">로그아웃</string>
     <string name="copy_completed">복사되었습니다</string>
     <string name="evaluation">앱 평가하기</string>
     <string name="logout_sub">로그아웃 하시겠습니까?</string>
-    <string name="noti_setting">알림 설정</string>
+    <string name="noti_setting">알림설정</string>
     <string name="chat_message_noti">채팅 메세지 알림</string>
     <string name="like_noti">내 글에 좋아요 알림</string>
     <string name="interest_noti">서로 관심주기 성공 알림</string>
@@ -156,7 +156,7 @@
     <string name="delete_account">탈퇴하기</string>
     <string name="pass">패스</string>
     <string name="good_job">수고하셨습니다:)</string>
-    <string name="retry">재도전신청</string>
+    <string name="retry">재도전 신청하기</string>
     <string name="sorry_data_load_failed">죄송합니다:(\n정보를 찾지 못했습니다.</string>
     <string name="photo_alert">※ 혐오/음란/비방 컨텐츠 유포시 법적인 처벌을 받을 수 있습니다.</string>
     <string name="progress">진행상황</string>
@@ -164,6 +164,8 @@
     <string name="total_progress">진행상황</string>
     <string name="check">확인하기</string>
     <string name="privacy">개인정보처리방침</string>
-    <string name="sorry">안타깝네요..</string>
+    <string name="sorry">실패했습니다</string>
     <string name="failed_matching">커플 매칭에 실패하셨습니다. 재도전을 신청하시려면 아래 버튼을 눌러주세요. 상대방이 재도전을 수락하면 테스트가 다시 진행됩니다.</string>
+    <string name="profile_status">프로필 설정단계 : 기본\n프로필 설정 단계를 높이면 매칭 성공률을 더 높일 수 있습니다.</string>
+    <string name="charge_coin">코인충전</string>
 </resources>

@@ -68,8 +68,10 @@ class ChemistryListFragment : Fragment() {
                 listInitAnimation = list?.size!! == 0
             }
             recyclerView.adapter.notifyDataSetChanged()
+            swipeRefreshView.isRefreshing = false
         })
-        listViewModel.loading.observe(this, Observer { swipeRefreshView.isRefreshing = it as Boolean })
+        listViewModel.loading.observe(this, Observer { progressBar.visibility =
+                if(it as Boolean && swipeRefreshView.isRefreshing == false) View.VISIBLE else View.GONE })
     }
 
 }

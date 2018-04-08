@@ -220,12 +220,23 @@
                 android:layout_marginTop="@dimen/big_margin"
                 android:layout_marginLeft="@dimen/extra_margin">
 
-                <ImageView
+                <android.support.v7.widget.CardView
                     android:id="@+id/emptyImg"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/ic_sentiment_dissatisfied_black_48dp"
-                    android:tint="@color/iconTint"/>
+                    android:layout_width="90dp"
+                    android:layout_height="110dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="2dp"
+                    android:visibility="visible">
+
+                    <ImageView
+                        android:src="@drawable/lonly"
+                        android:scaleType="centerCrop"
+                        android:layout_width="90dp"
+                        android:layout_height="110dp"/>
+
+                </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
                     android:id="@+id/people1Ly"
@@ -366,7 +377,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/iconTint"
-                android:layout_marginTop="40dp"/>
+                android:layout_marginTop="@dimen/big_margin"/>
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -467,7 +478,6 @@
                         android:gravity="center"
                         android:fontFamily="@font/spoqa_sans_b"
                         android:textSize="14dp"/>
-
 
                 </LinearLayout>
 

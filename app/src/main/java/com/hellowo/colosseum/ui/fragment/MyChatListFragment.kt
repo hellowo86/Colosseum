@@ -49,7 +49,9 @@ class MyChatListFragment : Fragment() {
                 listInitAnimation = list?.size!! == 0
             }
             adapter.notifyDataSetChanged()
+            swipeRefreshView.isRefreshing = false
         })
-        MyChatList.loading.observe(this, Observer { swipeRefreshView.isRefreshing = it as Boolean })
+        MyChatList.loading.observe(this, Observer { progressBar.visibility =
+                if(it as Boolean && swipeRefreshView.isRefreshing == false) View.VISIBLE else View.GONE })
     }
 }

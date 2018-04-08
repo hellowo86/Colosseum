@@ -171,6 +171,17 @@
 
             </FrameLayout>
 
+            <TextView
+                android:layout_marginTop="@dimen/normal_margin"
+                android:layout_marginBottom="50dp"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12dp"
+                android:gravity="center"
+                android:textColor="@color/disableText"
+                android:text="@string/copyright"/>
+
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
