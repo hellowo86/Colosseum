@@ -9,6 +9,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 import com.hellowo.colosseum.storageUrl
 import com.hellowo.colosseum.ui.activity.ChatingActivity
+import com.hellowo.colosseum.ui.activity.ChemistryActivity
 import com.hellowo.colosseum.ui.activity.PhotoActivity
 import com.hellowo.colosseum.ui.activity.UserActivity
 import java.io.ByteArrayInputStream
@@ -71,5 +72,11 @@ fun startPhotoActivity(activity: Activity, photoUrl: String) {
 fun startChatingActivity(activity: Activity, chatId: String) {
     val intent = Intent(activity, ChatingActivity::class.java)
     intent.putExtra("chatId", chatId)
+    activity.startActivity(intent)
+}
+
+fun startChemistryActivity(activity: Activity, coupleId: String) {
+    val intent = Intent(activity, ChemistryActivity::class.java)
+    intent.putExtra("coupleId", coupleId)
     activity.startActivity(intent)
 }

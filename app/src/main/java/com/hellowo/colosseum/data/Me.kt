@@ -43,7 +43,7 @@ object Me : LiveData<User>() {
         }
     }
 
-    fun push(user: User) { value = user }
+    fun push(user: User?) { value = user }
 
     fun updateLastDtConnected() {
         value?.id?.let {

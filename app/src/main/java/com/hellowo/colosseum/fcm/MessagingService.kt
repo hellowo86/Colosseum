@@ -115,6 +115,21 @@ class MessagingService : com.google.firebase.messaging.FirebaseMessagingService(
     }
 
     private fun makeChemistryNoti(data: JSONObject) {
+        val coupleId = data.getString("identifier")
+
+        val realm = Realm.getDefaultInstance()
+        realm.executeTransaction { _ ->
+            val badgeData = realm.where(BadgeData::class.java).equalTo("id", "chemistry$coupleId").findFirst()
+            if(badgeData != null) {
+                badgeData.count = 1
+            }else {
+                val badgeData = realm.createObject(BadgeData::class.java, "chemistry$coupleId")
+                badgeData.type = "chemistry"
+                badgeData.count = 1
+            }
+        }
+        realm.close()
+
         if(Prefs.getBoolean("chemistryNotiSwitch", true)) {
             val userId = data.getString("userId")
             val userName = data.getString("userName")
@@ -128,6 +143,7 @@ class MessagingService : com.google.firebase.messaging.FirebaseMessagingService(
             val manager = packageManager
             val intent = manager.getLaunchIntentForPackage(packageName)
             intent.addCategory(Intent.CATEGORY_LAUNCHER)
+            intent.putExtra("coupleId", coupleId)
             val pendingIntent = PendingIntent.getActivity(this,0, intent, PendingIntent.FLAG_CANCEL_CURRENT)
             sendNotification(userName, message, resource, pendingIntent)
         }

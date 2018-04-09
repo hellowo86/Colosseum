@@ -28,6 +28,7 @@
             android:theme="@style/AppTheme.FullScreen"/>
         <activity android:name=".ui.activity.NotiSettingActivity"/>
         <activity android:name=".ui.activity.SettingActivity"/>
+        <activity android:name=".ui.activity.CoinActivity"/>
 
         <service
             android:name=".fcm.MessagingService">

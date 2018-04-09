@@ -7,7 +7,9 @@ import android.net.Uri
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
+import com.hellowo.colosseum.R
 import com.hellowo.colosseum.data.Me
+import com.hellowo.colosseum.fcm.MessagingService
 import com.hellowo.colosseum.model.BadgeData
 import com.hellowo.colosseum.model.Chat
 import com.hellowo.colosseum.model.Couple
@@ -99,7 +101,7 @@ class ChemistryViewModel : ViewModel() {
         }
     }
 
-    fun like(myLike: Int) {
+    fun like(context: Context, myLike: Int) {
         loading.value = true
         val myGender = Me.value?.gender as Int
         val yourGender = Me.value?.yourGender() as Int
@@ -133,7 +135,9 @@ class ChemistryViewModel : ViewModel() {
         }
 
         FirebaseFirestore.getInstance().collection("couples").document(coupleId!!).update(data).addOnCompleteListener { task ->
-            if (task.isSuccessful) {}
+            if (task.isSuccessful) {
+                sendPushMessage(if(myLike == 1) context.getString(R.string.you_like) else  context.getString(R.string.you_hate))
+            }
             isUploading.value = false
         }
     }
@@ -162,9 +166,10 @@ class ChemistryViewModel : ViewModel() {
                             val data = HashMap<String, Any?>()
                             data.put("${Couple.getGenderKey(myGender)}PhotoUrl", photoUrl)
                             data.put("dtUpdated", FieldValue.serverTimestamp())
-                            FirebaseFirestore.getInstance().collection("couples").document(couple.value?.id!!)
-                                    .update(data).addOnCompleteListener { task ->
-                                if (task.isSuccessful) {}
+                            FirebaseFirestore.getInstance().collection("couples").document(couple.value?.id!!).update(data).addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    sendPushMessage(context.getString(R.string.me_photo_check))
+                                }
                                 isUploading.value = false
                             }
                         }
@@ -187,9 +192,10 @@ class ChemistryViewModel : ViewModel() {
                         val data = HashMap<String, Any?>()
                         data.put("${Couple.getGenderKey(myGender)}VoiceUrl", voiceUrl)
                         data.put("dtUpdated", FieldValue.serverTimestamp())
-                        FirebaseFirestore.getInstance().collection("couples").document(couple.value?.id!!)
-                                .update(data).addOnCompleteListener { task ->
-                            if (task.isSuccessful) {}
+                        FirebaseFirestore.getInstance().collection("couples").document(couple.value?.id!!).update(data).addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                sendPushMessage(context.getString(R.string.me_voice_check))
+                            }
                             isUploading.value = false
                         }
                     }
@@ -199,21 +205,53 @@ class ChemistryViewModel : ViewModel() {
                 })
     }
 
-    fun answer(answer: String) {
+    fun answer(context: Context, answer: String) {
         isUploading.value = true
         val myGender = Me.value?.gender as Int
         val data = HashMap<String, Any?>()
         data.put("${Couple.getGenderKey(myGender)}Answer", answer)
         data.put("dtUpdated", FieldValue.serverTimestamp())
-        FirebaseFirestore.getInstance().collection("couples").document(couple.value?.id!!)
-                .update(data).addOnCompleteListener { task ->
-            if (task.isSuccessful) {}
+        FirebaseFirestore.getInstance().collection("couples").document(couple.value?.id!!).update(data).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                sendPushMessage(context.getString(R.string.me_asw_check))
+            }
             isUploading.value = false
+        }
+    }
+
+    fun sendPushMessage(text: String) {
+        if(Me.value == null) return
+
+        val myGender = Me.value?.gender as Int
+        val yourGender = Me.value?.yourGender() as Int
+        couple.value?.let {
+            val yourLive = it.getLiveByGender(yourGender)
+            if(!yourLive) {
+                val pushToken = it.getPushTokenByGender(yourGender)
+                val id = it.getIdByGender(myGender)
+                val name = it.getNameByGender(myGender)
+                MessagingService.sendPushMessage(pushToken!!, 2, id!!, name!!, text, coupleId!!)
+            }
         }
     }
 
     fun retry() {
 
+    }
+
+    fun login() {
+        val data = HashMap<String, Any?>()
+        val myGender = Me.value?.gender as Int
+        data.put("${Couple.getGenderKey(myGender)}Live", true)
+        FirebaseFirestore.getInstance().collection("couples").document(coupleId!!).update(data).addOnCompleteListener {}
+    }
+
+    fun logout() {
+        val data = HashMap<String, Any?>()
+        val myGender = Me.value?.gender as Int
+        data.put("${Couple.getGenderKey(myGender)}Live", false)
+        data.put("${Couple.getGenderKey(myGender)}PushToken", Me.value?.pushToken)
+        FirebaseFirestore.getInstance().collection("couples").document(coupleId!!).update(data).addOnCompleteListener {}
     }
 
 }

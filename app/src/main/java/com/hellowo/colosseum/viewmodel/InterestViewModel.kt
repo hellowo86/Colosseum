@@ -37,36 +37,38 @@ class InterestViewModel : ViewModel() {
     fun loadInterestMeList() {
         loading.value = true
         interestMeList.value?.clear()
-        val myPrefix = Couple.getGenderKey(Me.value?.gender as Int)
-        val yourPrefix = Couple.getGenderKey(Me.value?.yourGender() as Int)
-        db.collection("couples").whereEqualTo("level", 1).whereEqualTo("${myPrefix}Id", Me.value?.id)
-                .whereEqualTo("${yourPrefix}Interest", 1).get()
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        val totalCount = task.result.size()
-                        if(totalCount > 0) {
-                            var count = 0
-                            task.result.forEach {
-                                        db.collection("users").document(it.getString("${yourPrefix}Id")).get().addOnCompleteListener { userTask ->
-                                            count++
-                                            if (userTask.isSuccessful) {
-                                                interestMeList.value?.add(userTask.result.toObject(User::class.java))
-                                            }
-                                            if(count == totalCount) {
-                                                interestMeList.value = interestMeList.value
-                                                loading.value = false
-                                            }
+        Me.value?.let {
+            val myPrefix = Couple.getGenderKey(Me.value?.gender as Int)
+            val yourPrefix = Couple.getGenderKey(Me.value?.yourGender() as Int)
+            db.collection("couples").whereEqualTo("level", 1).whereEqualTo("${myPrefix}Id", Me.value?.id)
+                    .whereEqualTo("${yourPrefix}Interest", 1).get()
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            val totalCount = task.result.size()
+                            if(totalCount > 0) {
+                                var count = 0
+                                task.result.forEach {
+                                    db.collection("users").document(it.getString("${yourPrefix}Id")).get().addOnCompleteListener { userTask ->
+                                        count++
+                                        if (userTask.isSuccessful) {
+                                            interestMeList.value?.add(userTask.result.toObject(User::class.java))
+                                        }
+                                        if(count == totalCount) {
+                                            interestMeList.value = interestMeList.value
+                                            loading.value = false
                                         }
                                     }
+                                }
+                            }else {
+                                interestMeList.value = interestMeList.value
+                                loading.value = false
+                            }
                         }else {
                             interestMeList.value = interestMeList.value
                             loading.value = false
                         }
-                    }else {
-                        interestMeList.value = interestMeList.value
-                        loading.value = false
                     }
-                }
+        }
     }
 
     fun startNewSearch(lastVisible: DocumentSnapshot?) {

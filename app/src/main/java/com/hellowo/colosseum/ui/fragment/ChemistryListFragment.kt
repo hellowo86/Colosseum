@@ -16,6 +16,7 @@ import com.hellowo.colosseum.ui.activity.ChemistryActivity
 import com.hellowo.colosseum.ui.adapter.ChemistryListAdapter
 import com.hellowo.colosseum.utils.dpToPx
 import com.hellowo.colosseum.utils.makeSlideFromBottomTransition
+import com.hellowo.colosseum.utils.startChemistryActivity
 import com.hellowo.colosseum.viewmodel.ChemistryListViewModel
 import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.fragment_chemistry.*
@@ -46,9 +47,7 @@ class ChemistryListFragment : Fragment() {
         swipeRefreshView.setProgressViewOffset(true, dpToPx(context!!, 100f).toInt(), dpToPx(context!!, 200f).toInt())
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = ChemistryListAdapter(activity!!, listViewModel.coupleList.value!!) { couple ->
-            val intent = Intent(activity, ChemistryActivity::class.java)
-            intent.putExtra("coupleId", couple.id)
-            startActivityForResult(intent, 1)
+            startChemistryActivity(activity!!, couple.id!!)
         }
 
         if(Prefs.getBoolean("favorability_tutorial", false)) {

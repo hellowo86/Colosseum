@@ -19,6 +19,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.google.android.gms.location.places.ui.PlacePicker
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.iid.FirebaseInstanceId
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
@@ -76,6 +77,11 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun initObserve() {
+        if(intent.getBooleanExtra("logout", false)) {
+            FirebaseAuth.getInstance().signOut()
+            Me.push(null)
+        }
+
         Me.observe(this, Observer { user ->
             if (user != null) {
                 Me.removeObservers(this)
@@ -86,6 +92,10 @@ class SplashActivity : AppCompatActivity() {
                             !extra.getString("chatId").isNullOrEmpty() -> {
                                 startChatingActivity(this, extra.getString("chatId"))
                                 intent.removeExtra("chatId")
+                            }
+                            !extra.getString("coupleId").isNullOrEmpty() -> {
+                                startChemistryActivity(this, extra.getString("coupleId"))
+                                intent.removeExtra("coupleId")
                             }
                             extra.getBoolean("goChemistryTab", false) -> {
                                 MainActivity.instance?.goChemistryTab()

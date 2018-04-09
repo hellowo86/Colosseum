@@ -188,26 +188,24 @@ class ChatingViewModel : ViewModel() {
         membersListenerRegistration = ref.document(chatId).collection("members").addSnapshotListener { snapshots, e ->
             if (e == null) {
                 snapshots.documentChanges.forEach {
-                    when{
-                        it.type == DocumentChange.Type.ADDED -> {
-                            val chatMember = it.document.toObject(ChatMember::class.java)
-                            members.value?.put(chatMember.userId, chatMember)
-                            if(chatMember.userId == Me.value?.id) {
-                                myLastConnectedTime = chatMember.lastConnectedTime.time
-                                myEnteredTime = chatMember.dtEntered.time
+                    try{
+                        val chatMember = it.document.toObject(ChatMember::class.java)
+                        when{
+                            it.type == DocumentChange.Type.ADDED -> {
+                                members.value?.put(chatMember.userId, chatMember)
+                                if(chatMember.userId == Me.value?.id) {
+                                    myLastConnectedTime = chatMember.lastConnectedTime.time
+                                    myEnteredTime = chatMember.dtEntered.time
+                                }
+                            }
+                            it.type == DocumentChange.Type.REMOVED -> {
+                                members.value?.remove(chatMember.userId)
+                            }
+                            it.type == DocumentChange.Type.MODIFIED -> {
+                                members.value?.put(chatMember.userId, chatMember)
                             }
                         }
-                        it.type == DocumentChange.Type.REMOVED -> {
-                            val chatMember = it.document.toObject(ChatMember::class.java)
-                            members.value?.remove(chatMember.userId)
-                        }
-                        it.type == DocumentChange.Type.MODIFIED -> {
-                            try{
-                                val chatMember = it.document.toObject(ChatMember::class.java)
-                                members.value?.put(chatMember.userId, chatMember)
-                            }catch (e: Exception){}
-                        }
-                    }
+                    }catch (e: Exception){}
                 }
                 members.value = members.value
                 if(lastVisibleSnapshot == null) {

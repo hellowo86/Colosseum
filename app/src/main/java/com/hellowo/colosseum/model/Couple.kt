@@ -36,6 +36,8 @@ data class Couple(
         val femaleAnswerLike: Int = -1,
         val maleOx: String? = null,
         val femaleOx: String? = null,
+        val maleLive: Boolean = false,
+        val femaleLive: Boolean = false,
         val dtUpdated: Date = Date()): Serializable {
 
     fun makeMap() : HashMap<String, Any?>{
@@ -103,6 +105,7 @@ data class Couple(
     fun getAnswerByGender(gender: Int): String? = if(gender == 0) maleAnswer else femaleAnswer
     fun getAnswerLikeByGender(gender: Int): Int = if(gender == 0) maleAnswerLike else femaleAnswerLike
     fun getOxByGender(gender: Int): String? = if(gender == 0) maleOx else femaleOx
+    fun getLiveByGender(gender: Int): Boolean = if(gender == 0) maleLive else femaleLive
 
     fun getStepText(context: Context): String? {
         return when(step) {

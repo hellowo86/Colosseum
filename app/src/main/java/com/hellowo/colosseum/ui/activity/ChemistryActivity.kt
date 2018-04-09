@@ -78,10 +78,10 @@ class ChemistryActivity : BaseActivity() {
 
     private fun updateNextStepUI(it: Couple) {
         TransitionManager.beginDelayedTransition(contentLy, makeSlideFromBottomTransition())
-        successLy.visibility = View.GONE
+        successLy.visibility = View.INVISIBLE
         konfettiView.visibility = View.INVISIBLE
-        questLy.visibility = View.GONE
-        actionLy.visibility = View.GONE
+        questLy.visibility = View.INVISIBLE
+        actionLy.visibility = View.INVISIBLE
         rootLy.postDelayed({ viewModel.couple.value = viewModel.nextStepCouple.value }, 1000)
     }
 
@@ -100,7 +100,7 @@ class ChemistryActivity : BaseActivity() {
 
         when {
             couple.status == 0 -> {
-                successLy.visibility = View.GONE
+                successLy.visibility = View.INVISIBLE
                 konfettiView.visibility = View.INVISIBLE
                 questLy.visibility = View.VISIBLE
                 actionLy.visibility = View.VISIBLE
@@ -173,6 +173,7 @@ class ChemistryActivity : BaseActivity() {
             meLy.setBackgroundResource(R.drawable.dash_rect)
             meCard.visibility = View.GONE
             meText.text = getString(R.string.reg_photo)
+            sendBtn.visibility = View.VISIBLE
             sendBtn.setOnClickListener { showPhotoPicker() }
         }else {
             meCard.visibility = View.VISIBLE
@@ -250,6 +251,7 @@ class ChemistryActivity : BaseActivity() {
             meLy.setBackgroundResource(R.drawable.dash_rect)
             meCard.visibility = View.GONE
             meText.text = getString(R.string.reg_voice)
+            sendBtn.visibility = View.VISIBLE
             sendBtn.setOnClickListener { showVoiceDialog() }
         }else {
             meCard.visibility = View.VISIBLE
@@ -327,6 +329,7 @@ class ChemistryActivity : BaseActivity() {
             meLy.setBackgroundResource(R.drawable.dash_rect)
             meCard.visibility = View.GONE
             meText.text = getString(R.string.reg_ans)
+            sendBtn.visibility = View.VISIBLE
             sendBtn.setOnClickListener { showAnswerDialog() }
         }else {
             meCard.visibility = View.VISIBLE
@@ -470,19 +473,19 @@ class ChemistryActivity : BaseActivity() {
 
     fun showVoiceHearDialog(voiceUrl: String, evaluation: Boolean, myGender: Int) {
         VoiceRecordDialog(voiceUrl, evaluation){ filePath, result ->
-            if(evaluation) { viewModel.like(if(result) 1 else 0) }
+            if(evaluation) { viewModel.like(this@ChemistryActivity, if(result) 1 else 0) }
         }.show(supportFragmentManager, null)
     }
 
     fun showAnswerDialog() {
         EnterCommentDialog{
-            viewModel.answer(it)
+            viewModel.answer(this@ChemistryActivity, it)
         }.show(supportFragmentManager, null)
     }
 
     private fun showCheckAnswerDialog(answer: String?, evaluation: Boolean, id: String?, name: String?) {
         AnswerCheckDialog(answer, evaluation, id, name){ result ->
-            viewModel.like(if(result) 1 else 0)
+            viewModel.like(this@ChemistryActivity, if(result) 1 else 0)
         }.show(supportFragmentManager, null)
     }
 
@@ -490,6 +493,16 @@ class ChemistryActivity : BaseActivity() {
         FavorablityCheckListDialog(oxString, enableCheck){
             viewModel.setCheckList("${Couple.getGenderKey(myGender)}Ox", it)
         }.show(supportFragmentManager, null)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.login()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        viewModel.logout()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -520,9 +533,9 @@ class ChemistryActivity : BaseActivity() {
         if(requestCode == 1) {
             val myGender = Me.value?.gender as Int
             if(resultCode == 2) {
-                viewModel.like(1)
+                viewModel.like(this@ChemistryActivity, 1)
             }else if(resultCode == 1){
-                viewModel.like(0)
+                viewModel.like(this@ChemistryActivity, 0)
             }
         }
     }

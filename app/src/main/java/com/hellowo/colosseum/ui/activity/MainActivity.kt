@@ -1,5 +1,6 @@
 package com.hellowo.colosseum.ui.activity
 
+import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
@@ -9,6 +10,7 @@ import android.widget.ImageView
 import com.anjlab.android.iab.v3.BillingProcessor
 import com.anjlab.android.iab.v3.TransactionDetails
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
 import com.hellowo.colosseum.R
 import com.hellowo.colosseum.data.ChatTabBadge
 import com.hellowo.colosseum.data.ChemistyTabBadge
@@ -18,13 +20,16 @@ import com.hellowo.colosseum.model.User
 import com.hellowo.colosseum.ui.fragment.*
 import com.hellowo.colosseum.utils.makePublicPhotoUrl
 import com.hellowo.colosseum.utils.startChatingActivity
+import com.hellowo.colosseum.utils.startChemistryActivity
 import com.hellowo.colosseum.viewmodel.MainViewModel
+import io.realm.Realm
 import jp.wasabeef.glide.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
     companion object {
         var isCreated = false
+        @SuppressLint("StaticFieldLeak")
         var instance : MainActivity? = null
     }
 
@@ -47,6 +52,15 @@ class MainActivity : BaseActivity() {
         chatTab.setOnClickListener{ clickTab(chatTabImg) }
         communityTab.setOnClickListener{ clickTab(communityTabImg) }
         profileTab.setOnClickListener{ clickTab(profileImg) }
+        profileTab.setOnLongClickListener {
+            FirebaseAuth.getInstance().signOut()
+            startActivity(Intent(this, SplashActivity::class.java))
+            finish()
+            Realm.getDefaultInstance().executeTransaction {
+                it.deleteAll()
+            }
+            return@setOnLongClickListener false
+        }
         clickTab(homeTabImg)
     }
 
@@ -67,7 +81,9 @@ class MainActivity : BaseActivity() {
                     profileImg -> ProfileFragment()
                     else -> return
                 })
-        fragmentTransaction.commit()
+        try{
+            fragmentTransaction.commit()
+        }catch (e: Exception){}
     }
 
     private fun initObserve() {
@@ -98,6 +114,10 @@ class MainActivity : BaseActivity() {
                 !extra.getString("chatId").isNullOrEmpty() -> {
                     startChatingActivity(this, extra.getString("chatId"))
                     intent.removeExtra("chatId")
+                }
+                !extra.getString("coupleId").isNullOrEmpty() -> {
+                    startChemistryActivity(this, extra.getString("coupleId"))
+                    intent.removeExtra("coupleId")
                 }
                 extra.getBoolean("goChemistryTab", false) -> {
                     goChemistryTab()

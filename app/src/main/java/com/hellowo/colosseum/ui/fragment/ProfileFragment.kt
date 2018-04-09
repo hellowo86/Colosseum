@@ -1,5 +1,6 @@
 package com.hellowo.colosseum.ui.fragment
 
+import android.app.Activity.RESULT_OK
 import android.arch.lifecycle.Observer
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -18,6 +19,8 @@ import com.hellowo.colosseum.R
 import com.hellowo.colosseum.data.Me
 import com.hellowo.colosseum.inAppKey
 import com.hellowo.colosseum.model.User
+import com.hellowo.colosseum.requestCodeFinish
+import com.hellowo.colosseum.ui.activity.CoinActivity
 import com.hellowo.colosseum.ui.activity.NotiSettingActivity
 import com.hellowo.colosseum.ui.activity.SettingActivity
 import com.hellowo.colosseum.ui.activity.SplashActivity
@@ -28,12 +31,10 @@ import io.realm.Realm
 import jp.wasabeef.glide.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.fragment_profile.*
 
-class ProfileFragment : Fragment(), BillingProcessor.IBillingHandler {
-    var bp: BillingProcessor? = null
+class ProfileFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        bp = BillingProcessor(context, inAppKey, this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -43,52 +44,26 @@ class ProfileFragment : Fragment(), BillingProcessor.IBillingHandler {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        notiBtn.setOnClickListener {
-            activity?.startActivity(Intent(activity!!, NotiSettingActivity::class.java))
-        }
-
-        settingBtn.setOnClickListener {
-            activity?.startActivity(Intent(activity!!, SettingActivity::class.java))
-        }
-
-        inviteBtn.setOnClickListener {
-            bp?.purchase(activity!!, "coin_10")
-        }
+        settingBtn.setOnClickListener { startActivity(Intent(activity, SettingActivity::class.java)) }
+        coinBtn.setOnClickListener { startActivity(Intent(activity, CoinActivity::class.java)) }
+        coin2Btn.setOnClickListener { startActivity(Intent(activity, CoinActivity::class.java)) }
 
         evaluationBtn.setOnClickListener {
             val uri = Uri.parse("market://details?id=com.hellowo.colosseum")
             val intent = Intent(Intent.ACTION_VIEW, uri)
             try {
-                activity?.startActivity(intent)
+                startActivity(intent)
             } catch (e: ActivityNotFoundException) {
-                activity?.startActivity(Intent(Intent.ACTION_VIEW,
+                startActivity(Intent(Intent.ACTION_VIEW,
                         Uri.parse("http://play.google.com/store/apps/details?id=com.hellowo.colosseum")))
             }
         }
 
         contactBtn.setOnClickListener {
-            val sendIntent = Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                    "mailto", "dayfly86@gmail.com", null))
+            val sendIntent = Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "dayfly86@gmail.com", null))
             sendIntent.putExtra(Intent.EXTRA_SUBJECT, "")
             sendIntent.putExtra(Intent.EXTRA_TEXT, getUserDeviceInfoText(context!!))
-            activity?.startActivity(sendIntent)
-        }
-
-        logoutBtn.setOnClickListener {
-            val builder = AlertDialog.Builder(activity!!)
-            builder.setTitle(R.string.logout)
-            builder.setCancelable(true)
-            builder.setMessage(R.string.logout_sub)
-            builder.setPositiveButton(R.string.ok) { _,_ ->
-                FirebaseAuth.getInstance().signOut()
-                startActivity(Intent(activity, SplashActivity::class.java))
-                activity?.finish()
-                Realm.getDefaultInstance().executeTransaction {
-                    it.deleteAll()
-                }
-            }
-            builder.setNegativeButton(R.string.cancel, null)
-            builder.show()
+            startActivity(sendIntent)
         }
 
         Me.observe(this, Observer { updateUserUI(it) })
@@ -100,24 +75,7 @@ class ProfileFragment : Fragment(), BillingProcessor.IBillingHandler {
                     .bitmapTransform(CropCircleTransformation(context)).into(profileImage)
             nameText.text = it.nickName
             profileSettingText.text = context?.getString(R.string.profile_setting_sub)
+            coinText.text = it.coin.toString()
         }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (!bp?.handleActivityResult(requestCode, resultCode, data)!!) {
-            super.onActivityResult(requestCode, resultCode, data)
-        }
-    }
-
-    override fun onBillingInitialized() {
-
-    }
-
-    override fun onPurchaseHistoryRestored() {}
-
-    override fun onProductPurchased(productId: String, details: TransactionDetails?) {}
-
-    override fun onBillingError(errorCode: Int, error: Throwable?) {
-        log(error.toString())
     }
 }

@@ -78,6 +78,38 @@
             </FrameLayout>
 
             <FrameLayout
+                android:id="@+id/notiBtn"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <View
+                    android:layout_marginLeft="@dimen/big_margin"
+                    android:layout_marginRight="@dimen/big_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/iconTint"/>
+
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/extra_margin"
+                    android:textColor="@color/secondaryText"
+                    android:text="@string/noti_setting"
+                    android:textSize="16dp" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginRight="@dimen/extra_margin"
+                    android:src="@drawable/ic_notifications_black_24dp"
+                    android:tint="@color/iconTint"/>
+
+            </FrameLayout>
+
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:background="?android:attr/selectableItemBackground">
@@ -98,13 +130,15 @@
                     android:text="@string/version"
                     android:textSize="16dp" />
 
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                <TextView
+                    android:id="@+id/versionText"
                     android:layout_gravity="center_vertical|right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/extra_margin"
-                    android:src="@drawable/ic_clear_black_48dp"
-                    android:tint="@color/iconTint"/>
+                    android:textColor="@color/disableText"
+                    android:text="1.0"
+                    android:textSize="14dp" />
 
             </FrameLayout>
 
@@ -136,6 +170,38 @@
                     android:layout_gravity="center_vertical|right"
                     android:layout_marginRight="@dimen/extra_margin"
                     android:src="@drawable/ic_person_black_24dp"
+                    android:tint="@color/iconTint"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/logoutBtn"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="?android:attr/selectableItemBackground">
+
+                <View
+                    android:layout_marginLeft="@dimen/big_margin"
+                    android:layout_marginRight="@dimen/big_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/iconTint"/>
+
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/extra_margin"
+                    android:textColor="@color/secondaryText"
+                    android:text="@string/logout"
+                    android:textSize="16dp" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_marginRight="@dimen/extra_margin"
+                    android:src="@drawable/ic_power_settings_new_black_24dp"
                     android:tint="@color/iconTint"/>
 
             </FrameLayout>

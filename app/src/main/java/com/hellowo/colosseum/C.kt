@@ -3,4 +3,5 @@ package com.hellowo.colosseum
 val storageUrl = "gs://colosseum-eb02c.appspot.com/"
 val split = "::"
 val pushServerKey = "key=AAAAwVJGV9s:APA91bHM6o8X82r2GjIqvFNIJPvh8bUixHvbrmkMdG5IAb_n6KrYBMGDpptVyHi09QjiCep1RpZ9hiFCnDBOW7kYHMVhMu59RoV9TTClH9uNmufOU38oC5jpF3SQgYkprawTx2ThCpB5"
+val requestCodeFinish = 4444
 val inAppKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnTg4yaHNMHXUmphI9orXvHrahT0dqe/7LQrnmQv6QkyLokEAtlmVRL2ibS+ykuTt4e1YuGqx/omN3OL+M/MasWOjXMR+AKMqusFWMY76gSjTocdyOFKm16X63m91mSbYjYPTiiQnohhUyKLarf7J+mmGowTgVxt+ynItyoLFckhPwNAZZfRoEuZugFp6YYgm9/d0bIDVc+FZGnx3Es6exuK9F1iRXQdUyCNy88CHVPIzB3Urdql+350rlLXNXWMhabgvMoueZvDibTNRq7o6odWvX8XDQYPJB2F65TXwLCcb4XxDQZB7QQ5JzZ+vVxfo9IjlfB15N4+IiuuJeOwkqQIDAQAB"
