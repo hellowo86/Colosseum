@@ -23,12 +23,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
+    dexOptions {
+        preDexLibraries true
+    }
     flavorDimensions "stage"
     productFlavors {
         dev {
             dimension "stage"
-            minSdkVersion 21
+            minSdkVersion 23
+            resConfigs "ko", "xxxhdpi"
         }
         prd {
             dimension "stage"
